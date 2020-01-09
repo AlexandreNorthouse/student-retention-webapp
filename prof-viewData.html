@@ -1,0 +1,43 @@
+<html>
+  <head>
+	<title>Student - View Data</title>
+	<link rel="stylesheet" href="StyleSheet_Sidebar.css">
+	<link rel="stylesheet" href="StyleSheet_Professor.css">
+  </head>
+  
+  
+  <body>
+  	<div class="sidebar">
+	  <a class="active" href="prof-viewData.html">View Data</a>
+	  <a href="prof-addData.html">Add Questions</a>
+	  <a href="prof-createSyllabus.html">Create Syllabus</a>
+	  <a href="prof-createCourse.html">Create a Course</a>
+	  <a class="bottom" href="user-logout.php">Logout</a>
+	</div>
+	
+	<div class="content">
+		<h2>View Data</h2>
+		
+		
+		<form action="" method="post">
+			<label for="dataClassID">Select Course: </label><br>
+			<select name="dataClassID">
+				<?php
+					if (!empty($classList)) {
+						foreach($classList as $c) {
+							echo '<option value="'.$c['id'].'"';
+							if ($selectedClass == $c['id'])
+								echo " selected";
+							echo '>'.$c['name'].'</option>';
+						}
+					}
+				?>
+			</select>
+			<br><br>
+			
+			<button type="submit" name="submitData" value="✓">View Course's Data</button>
+			<br><br>
+		</form>
+	</div>
+  </body>
+</html>
