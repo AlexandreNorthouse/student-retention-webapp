@@ -1,9 +1,16 @@
 <?php
 	session_start();
-	include_once 'connect.php';
+	
+	//This makes sure that a student is logged in
+	if($_SESSION['isProf'] != 0 || empty($_SESSION)) {
+		//This will send the user away if there's no student login info
+		header('Location: index.php');
+	}
+	
+	//This sets the required universal variables
 	$error = array();
 	$success = array();
-	$studID = $_SESSION['studentID'];
+	$username = $_SESSION['username'];
 	
 	if (!empty($_POST)) {
 		// collects the fields
@@ -15,7 +22,7 @@
 			$error[] = "The Course Number field can't be empty!";
 		} else {
 			// then checks to make sure the class exists
-			$query = "SELECT id FROM Class WHERE id=$courseNum";
+			$query = "SELECT classID FROM Class WHERE classID=$courseNum";
 			$sql = $conn->prepare($query);
 			$sql->execute();
 			$class = $sql->fetchAll();
@@ -27,23 +34,20 @@
 		
 		// checks for no errors before then doing a duplicate class ID non-existant class check
 		if (empty($error)) {
-			$query = "SELECT * FROM ClassStudent WHERE studID=$studID";
+			$query = "SELECT * FROM ClassUserRoster WHERE classID=$courseNum AND username='$username'";
 			$sql = $conn->prepare($query);
 			$sql->execute();
 			$classStudList = $sql->fetchAll();
 			
-			foreach ($classStudList as $cs) {
-				if ($cs['classID'] == $courseNum) {
-					$error[] = "You're already signed up for that class!";
-					break;
-				}
+			if (!empty($classStudList)) {
+				$error[] = "You're already signed up for that class!";
 			}
 		}
 		
 		
 		// does one final error check before finaly inserting the data into the database
 		if (empty($error)) {
-			$query = "INSERT INTO ClassStudent VALUES ($courseNum, $studID)";
+			$query = "INSERT INTO ClassUserRoster VALUES ($courseNum, '$username')";
 			$sql = $conn->prepare($query);
 			$sql->execute();
 			
@@ -51,6 +55,7 @@
 		}
 	}
 ?>
+
 
 
 <html>
@@ -61,9 +66,9 @@
   </head>
   <body>
 	<div class="sidebar">
-	  <a href="stu-chatbot.html">Use the Chatbot</a>
-	  <a class="active" href="stu-addCourse.html">Add a Class</a>
-	  <a class="bottom" href="logout.php">Logout</a>
+	  <a href="stu-chatbot.php">Use the Chatbot</a>
+	  <a class="active" href="stu-addCourse.php">Add a Class</a>
+	  <a class="bottom" href="user-logout.php">Logout</a>
 	</div>
 	
 	<div class="content">

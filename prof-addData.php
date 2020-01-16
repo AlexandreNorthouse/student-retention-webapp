@@ -1,12 +1,20 @@
 <?php
 	session_start();
-	include_once 'connect.php';
+	
+	//This makes sure that a professor is logged in
+	if($_SESSION['isProf'] != 1 || empty($_SESSION)) {
+		//This will send the user away if there's no student login info
+		header('Location: index.php');
+	}
+	
+	//This sets all the universal variables
+	include_once 'system-connect.php';
 	$error = array();
 	$success = array();
-	$profID = $_SESSION['professorID'];
+	$username = $_SESSION['username'];
 	
 	// this is so the section object can be created
-	$query = "SELECT Class.id, Class.name FROM Class, ClassProfessor WHERE Class.id = ClassProfessor.classID AND ClassProfessor.profID = $profID ORDER BY Class.id";
+	$query = "SELECT Class.classID, Class.crseID, Class.sectNum, Class.crseName FROM Class, ClassUserRoster WHERE ClassUserRoster.classID=Class.classID AND ClassUserRoster.username='$username'";
 	$sql = $conn->prepare($query);
 	$sql->execute();
 	$classList = $sql->fetchAll();
@@ -14,11 +22,9 @@
 	
 	// This handles the "Submit New Question" button being hit
 	if (!empty($_POST) && !empty($_POST['submitData'])){
-		$question = $_POST['dataQuestion'];
-		$question = trim($question);
-		$answer = $_POST['dataAnswer'];
-		$answer = trim($answer);
-		$selectedClass = $_POST['dataClassID'];
+		$question = trim($_POST['dataQuestion']);
+		$answer = trim($_POST['dataAnswer']);
+		$selectedClass = intval($_POST['dataClassID']);
 		
 		
 		// checks for empty fields first
@@ -31,26 +37,38 @@
 		
 		// checks for no errors before then doing a duplicate question and answer check
 		if (empty($error)) {
-			$query = "SELECT classID, quesText, quesAns FROM ClassQuestions WHERE classID=$selectedClass";
+			$query = "SELECT * FROM Question, ClassQuestions WHERE 
+						ClassQuestions.quesID=$selectedClass AND Question.qtext='$question'";
 			$sql = $conn->prepare($query);
 			$sql->execute();
 			$copyCheck = $sql->fetchAll();
 			
-			foreach ($copyCheck as $c) {
-				if ($c['quesText'] == $question) {
-					$error[] = "That question already exists!";
-					break;
-				}
+			if (!empty($copyCheck)){
+				$error[] = "That question already exists for that class!";
 			}
 		}
-		
 		
 		// does one final error check before finaly inserting the data into the database
 		if (empty($error)) {
 			// This creates the class in the class table
-			$query = "INSERT INTO ClassQuestions VALUES ($selectedClass, 2, '$question', '$answer', $profID)";
+			$query = "INSERT INTO Question VALUES (NULL, '$question', '$answer')";
 			$sql = $conn->prepare($query);
 			$sql->execute();
+			
+			
+			// This then gets that question's ID
+			$query = "SELECT LAST_INSERT_ID()";
+			$sql = $conn->prepare($query);
+			$sql->execute();
+			$questionCheck = $sql->fetchAll();
+			$questionID = $questionCheck[0]['LAST_INSERT_ID()'];
+			
+			
+			// This then inserts the relationship entry into ClassQuestions
+			$query = "INSERT INTO ClassQuestions VALUES ($selectedClass, $questionID)";
+			$sql = $conn->prepare($query);
+			$sql->execute();
+			
 			
 			// finally, there's a success statement given and all the values are cleared
 			$success[] = "Question successfully added to that class!";
@@ -58,8 +76,12 @@
 			$answer = "";
 			$selectedClass = "";
 		}
+	} else {
+		$selectedClass = 0;
+		$results = [];
 	}
 ?>
+
 
 
 <html>
@@ -72,26 +94,28 @@
   
   <body>
   	<div class="sidebar">
-	  <a href="prof-viewData.html">View Data</a>
-	  <a class="active" href="prof-addData.html">Add Questions</a>
-	  <a href="prof-createSyllabus.html">Create Syllabus</a>
-	  <a href="prof-createCourse.html">Create a Course</a>
+	  <a href="prof-viewData.php">View Data</a>
+	  <a class="active" href="prof-addData.php">Add Questions</a>
+	  <a href="prof-createSyllabus.php">Create Syllabus</a>
+	  <a href="prof-createCourse.php">Create a Course</a>
 	  <a class="bottom" href="user-logout.php">Logout</a>
 	</div>
 	
 	<div class="content">
 		<h2>Add Question</h2>
 		
+		
 		<form action="" method="post">
 			<label for="dataClassID">Select Course: </label><br>
 			<select name="dataClassID">
 				<?php
-					if (!empty($classList)) {
-						foreach($classList as $c) {
-							echo '<option value="'.$c['id'].'"';
-							if ($selectedClass == $c['id'])
-								echo " selected";
-							echo '>'.$c['name'].'</option>';
+					if (!empty($classList)){
+						foreach($classList as $c){
+							echo ('<option value="' . $c['classID'] . '"');
+							if ($selectedClass == $c['classID']) {
+								echo (" selected ");
+							}
+							echo ('>' . $c['crseName'] . '</option>');
 						}
 					}
 				?>
@@ -103,7 +127,7 @@
 			<br><br>
 			
 			<label for="dataAnswer">Answer: </label><br>
-			<textarea name="dataAnswer" required rows="" cols="" value="<?php if(!empty($_POST['dataAnswer'])){ echo $answer; } else { echo ''; } ?>"/></textarea>
+			<textarea name="dataAnswer" required value="<?php if(!empty($_POST['dataAnswer'])){ echo $answer; } else { echo ''; } ?>"/></textarea>
 			<br><br>
 			
 			<button type="submit" name="submitData" value="✓">Create New Question</button>
