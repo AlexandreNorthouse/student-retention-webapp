@@ -8,6 +8,7 @@
 	}
 	
 	//This sets the required universal variables
+	include_once 'system-connect.php';
 	$error = array();
 	$success = array();
 	$username = $_SESSION['username'];

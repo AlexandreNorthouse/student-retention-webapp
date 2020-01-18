@@ -84,17 +84,17 @@
 		if (!empty($results)) {
 			echo '<p>Retrieved Data:</p>';
 			echo '<table>';
-			foreach($results as $r)
+			for ($i = 0; $i < count($results); $i+=2)
 			{	
 				echo '<tr>';
-					echo '<th></th>';
+					echo '<th> Question Database Number</th>';
 					echo '<th> Question Text </th>';
 					echo '<th> Question Answer </th>';
 				echo '</tr>';
 				echo '<tr>';
-					echo '<td>Question #' . $r['quesID'] . '</td>';
-					echo '<td>' . $r['qtext'] . '</td>';
-					echo '<td>' . $r['atext'] . '</td>';
+					echo '<td>#' . $results[$i]['quesID'] . '</td>';
+					echo '<td>' . $results[$i]['qtext'] . '</td>';
+					echo '<td>' . $results[$i]['atext'] . '</td>';
 				echo '</tr>';
 			}
 			echo '</table>';

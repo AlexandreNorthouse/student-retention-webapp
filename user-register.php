@@ -48,11 +48,11 @@
 				$isProf = 1;
 			}
 			
-			$query = "SELECT username FROM Users";
+			$query = "SELECT username FROM Users WHERE username='$username'";
 			$sql = $conn->prepare($query);
 			$sql->execute();
 			$userList = $sql->fetchAll();
-			if(!empty($user)) {
+			if(!empty($userList)) {
 				$error[] = "Username is already taken!";
 			}
 		}
