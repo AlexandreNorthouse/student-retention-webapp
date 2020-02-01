@@ -1,0 +1,14 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\domain",
+    "\\domain\\MySQL",
+    "\\logic",
+    "\\public",
+    "\\public\\Professor",
+    "\\public\\Student",
+    "\\public\\User"
+  ],
+  "SelectedNode": "\\public\\User\\Register.php",
+  "PreviewInSolutionExplorer": false
+}
