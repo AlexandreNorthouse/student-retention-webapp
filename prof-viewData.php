@@ -24,7 +24,7 @@
 		$selectedClass = $_POST['dataClassID'];
 		
 		
-		$query = "SELECT Question.quesID, Question.qtext, Question.atext FROM Question, ClassQuestions WHERE ClassQuestions.classID=$selectedClass";
+		$query = "SELECT Question.quesID, Question.qtext, Question.atext FROM Question, ClassQuestions WHERE ClassQuestions.classID=$selectedClass AND ClassQuestions.quesID=Question.quesID;";
 		$sql = $conn->prepare($query);
 		$sql->execute();
 		$results = $sql->fetchAll();
@@ -84,17 +84,19 @@
 		if (!empty($results)) {
 			echo '<p>Retrieved Data:</p>';
 			echo '<table>';
-			for ($i = 0; $i < count($results); $i+=2)
-			{	
 				echo '<tr>';
-					echo '<th> Question Database Number</th>';
+					echo '<th> Question Number</th>';
 					echo '<th> Question Text </th>';
 					echo '<th> Question Answer </th>';
+					echo '<th> Question Database Number</th>';
 				echo '</tr>';
+			for ($i = 0; $i < count($results); $i++)
+			{	
 				echo '<tr>';
-					echo '<td>#' . $results[$i]['quesID'] . '</td>';
+					echo '<td>#' . ($i + 1) . '</td>';
 					echo '<td>' . $results[$i]['qtext'] . '</td>';
 					echo '<td>' . $results[$i]['atext'] . '</td>';
+					echo '<td>#' . $results[$i]['quesID'] . '</td>';
 				echo '</tr>';
 			}
 			echo '</table>';

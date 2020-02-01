@@ -2,6 +2,10 @@ html {
   background-color: #45567D;
 }
 
+.content p {
+	color: white;
+}
+
 .content h2 {
   margin-top: 0;
   color: white;
@@ -31,6 +35,27 @@ html {
   color: YellowGreen;
 }
 
+table {
+  border-left: 2px solid #6b7fae;
+}
+
+.content th, td {
+  padding: 10px;
+  text-align: left;
+  border-bottom: 1px dashed #6b7fae;
+}
+
+.content tr:nth-child(odd) {
+	background-color: #516594;
+}
+
+.content tr:nth-child(even) {
+	background-color: #485a84;
+}
+
+.content tr:hover {
+	background-color: #5b71a4;
+}
 
 @media screen and (max-width: 700px) {
   
