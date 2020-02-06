@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 05, 2020 at 11:55 PM
+-- Generation Time: Feb 06, 2020 at 11:38 PM
 -- Server version: 10.4.11-MariaDB
 -- PHP Version: 7.4.1
 
@@ -22,56 +22,206 @@ SET time_zone = "+00:00";
 -- Database: `student-engagement-retention-local`
 --
 
---
--- Dumping data for table `courses`
---
-
-INSERT INTO `courses` (`ID`, `uniID`, `crseID`, `sectNum`, `crseName`) VALUES
-(1, 1, 'EX101', 1, 'Example Course, Section 1'),
-(2, 1, 'EX101', 2, 'Example Course, Section 2');
+-- --------------------------------------------------------
 
 --
--- Dumping data for table `coursesusersroster`
+-- Table structure for table `courses`
 --
 
-INSERT INTO `coursesusersroster` (`crseID`, `userID`) VALUES
-(1, 1),
-(1, 2),
-(2, 1),
-(2, 2);
+CREATE TABLE `courses` (
+  `ID` int(11) NOT NULL,
+  `uniID` int(11) NOT NULL,
+  `crseID` varchar(255) NOT NULL,
+  `sectNum` int(11) NOT NULL,
+  `crseName` varchar(255) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
 
 --
--- Dumping data for table `questions`
+-- Table structure for table `coursesusersroster`
 --
 
-INSERT INTO `questions` (`ID`, `crseID`, `qtext`, `atext`) VALUES
-(1, 1, 'What\'s the capital of Indiana?', 'The capital of Indiana is Indianaoplis.'),
-(2, 1, 'What section of EX101 is this?', 'This is section 1 of EX101.'),
-(3, 2, 'What\'s the capital of Michigan?', 'The capital of Michigan is Grand Rapids.'),
-(4, 2, 'What section of EX101 is this?', 'This is section 2 of EX101.');
+CREATE TABLE `coursesusersroster` (
+  `crseID` int(11) NOT NULL,
+  `userID` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
 
 --
--- Dumping data for table `syllabi`
+-- Table structure for table `questions`
 --
 
-INSERT INTO `syllabi` (`ID`, `crseID`, `courseTitle`, `contactInformation`, `officeHoursPolicy`, `courseDescription`, `courseGoals`, `requiredMaterials`, `gradingPolicy`, `attendancePolicy`, `universityPolicy`, `studentResources`) VALUES
-(1, 1, 'Example title', 'Example contact information', 'Example office hours policy', 'Example course description', 'Example course goals', 'Example required materials', 'Example grading policy', 'Example attendance policy', 'Example university policy', 'Example student resources'),
-(2, 2, 'Example title 2', 'Example contact information 2', 'Example office hours policy 2', 'Example course description 2', 'Example course goals 2', 'Example required materials 2', 'Example grading policy 2', 'Example attendance policy 2', 'Example university policy 2', 'Example student resources 2');
+CREATE TABLE `questions` (
+  `ID` int(11) NOT NULL,
+  `crseID` int(11) NOT NULL,
+  `qtext` text NOT NULL,
+  `atext` text NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
 
 --
--- Dumping data for table `universities`
+-- Table structure for table `syllabi`
 --
 
-INSERT INTO `universities` (`ID`, `name`) VALUES
-(1, 'Example University');
+CREATE TABLE `syllabi` (
+  `ID` int(11) NOT NULL,
+  `crseID` int(11) NOT NULL,
+  `courseTitle` text DEFAULT NULL,
+  `contactInformation` text DEFAULT NULL,
+  `officeHoursPolicy` text DEFAULT NULL,
+  `courseDescription` text DEFAULT NULL,
+  `courseGoals` text DEFAULT NULL,
+  `requiredMaterials` text DEFAULT NULL,
+  `gradingPolicy` text DEFAULT NULL,
+  `attendancePolicy` text DEFAULT NULL,
+  `universityPolicy` text DEFAULT NULL,
+  `studentResources` text DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
 
 --
--- Dumping data for table `users`
+-- Table structure for table `universities`
 --
 
-INSERT INTO `users` (`ID`, `uniID`, `username`, `password`, `fname`, `lname`, `isProf`) VALUES
-(1, 1, 'exampleStudent', '5baa61e4c9b93f3f0682250b6cf8331b7ee68fd8', 'Millie', 'Brown', 0),
-(2, 1, 'exampleProfessor', '5baa61e4c9b93f3f0682250b6cf8331b7ee68fd8', 'Abigail', 'Smith', 1);
+CREATE TABLE `universities` (
+  `ID` int(11) NOT NULL,
+  `name` varchar(255) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `users`
+--
+
+CREATE TABLE `users` (
+  `ID` int(11) NOT NULL,
+  `uniID` int(11) NOT NULL,
+  `username` varchar(255) DEFAULT NULL,
+  `password` varchar(255) DEFAULT NULL,
+  `fname` varchar(255) DEFAULT NULL,
+  `lname` varchar(255) DEFAULT NULL,
+  `isProf` tinyint(1) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Indexes for dumped tables
+--
+
+--
+-- Indexes for table `courses`
+--
+ALTER TABLE `courses`
+  ADD PRIMARY KEY (`ID`,`uniID`),
+  ADD KEY `uniID` (`uniID`);
+
+--
+-- Indexes for table `coursesusersroster`
+--
+ALTER TABLE `coursesusersroster`
+  ADD PRIMARY KEY (`crseID`,`userID`),
+  ADD KEY `userID` (`userID`);
+
+--
+-- Indexes for table `questions`
+--
+ALTER TABLE `questions`
+  ADD PRIMARY KEY (`ID`),
+  ADD KEY `crseID` (`crseID`);
+
+--
+-- Indexes for table `syllabi`
+--
+ALTER TABLE `syllabi`
+  ADD PRIMARY KEY (`ID`),
+  ADD KEY `crseID` (`crseID`);
+
+--
+-- Indexes for table `universities`
+--
+ALTER TABLE `universities`
+  ADD PRIMARY KEY (`ID`);
+
+--
+-- Indexes for table `users`
+--
+ALTER TABLE `users`
+  ADD PRIMARY KEY (`ID`),
+  ADD KEY `uniID` (`uniID`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `courses`
+--
+ALTER TABLE `courses`
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `questions`
+--
+ALTER TABLE `questions`
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `syllabi`
+--
+ALTER TABLE `syllabi`
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `universities`
+--
+ALTER TABLE `universities`
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `users`
+--
+ALTER TABLE `users`
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- Constraints for dumped tables
+--
+
+--
+-- Constraints for table `courses`
+--
+ALTER TABLE `courses`
+  ADD CONSTRAINT `courses_ibfk_1` FOREIGN KEY (`uniID`) REFERENCES `universities` (`ID`) ON DELETE CASCADE;
+
+--
+-- Constraints for table `coursesusersroster`
+--
+ALTER TABLE `coursesusersroster`
+  ADD CONSTRAINT `coursesusersroster_ibfk_1` FOREIGN KEY (`crseID`) REFERENCES `courses` (`ID`) ON DELETE CASCADE,
+  ADD CONSTRAINT `coursesusersroster_ibfk_2` FOREIGN KEY (`userID`) REFERENCES `users` (`ID`) ON DELETE CASCADE;
+
+--
+-- Constraints for table `questions`
+--
+ALTER TABLE `questions`
+  ADD CONSTRAINT `questions_ibfk_1` FOREIGN KEY (`crseID`) REFERENCES `courses` (`ID`) ON DELETE CASCADE;
+
+--
+-- Constraints for table `syllabi`
+--
+ALTER TABLE `syllabi`
+  ADD CONSTRAINT `syllabi_ibfk_1` FOREIGN KEY (`crseID`) REFERENCES `courses` (`ID`) ON DELETE CASCADE;
+
+--
+-- Constraints for table `users`
+--
+ALTER TABLE `users`
+  ADD CONSTRAINT `users_ibfk_1` FOREIGN KEY (`uniID`) REFERENCES `universities` (`ID`) ON DELETE CASCADE,
+  ADD CONSTRAINT `users_ibfk_2` FOREIGN KEY (`uniID`) REFERENCES `users` (`ID`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
