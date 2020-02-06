@@ -43,12 +43,10 @@
 	
 	
 	echo ('<br><br>= = New Values = =');
-	$test->setID(0);
 	$test->setCrseID(0);
 	$test->setQText("asdf");
 	$test->setAText("asdf");
 	
-	echo ('<br>New ID: ' . $test->getID());
 	echo ('<br>New crseID: ' . $test->getCrseID());
 	echo ('<br>New qText: ' . $test->getQText());
 	echo ('<br>New aText: ' . $test->getAText());
