@@ -1,6 +1,6 @@
 <?php
 	
-	class Question
+	class University
 	{
 		// Class variables, only accessible through getters
 		private int $ID;
