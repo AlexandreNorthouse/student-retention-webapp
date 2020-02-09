@@ -23,19 +23,19 @@
 
 		// getters
 		public function getID(): int { return $this->ID; }
-		public function getuniID(): int { return $this->uniID; }
-		public function getcrseID(): string { return $this->crseID; }
-		public function getsectNum(): int { return $this->sectNum; }
-		public function getcrseName(): string { return $this->crseName; }
-		public function getuserRoster(): array { return $this->userRoster; }
+		public function getUniID(): int { return $this->uniID; }
+		public function getCrseID(): string { return $this->crseID; }
+		public function getSectNum(): int { return $this->sectNum; }
+		public function getCrseName(): string { return $this->crseName; }
+		public function getUserRoster(): array { return $this->userRoster; }
 
 		// setters
 		//	 there's no "setID" because that would compromise the database's integrity
-		public function setuniID(int $uniID) {  $this->uniID = $uniID; }
-		public function setcrseID(string $crseID) {  $this->crseID = $crseID; }
-		public function setsectNum(int $sectNum) {  $this->sectNum = $sectNum; }
-		public function setcrseName(string $crseName) {  $this->crseName = $crseName; }
-		public function setuserRoster(array $userRoster) {  $this->userRoster = $userRoster; }
+		public function setUniID(int $uniID) {  $this->uniID = $uniID; }
+		public function setCrseID(string $crseID) {  $this->crseID = $crseID; }
+		public function setSectNum(int $sectNum) {  $this->sectNum = $sectNum; }
+		public function setCrseName(string $crseName) {  $this->crseName = $crseName; }
+		public function setUserRoster(array $userRoster) {  $this->userRoster = $userRoster; }
 	}
 
 ?>
