@@ -7,7 +7,7 @@
 	$error = array();
 	
 	if (!empty($_POST)) {
-		// collects the fields
+		// collects the fieldsvjvjv
 		$username = trim($_POST['username']);
 		$password = trim($_POST['password']);
 		
