@@ -37,7 +37,7 @@
 
 		// setters
 		//	 there's no "setID" because that would compromise the database's integrity
-		public function setCrseID(int crseID) {  $this->crseID = crseID; }
+		public function setCrseID(int $crseID) {  $this->crseID = $crseID; }
 		public function setUsername(string $username) {  $this->username = $username; }
 		public function setPassword(string $password) {  $this->password = $password; }
 		public function setFName(string $fname) {  $this->fname = $fname; }
