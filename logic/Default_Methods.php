@@ -3,8 +3,8 @@
 	// Placeholder for future changes
 
 	// logout method
-		session_start();
+		/*session_start();
 		session_destroy();
-		header('Location: index.php');
+		header('Location: index.php');*/
 
 ?>
