@@ -14,7 +14,7 @@
 	<div class="sidebar">
 	  <a href="stu-chatbot.php">Use the Chatbot</a>
 	  <a href="stu-addCourse.php">Add a Class</a>
-      <a class="active" href="stu-addCourse.php">Drop a Class</a>
+      <a class="active" href="stu-addCourse.php">Drop a Class</a><!--needs a different href-->
 	  <a class="bottom" href="user-logout.php">Logout</a>
 	</div>
 	
