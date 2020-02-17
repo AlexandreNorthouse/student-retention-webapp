@@ -1,47 +1,12 @@
 <?php
-	session_start();
-	
-	//This makes sure that a professor is logged in
-	if($_SESSION['isProf'] != 1 || empty($_SESSION)) {
-		//This will send the user away if there's no student login info
-		header('Location: index.php');
-	}
-	
-	//This sets all the universal variables
-	include_once 'system-connect.php';
-	$error = array();
-	$username = $_SESSION['username'];
-	
-	// this is so the section object can be created
-	$query = "SELECT Class.classID, Class.crseID, Class.sectNum, Class.crseName FROM Class, ClassUserRoster WHERE ClassUserRoster.classID=Class.classID AND ClassUserRoster.username='$username'";
-	$sql = $conn->prepare($query);
-	$sql->execute();
-	$classList = $sql->fetchAll();
-	
-	
-	// This handles the "Submit New Question" button being hit
-	if (!empty($_POST) && !empty($_POST['submitData'])){
-		$selectedClass = $_POST['dataClassID'];
-		
-		
-		$query = "SELECT Question.quesID, Question.qtext, Question.atext FROM Question, ClassQuestions WHERE ClassQuestions.classID=$selectedClass AND ClassQuestions.quesID=Question.quesID;";
-		$sql = $conn->prepare($query);
-		$sql->execute();
-		$results = $sql->fetchAll();
-	
-	} else {
-		$selectedClass = 0;
-		$results = [];
-	}
+    require_once( dirname(__FILE__, 3) . "\logic\Professor\View_Data_Methods.php");
 ?>
-
-
 
 <html>
   <head>
 	<title>Professor - View Data</title>
-	<link rel="stylesheet" href="StyleSheet_Sidebar.css">
-	<link rel="stylesheet" href="StyleSheet_Professor.css">
+      <link rel="stylesheet" href="../StyleSheets/StyleSheet_Sidebar.css">
+      <link rel="stylesheet" href="../StyleSheets/StyleSheet_Professor.css">
   </head>
   
   
@@ -78,32 +43,29 @@
 			<button type="submit" name="submitData" value="✓">View Course's Data</button>
 			<br><br>
 		</form>
-		
-	
-	<?php
-		if (!empty($results)) {
-			echo '<p>Retrieved Data:</p>';
-			echo '<table>';
-				echo '<tr>';
-					echo '<th> Question Number</th>';
-					echo '<th> Question Text </th>';
-					echo '<th> Question Answer </th>';
-					echo '<th> Question Database Number</th>';
-				echo '</tr>';
-			for ($i = 0; $i < count($results); $i++)
-			{	
-				echo '<tr>';
-					echo '<td>#' . ($i + 1) . '</td>';
-					echo '<td>' . $results[$i]['qtext'] . '</td>';
-					echo '<td>' . $results[$i]['atext'] . '</td>';
-					echo '<td>#' . $results[$i]['quesID'] . '</td>';
-				echo '</tr>';
-			}
-			echo '</table>';
-		}
-	?>
-		
-		
-	</div>
+
+        <?php
+            if (!empty($feedback)) {
+                echo '<p>Retrieved Data:</p>';
+                echo '<table>';
+                    echo '<tr>';
+                        echo '<th> Question Number</th>';
+                        echo '<th> Question Text </th>';
+                        echo '<th> Question Answer </th>';
+                        echo '<th> Question Database Number</th>';
+                    echo '</tr>';
+                for ($i = 0; $i < count($feedback); $i++)
+                {
+                    echo '<tr>';
+                        echo '<td>#' . ($i + 1) . '</td>';
+                        echo '<td>' . $feedback[$i]['qtext'] . '</td>';
+                        echo '<td>' . $feedback[$i]['atext'] . '</td>';
+                        echo '<td>#' . $feedback[$i]['quesID'] . '</td>';
+                    echo '</tr>';
+                }
+                echo '</table>';
+            }
+        ?>
+    </div>
   </body>
 </html>
