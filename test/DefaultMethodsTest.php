@@ -14,9 +14,7 @@
                 "Test" => "   test   "
             );
 
-            $correctArray = array(
-                "Test" => "test"
-            );
+            $correctArray = array();
             $this->assertEquals($correctArray, defaultMethods::formatFields($testArray), "They're the same!");
         }
 
