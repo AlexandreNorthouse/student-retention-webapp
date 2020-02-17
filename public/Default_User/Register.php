@@ -1,84 +1,6 @@
 <?php
-	if (!empty($_SESSION)) {
-		session_destroy();
-	}
-	include_once 'system-connect.php';
-	$error = array();
-	$success = array();
-	
-	if (!empty($_POST)) {
-		// collects the fields
-		$username = trim($_POST['username']);
-		$password = trim($_POST['password']);
-		$password2 = trim($_POST['password2']);
-		$fName = trim($_POST['fname']);
-		$lName = trim($_POST['lname']);
-		$uniID = trim($_POST['uniid']);
-		
-		
-		// checks for empty fields first
-		if (empty($username) || $username == "") {
-			$error[] = "Username field can't be empty!";
-		}
-		if (empty($uniID) || $uniID == "") {
-			$error[] = "University ID Number field can't be empty!";
-		}
-		if (empty($fName) || $fName == "") {
-			$error[] = "First Name field can't be empty!";
-		}
-		if (empty($lName) || $lName == "") {
-			$error[] = "First Name field can't be empty!";
-		}
-		
-		// then checks for empty password fields AND for non-matching password fields
-		if ((empty($password) || $password == "") || (empty($password2) || $password2 == "")) {
-			$error[] = "Password fields can't be empty!";
-		} elseif ($password != $password2) {
-			$error[] = "Password fields don't match!";
-		} else {
-			$password = sha1($password);
-		}
-		
-		
-		// checks for no errors before then doing a duplicate username check
-		if (empty($error)) {
-			if (!empty($_POST['createStudent'])) {
-				$isProf = 0;
-			} elseif (!empty($_POST['createProfessor'])) {
-				$isProf = 1;
-			}
-			
-			$query = "SELECT username FROM Users WHERE username='$username'";
-			$sql = $conn->prepare($query);
-			$sql->execute();
-			$userList = $sql->fetchAll();
-			if(!empty($userList)) {
-				$error[] = "Username is already taken!";
-			}
-		}
-		
-		
-		// once again checks for no errors before inserting the data into the database
-		if (empty($error)) {
-			$query = "INSERT INTO Users VALUES ('$username', '$password', '$fName', '$lName', $isProf)";
-			$sql = $conn->prepare($query);
-			$sql->execute();
-			
-			$query = "INSERT INTO UniversityUsersRoster VALUES ($uniID, '$username')";
-			$sql = $conn->prepare($query);
-			$sql->execute();
-			
-			// Gives a success message and then resets all the values!
-			$success[] = "The database was successfully updated with your info!
-								Please return to the login page to now login.";
-			$username = "";
-			$password = "";
-			$password2 = "";
-			$fName = "";
-			$lName = "";
-			$uniID = "";
-		}
-	}
+    session_destroy();
+    require_once( dirname(__FILE__, 3) . "\logic\Default_Users\Login_Methods.php" );
 ?>
 
 
@@ -86,7 +8,7 @@
 <html>
   <head>
 	<title>SRS - Register User</title>
-	<link rel="stylesheet" href="StyleSheet_User.css">
+      <link rel="stylesheet" href="../StyleSheets/StyleSheet_User.css">
   </head>
   <body>
 	<section class="login">
