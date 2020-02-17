@@ -34,19 +34,19 @@
 
 
             // this converts the username to lowercase and the password to a secure one
-            $feedback = LoginMethods::specialFormatting($inputArray);
+            $feedback = DefaultMethods::specialFormatting($inputArray);
             if (isset($feedback["Outcome"]))
                 return $feedback;
 
 
             // attempts to login
-            $feedback = LoginMethods::usernameCheck($inputArray);
+            $feedback = LoginMethods::attemptLogin($inputArray);
             if (isset($feedback["Outcome"]))
                 return $feedback;
 
 
             // sets session variables
-            $feedback = LoginMethods::attemcptLogin($inputArray);
+            $feedback = LoginMethods::setSessionVariables($inputArray);
             if (isset($feedback["Outcome"]))
                 return $feedback;
 
@@ -64,25 +64,24 @@
 
 
 
-        private static function specialFormatting(array $inputArray): array
+        // [description]
+        private static function attemptLogin(array $inputArray): array
         {
             return array();
         }
 
-        private static function usernameCheck(array $inputArray): array
+        // [description]
+        private static function setSessionVariables(array $inputArray): array
         {
             return array();
         }
 
-        private static function attemcptLogin(array $inputArray): array
-        {
-            return array();
-        }
-
+        // [description]
         private static function redirectHomepage(array $inputArray): array
         {
             return array();
         }
+
 
     }
 
