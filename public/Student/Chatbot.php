@@ -1,20 +1,12 @@
 <?php
-	session_start();
-	
-	//This makes sure that a student is logged in
-	if($_SESSION['isProf'] != 0 || empty($_SESSION)) {
-		//This will send the user away if there's no student login info
-		header('Location: index.php');
-	}
+    require_once( dirname(__FILE__, 3) . "\logic\Student\Chatbot_Methods.php");
 ?>
-
-
 
 <html>
   <head>
 	<title>Student - Chatbot</title>
-	<link rel="stylesheet" href="StyleSheet_Sidebar.css">
-	<link rel="stylesheet" href="StyleSheet_Student.css">
+      <link rel="stylesheet" href="../StyleSheets/StyleSheet_Sidebar.css">
+      <link rel="stylesheet" href="../StyleSheets/StyleSheet_Student.css">
   </head>
   <body>
 	<div class="sidebar">
