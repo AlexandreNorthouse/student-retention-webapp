@@ -31,7 +31,7 @@
                 "Feedback" => array("This is a test")
             );
 
-            $this->assertEquals(, defaultMethods::generateReturnArray($outcome, $feedback), "They're the same!");
+            $this->assertEquals($correctArray, defaultMethods::generateReturnArray($outcome, $feedback), "They're the same!");
         }
     }
 ?>
