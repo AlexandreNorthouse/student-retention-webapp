@@ -1,91 +1,12 @@
 <?php
-	session_start();
-	
-	//This makes sure that a professor is logged in
-	if($_SESSION['isProf'] != 1 || empty($_SESSION)) {
-		//This will send the user away if there's no student login info
-		header('Location: index.php');
-	}
-	
-	//This sets all the universal variables
-	include_once 'system-connect.php';
-	$error = array();
-	$success = array();
-	$username = $_SESSION['username'];
-	$uniID = $_SESSION['uniID'];
-	
-	// This handles the "submit new class" button being hit
-	if (!empty($_POST) && !empty($_POST['submitClass'])) {
-		// collects the fields
-		$classNum  = trim($_POST['newCourseNumber']);
-		$classSec  = trim($_POST['newCourseSection']);
-		$className = trim($_POST['newCourseName']);
-		
-		
-		// checks for empty fields first
-		if (empty($classNum) || $classNum == "") {
-			$error[] = "The Class Number field can't be empty!";
-		}
-		if (empty($classSec) || $classSec == "") {
-			$error[] = "The Class Section field can't be empty!";
-		}
-		if (empty($className) || $className == "") {
-			$error[] = "The Class Name field can't be empty!";
-		}
-		
-		
-		// checks for no errors before then doing a duplicate classNum & classSec check
-		if (empty($error)) {
-			$query = "SELECT * FROM UniversityClassRoster, Class WHERE Class.crseID='$classNum' AND Class.sectNum=$classSec AND UniversityClassRoster.uniID=$uniID";
-			$sql = $conn->prepare($query);
-			$sql->execute();
-			$classIDs = $sql->fetchAll();
-			
-			if (!empty($classIDs)) {
-				$error = "That course and section combo already exists!";
-			}
-		}
-		
-		// does one final error check before finaly inserting the data into the database
-		if (empty($error)) {
-			// This creates the class in the class table
-			$query = "INSERT INTO Class VALUES (NULL, '$classNum', $classSec, '$className')";
-			$sql = $conn->prepare($query);
-			$sql->execute();
-			
-			
-			// this then collects the classID from Class
-			$query = "SELECT LAST_INSERT_ID()";
-			$sql = $conn->prepare($query);
-			$sql->execute();
-			$class = $sql->fetchAll();
-			$classID = intval($class[0]['LAST_INSERT_ID()']);
-			
-			
-			// then, it adds the appropriate relationship entities into the database
-			$query = "INSERT INTO UniversityClassRoster VALUES($uniID, $classID)";
-			$sql = $conn->prepare($query);
-			$sql->execute();
-			$query = "INSERT INTO ClassUserRoster VALUES($classID, '$username')";
-			$sql = $conn->prepare($query);
-			$sql->execute();
-			
-			
-			// finally, there's a success statement given and all the values are cleared
-			$success[] = "Class successfully created! Give your student the class number '$classID' so they can sign up for it!";
-			$classNum  = "";
-			$className = "";
-			$classSec  = "";
-		}
-	}
+    require_once( dirname(__FILE__, 3) . "\logic\Professor\Create_Course_Methods.php");
 ?>
-
 
 <html>
   <head>
 	<title>Professor - Create Course</title>
-	<link rel="stylesheet" href="StyleSheet_Sidebar.css">
-	<link rel="stylesheet" href="StyleSheet_Professor.css">
+      <link rel="stylesheet" href="../StyleSheets/StyleSheet_Sidebar.css">
+      <link rel="stylesheet" href="../StyleSheets/StyleSheet_Professor.css">
   </head>
   
   
@@ -117,9 +38,15 @@
 			<button type="submit" name="submitClass" value="✓">Create New Course</button>
 			<br><br>
 		</form>
-		
-		<span class="error"><?php if(!empty($error)) foreach($error as $e) echo $e . "<br>"; ?></span>
-		<span class="success"><?php if(!empty($success)) foreach($success as $s) echo $s . "<br>"; ?></span>
-	</div>
+
+        <?php
+        // this displays the feedback from the logic method
+        if (!empty($feedback["Feedback"])) {
+            echo("<span class=\"". $feedback["Outcome"] . "\">");
+            foreach($feedback["Feedback"] as $a) echo $a . "<br>";
+            echo("</span>");
+        }
+        ?>
+    </div>
   </body>
 </html>
