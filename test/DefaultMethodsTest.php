@@ -17,13 +17,21 @@
             $correctArray = array(
                 "Test" => "test"
             );
-            $this->assertEquals(defaultMethods::formatFields($testArray), $correctArray, "They're the same!");
+            $this->assertEquals($correctArray, defaultMethods::formatFields($testArray), "They're the same!");
         }
 
         public function testGenerateReturnArray()
         {
-            
-            $this->assertNotEquals(0, 0, "They're not the same!");
+            $outcome = "Error";
+            $feedback = array("This is a test");
+
+
+            $correctArray = array(
+                "Outcome" => "Error",
+                "Feedback" => array("This is a test")
+            );
+
+            $this->assertEquals(, defaultMethods::generateReturnArray($outcome, $feedback), "They're the same!");
         }
     }
 ?>
