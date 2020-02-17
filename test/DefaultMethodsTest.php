@@ -1,20 +1,21 @@
+<?php
+    declare(strict_types=1);
+    //require_once();
 
-declare(strict_types=1);
-require_once();
-
-use PHPUnit\Framework\TestCase;
+    use PHPUnit\Framework\TestCase;
 
 
-class DefaultMethodsTest extends TestCase
-{
-
-    public function testGenerateReturnArray()
+    class DefaultMethodsTest extends TestCase
     {
-        $this->assertEquals(0, 0, "They're the same!");
-    }
 
-    public function testFormatFields()
-    {
-        $this->assertNotEquals(0, 0, "They're not the same!");
+        public function testGenerateReturnArray()
+        {
+            $this->assertEquals(0, 0, "They're the same!");
+        }
+
+        public function testFormatFields()
+        {
+            $this->assertNotEquals(0, 0, "They're not the same!");
+        }
     }
-}
+?>
