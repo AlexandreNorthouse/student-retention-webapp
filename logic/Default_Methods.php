@@ -72,6 +72,11 @@
             DatabaseMethods::getEnrolledCourses($userID);
         }
 
+        public static function specialFormatting(array $inputArray): array
+        {
+            return array();
+        }
+
     }
 	
 ?>
