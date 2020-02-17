@@ -1,9 +1,9 @@
 <?php
 	// These are the fields needed for setting up the external database connection.
-	$serverName = "remotemysql.com:3306";
-	$username = "3ISdS27gPP";
-	$password = "dEnOlOyyio";
-	$dbName = "3ISdS27gPP";
+	$serverName = "localhost:3306";
+	$username = "root";
+	$password = "";
+	$dbName = "student_engagement_retention_local";
 	
 	// this should be moved to tests.
 	try{
