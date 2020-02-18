@@ -59,7 +59,7 @@
 
             // if the redirect managed to fail, it will send them an error.
             $error = array("Something went wrong in the redirection, please try again!");
-            return DefaultMethods::generateReturnArray("Success", $error);
+            return DefaultMethods::generateReturnArray("Error", $error);
         }
 
 
