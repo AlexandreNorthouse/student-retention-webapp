@@ -9,13 +9,13 @@
 
     // this handles calling the logic function and its return array
     if (!empty($_POST)) {
-        $feedback = Register_Methods::register();
+        $feedback = RegisterMethods::register();
     } else {
         $feedback = array();
     }
 
 
-    class Register_Methods {
+    class RegisterMethods {
 
         // main function called by presentation layer
         public static function register(): array {
@@ -44,13 +44,13 @@
 
 
             // Does a duplicate username check
-            $feedback = Register_Methods::duplicateUsernameCheck($inputArray);
+            $feedback = RegisterMethods::duplicateUsernameCheck($inputArray);
             if (isset($feedback["Outcome"]))
                 return $feedback;
 
 
             // Attempts to insert the user into the database
-            $feedback = Register_Methods::attemptUserInsertion($inputArray);
+            $feedback = RegisterMethods::attemptUserInsertion($inputArray);
             if (isset($feedback["Outcome"]))
                 return $feedback;
 

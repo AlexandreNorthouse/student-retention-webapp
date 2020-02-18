@@ -11,7 +11,7 @@
       <link rel="stylesheet" href="../StyleSheets/StyleSheet_User.css">
   </head>
   <body>
-	<section class="login">
+	<section class="default_user">
 		<h1>Student Retention Service</h1>
 		<h1>Register</h1>
 		
@@ -39,20 +39,25 @@
 				<label for="lname">Last Name: </label>
 				<input type="text" name="lname" required value="<?php if(!empty($_POST['lname'])){ echo $lName; } else { echo ''; } ?>"/><br>
 			</section>
+
+            <?php
+                if (!empty($feedback["Feedback"])) {
+                    echo("<span class=\"". $feedback["Status"] . "\">");
+                    foreach($feedback["Feedback"] as $a) echo $a . "<br>";
+                    echo("</span>");
+                }
+            ?>
+            <br><br>
 			
-			<span class="error"><?php if(!empty($error)) foreach($error as $e) echo $e . "<br>"; ?></span>
-			<span class="success"><?php if(!empty($success)) foreach($success as $s) echo $s . "<br>"; ?></span>
-			<br><br>
-			
-			<section class="horizontalsection">
+			<section class="horizontal_section">
 				<button type="submit" name="createStudent" value="✓">Create Student</button>
 				<button type="submit" name="createProfessor" value="✓">Create Professor</button>
 			</section>
 		</form>
 		
 		<br>
-		<div style="text-align: center;">
-			<button style="position:relative" onclick="window.location.href = 'index.php';">Return to Login Page</button>
+		<div  class="centered_button">
+			<button class="change_page" onclick="window.location.href = 'Login.php';">Return to Login Page</button>
 		</div>
 	</section>
   </body>

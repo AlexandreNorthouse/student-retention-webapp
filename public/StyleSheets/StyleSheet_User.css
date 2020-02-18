@@ -1,6 +1,5 @@
 html, body {
   background-image: linear-gradient(to bottom right, #19253C, #45567D);
-  
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -43,13 +42,21 @@ button {
   color: YellowGreen;
 }
 
-.horizontalsection {
+.horizontal_section {
   display: flex; 
   flex-direction: row;
   justify-content: space-around;
 }
 
-.login {
+.centered_button {
+  text-align: center;
+}
+
+.change_page {
+  position: relative;
+}
+
+.default_user {
   background-image: linear-gradient(to top left, #45567D, #42659f);
   border: 5px solid Black;
   border-radius: 25px;
