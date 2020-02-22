@@ -2,13 +2,6 @@
 
 	class DefaultMethods {
 
-		// logs out the user
-		public static function logoutUser() {
-			session_start();
-			session_destroy();
-			header('Location: index.php');
-		}
-
 		// This will check the login of the current user, using the $_SESSION variable
 		public static function checkLogin(string $userType) {
 			// makes sure the crucial variable is set before continuing
@@ -16,15 +9,15 @@
 				
 				// student login check
 				if ($userType == "Student" && $_SESSION['isProf'] != FALSE) {
-					DefaultMethods::logoutUser();
+					require_once("Logout_User.php");
 				}
 
 				// professor login check
 				if ($userType == "Professor" && $_SESSION['isProf'] != TRUE) {
-					DefaultMethods::logoutUser();
+                    require_once("Logout_User.php");
 				}
 			} else {
-				DefaultMethods::logoutUser();
+                require_once("Logout_User.php");
 			}
 		}
 
@@ -70,6 +63,7 @@
             // sets variables for more legible names
             $userID = $_SESSION['UserID'];
             DatabaseMethods::getEnrolledCourses($userID);
+            return NULL;
         }
 
         public static function specialFormatting(array $inputArray): array
