@@ -23,11 +23,11 @@
             $feedback = array();
             $inputArray = array(
                 "Username" => $_POST['username'],
+                "University ID" => $_POST['uniID'],
                 "Password 1" => $_POST['password'],
                 "Password 2" => $_POST['password2'],
                 "First Name" => $_POST['fName'],
-                "Last Name" => $_POST['lName'],
-                "University ID" => $_POST['uniID']
+                "Last Name" => $_POST['lName']
             );
 
 

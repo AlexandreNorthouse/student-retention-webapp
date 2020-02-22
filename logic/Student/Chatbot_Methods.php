@@ -14,7 +14,7 @@
         /* this page doesn't currently have any logic functionality outside the chatbot,
             so it just checks the user's login for now. */
         public static function chatbot() {
-            DefaultMethods::checkLogin("Student");
+            //DefaultMethods::checkLogin("Student");
         }
 
     }

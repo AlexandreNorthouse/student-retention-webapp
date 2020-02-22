@@ -28,6 +28,7 @@
 
 
             // this formats the fields, returns false if at least 1 field is empty
+            // consider using "array_key_exists('key', $array)"
             $feedback = DefaultMethods::formatFields($inputArray);
             if (isset($feedback["Outcome"]))
                 return $feedback;

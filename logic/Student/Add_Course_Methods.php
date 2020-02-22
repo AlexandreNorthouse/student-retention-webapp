@@ -19,7 +19,7 @@
 
         // main function called by presentation layer
         public static function addCourse(): array {
-            DefaultMethods::checkLogin('Student');
+            //DefaultMethods::checkLogin('Student');
 
             
             // this sets the variables needed for this method.

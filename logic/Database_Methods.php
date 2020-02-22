@@ -157,7 +157,7 @@
 
         // Create_Syllabus_Methods database methods
         // [description of what the method does]
-        public static function checkSyllabusExistsint ($courseID)
+        public static function checkSyllabusExists ($courseID)
         {
             /*
 			$query = "SELECT * FROM * WHERE ";

@@ -27,7 +27,7 @@
             // this sets the variables needed for this method.
             $feedback = array();
             $inputArray = array(
-                "Selected Course" => ($_POST['dataClassID'])
+                "Selected Course" => ($_POST['courseID'])
             );
 
 

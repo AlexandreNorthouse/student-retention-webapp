@@ -27,17 +27,17 @@
             // this sets the variables needed for this method.
             $feedback = array();
             $inputArray = array(
-                "Course ID" => $_POST['dataClassID'],
-                "Course Title" => $_POST['dataCourseTitle'],
-                "Contact Information" => $_POST['dataContactInformation'],
-                "Office Hours Policy" => $_POST['dataOfficeHoursPolicy'],
-                "Course Description" => $_POST['dataCourseDescription'],
-                "Course Goals" => $_POST['dataCourseGoals'],
-                "Required Materials" => $_POST['dataRequiredMaterials'],
-                "Grading" => $_POST['dataGrading'],
-                "Attendance" => $_POST['dataAttendance'],
-                "University Policies" => $_POST['dataUniversityPolicies'],
-                "Student Resources" => $_POST['dataStudentResources']
+                "Course ID"           => $_POST['courseID'],
+                "Course Title"        => $_POST['courseTitle'],
+                "Contact Information" => $_POST['contactInfo'],
+                "Office Hours"        => $_POST['officeHours'],
+                "Course Description"  => $_POST['courseDes'],
+                "Course Goals"        => $_POST['courseGoals'],
+                "Required Materials"  => $_POST['reqMaterials'],
+                "Grading Policy"      => $_POST['gradingPolicy'],
+                "Attendance Policy"   => $_POST['attenPolicy'],
+                "University Policies" => $_POST['uniPolicies'],
+                "Student Resources"   => $_POST['stuResources']
             );
 
 
@@ -86,21 +86,21 @@
         private static function attemptSyllabusInsertion(array $inputArray): array
         {
             // sets variables for more legible variable names
-            $courseID = $inputArray['Course ID'];
-            $courseTitle = $inputArray['Course Title'];
-            $contactInfo = $inputArray['Contact Information'];
-            $officeHours = $inputArray['Office Hours Policy'];
-            $courseDesc = $inputArray['Course Description'];
-            $courseGoals = $inputArray['Course Goals'];
-            $reqMaterials = $inputArray['Required Materials'];
-            $grading = $inputArray['Grading'];
-            $attendance = $inputArray['Attendance'];
-            $uniPolicies = $inputArray['University Policies'];
-            $stuResources = $inputArray['Student Resources'];
+            $courseID     = $inputArray['Course ID'];
+            $title        = $inputArray['Course Title'];
+            $contactInfo  = $inputArray['Contact Information'];
+            $officeHours  = $inputArray['Office Hours'];
+            $description  = $inputArray['Course Description'];
+            $goals        = $inputArray['Course Goals'];
+            $materials    = $inputArray['Required Materials'];
+            $grading      = $inputArray['Grading Policy'];
+            $attendance   = $inputArray['Attendance Policy'];
+            $uniPolicies  = $inputArray['University Policies'];
+            $resources    = $inputArray['Student Resources'];
 
             // attempted insertion error code
-            if (!DatabaseMethods::attemptSyllabusInsertion($courseID, $courseTitle, $contactInfo, $officeHours,
-                    $courseDesc, $courseGoals, $reqMaterials, $grading, $attendance, $uniPolicies, $stuResources)) {
+            if (!DatabaseMethods::attemptSyllabusInsertion($courseID, $title, $contactInfo, $officeHours,
+                    $description, $goals, $materials, $grading, $attendance, $uniPolicies, $resources)) {
                 $errorArray = array("It seems like something went wrong on our end, please try again in a couple of 
                                         moments or contact your systems admin!");
                 return DefaultMethods::generateReturnArray("Error", $errorArray);

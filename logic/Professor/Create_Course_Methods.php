@@ -25,9 +25,9 @@
             // this sets the variables needed for this method.
             $feedback = array();
             $inputArray = array(
-                "Course Number" => ($_POST['newCourseNumber']),
-                "Course Section" => ($_POST['newCourseSection']),
-                "Course Name" => ($_POST['newCourseName'])
+                "Course Number" => ($_POST['courseNumber']),
+                "Course Section" => ($_POST['courseSection']),
+                "Course Name" => ($_POST['courseName'])
             );
 
 
