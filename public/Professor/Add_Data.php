@@ -24,15 +24,15 @@
                 <select name="dataClassID">
                     <?php
                     // this displays the enrolled courses in a dropdown menu
-                        if (!empty($classList)){
-                            foreach($classList as $c){
-                                echo ('<option value="' . $c['classID'] . '"');
-                                if ($_POST['dataClassID'] == $c['classID']) {
-                                    echo (" selected ");
-                                }
-                                echo ('>' . $c['crseName'] . '</option>');
+                    if (!empty($classList)){
+                        foreach($classList as $c){
+                            echo ('<option value="' . $c['classID'] . '"');
+                            if ($_POST['dataClassID'] == $c['classID']) {
+                                echo (" selected ");
                             }
+                            echo ('>' . $c['crseName'] . '</option>');
                         }
+                    }
                     ?>
                 </select>
                 <br><br>
@@ -55,11 +55,11 @@
 
             <?php
             // this displays the feedback from the logic method
-                if (!empty($feedback["Feedback"])) {
-                    echo("<span class=\"". $feedback["Outcome"] . "\">");
-                    foreach($feedback["Feedback"] as $a) echo $a . "<br>";
-                    echo("</span>");
-                }
+            if (!empty($feedback["Feedback"])) {
+                echo("<span class=\"". $feedback["Outcome"] . "\">");
+                foreach($feedback["Feedback"] as $a) echo $a . "<br>";
+                echo("</span>");
+            }
             ?>
         </div>
     </body>

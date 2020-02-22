@@ -42,11 +42,11 @@
 
             <?php
             // this displays the feedback from the logic method
-                if (!empty($feedback["Feedback"])) {
-                    echo("<span class=\"". $feedback["Outcome"] . "\">");
-                    foreach($feedback["Feedback"] as $a) echo $a . "<br>";
-                    echo("</span>");
-                }
+            if (!empty($feedback["Feedback"])) {
+                echo("<span class=\"". $feedback["Outcome"] . "\">");
+                foreach($feedback["Feedback"] as $a) echo $a . "<br>";
+                echo("</span>");
+            }
             ?>
         </div>
     </body>

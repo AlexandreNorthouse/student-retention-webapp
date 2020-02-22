@@ -47,11 +47,11 @@
                 </section>
 
                 <?php
-                    if (!empty($feedback["Feedback"])) {
-                        echo("<span class=\"". $feedback["Status"] . "\">");
-                        foreach($feedback["Feedback"] as $a) echo $a . "<br>";
-                        echo("</span>");
-                    }
+                if (!empty($feedback["Feedback"])) {
+                    echo("<span class=\"". $feedback["Status"] . "\">");
+                    foreach($feedback["Feedback"] as $a) echo $a . "<br>";
+                    echo("</span>");
+                }
                 ?>
                 <br><br>
 

@@ -25,16 +25,16 @@
                 <select name="courseID">
                     <?php
                     // this shows the currently enrolled courses
-                        if (!empty($classList)){
-                            foreach($classList as $c){
-                                echo ('<option value="' . $c['classID'] . '"');
-                                // this is a variable instantiated in the required file
-                                if ($_POST['courseID'] == $c['classID']) {
-                                    echo (" selected ");
-                                }
-                                echo ('>' . $c['crseName'] . '</option>');
+                    if (!empty($classList)){
+                        foreach($classList as $c){
+                            echo ('<option value="' . $c['classID'] . '"');
+                            // this is a variable instantiated in the required file
+                            if ($_POST['courseID'] == $c['classID']) {
+                                echo (" selected ");
                             }
+                            echo ('>' . $c['crseName'] . '</option>');
                         }
+                    }
                     ?>
                 </select>
                 <br><br>
@@ -45,25 +45,25 @@
 
             <?php
             // this prints out all the received questions in a table
-                if (!empty($feedback)) {
-                    echo '<p>Retrieved Data:</p>';
-                    echo '<table>';
-                        echo '<tr>';
-                            echo '<th> Question Number</th>';
-                            echo '<th> Question Text </th>';
-                            echo '<th> Question Answer </th>';
-                            echo '<th> Question Database Number</th>';
-                        echo '</tr>';
-                    for ($i = 0; $i < count($feedback); $i++) {
-                        echo '<tr>';
-                            echo '<td>#' . ($i + 1) . '</td>';
-                            echo '<td>' . $feedback[$i]['qtext'] . '</td>';
-                            echo '<td>' . $feedback[$i]['atext'] . '</td>';
-                            echo '<td>#' . $feedback[$i]['quesID'] . '</td>';
-                        echo '</tr>';
-                    }
-                    echo '</table>';
+            if (!empty($feedback)) {
+                echo '<p>Retrieved Data:</p>';
+                echo '<table>';
+                    echo '<tr>';
+                        echo '<th> Question Number</th>';
+                        echo '<th> Question Text </th>';
+                        echo '<th> Question Answer </th>';
+                        echo '<th> Question Database Number</th>';
+                    echo '</tr>';
+                for ($i = 0; $i < count($feedback); $i++) {
+                    echo '<tr>';
+                        echo '<td>#' . ($i + 1) . '</td>';
+                        echo '<td>' . $feedback[$i]['qtext'] . '</td>';
+                        echo '<td>' . $feedback[$i]['atext'] . '</td>';
+                        echo '<td>#' . $feedback[$i]['quesID'] . '</td>';
+                    echo '</tr>';
                 }
+                echo '</table>';
+            }
             ?>
         </div>
     </body>
