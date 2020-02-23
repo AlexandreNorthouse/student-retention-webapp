@@ -31,5 +31,17 @@
 
             $this->assertEquals($correctArray, defaultMethods::generateReturnArray($outcome, $feedback), "They're the same!");
         }
+
+        public function testGetEnrolledCourse()
+        {
+            $userID = "BrendenJones12";
+
+            $correctIDArray = array(
+                "UserID" => "BrendenJones12"
+            );
+
+            $this->assertEquals($correctIDArray, defaultMethods::ggetEnrolledCourses(), "They're the same!");
+        }
+
     }
 ?>
