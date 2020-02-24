@@ -27,9 +27,9 @@
             // this sets the variables needed for this method.
             $feedback = array();
             $inputArray = array(
-                "Selected Class" => ($_POST['dataClassID']),
-                "Question" => ($_POST['dataQuestion']),
-                "Answer" => ($_POST['dataAnswer'])
+                "Selected Course" => ($_POST['courseID']),
+                "Question"       => ($_POST['dataQuestion']),
+                "Answer"         => ($_POST['dataAnswer'])
             );
 
 
@@ -58,7 +58,7 @@
 
 
 
-        // [description of what the method does]
+        // Checks database for course / question combo; returns error if it exists, empty array otherwise.
         private static function duplicateQACheck(array $inputArray): array
         {
             // sets variables for more legible variable names
@@ -67,17 +67,17 @@
             $selectedCourse = $inputArray['Selected Course'];
 
 
-            // duplicate question check error code
-            if (!DatabaseMethods::duplicateQACheck($question, $answer, $selectedCourse)) {
+            // Code if there IS a duplicate question
+            if (DatabaseMethods::duplicateQACheck($question, $answer, $selectedCourse)) {
                 $errorArray = array("It seems like that question / answer combo already exists, please contact your system admin with this error.");
                 return DefaultMethods::generateReturnArray("Error", $errorArray);
             }
 
-            // duplicate question check success code
+            // code if there isn't a duplicate question
             return DefaultMethods::generateReturnArray();
         }
 
-        // [description of what the method does]
+        // Attempts to insert row into questions; returns empty array for success, error array otherwise
         private static function attemptQAInsertion(array $inputArray): array
         {
             // sets variables for more legible variable names
