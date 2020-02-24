@@ -86,10 +86,16 @@
 
 
 		// gets an array of all the courses a user is enrolled in
-        public static function getEnrolledCourses(): array
+        public static function getEnrolledCourses(string $param = null): array
         {
             // sets variables for more legible names
             $userID = $_SESSION['userID'];
+
+            // this will get a set of courses with the professor's name included
+            if ($param == "Professor Details")
+                return DatabaseMethods::getEnrolledCoursesAndProfessorNames($userID);
+
+            // default array of just courses
             return DatabaseMethods::getEnrolledCourses($userID);
         }
 
