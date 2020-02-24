@@ -37,7 +37,18 @@
                     }
                     ?>
                 </select>
+
+
                 <br><br>
+                <?php
+                // this displays the feedback from the logic method
+                if (!empty($feedback["Feedback"])) {
+                    echo("<span class=\"". $feedback["Outcome"] . "\">");
+                    foreach($feedback["Feedback"] as $a) echo $a . "<br>";
+                    echo("</span>");
+                }
+                ?>
+                <br>
 
                 <label for="courseTitle">Course Title: </label><br>
                 <textarea name="courseTitle" required><?php
@@ -98,20 +109,10 @@
                     if(!empty($_POST['stuResources'])){ echo $_POST['stuResources']; } else { echo ''; }
                 ?></textarea>
                 <br><br>
-                <br>
 
                 <button type="submit" name="submitData" value="✓">Create Syllabus</button>
                 <br><br>
             </form>
-
-            <?php
-            // this displays the feedback from the logic method
-            if (!empty($feedback["Feedback"])) {
-                echo("<span class=\"". $feedback["Outcome"] . "\">");
-                foreach($feedback["Feedback"] as $a) echo $a . "<br>";
-                echo("</span>");
-            }
-            ?>
         </div>
     </body>
 </html>
