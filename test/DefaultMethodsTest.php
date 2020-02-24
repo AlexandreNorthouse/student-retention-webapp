@@ -1,6 +1,7 @@
 <?php
     declare(strict_types=1);
-    require_once(dirname(__FILE__, 2) . "/logic/Default_Methods.php");
+require_once(dirname(__FILE__, 2) . "/logic/Default_Methods.php");
+require_once(dirname(__FILE__, 2) . "/logic/Database_Methods.php");
 
     use PHPUnit\Framework\TestCase;
 
@@ -15,6 +16,7 @@
             );
 
             $correctArray = array();
+
             $this->assertEquals($correctArray, defaultMethods::formatFields($testArray), "They're the same!");
         }
 
@@ -34,10 +36,33 @@
 
         public function testGetEnrolledCourse()
         {
-            $userID = "BrendenJones12";
+            $_SESSION['userID'] = 1;
+
+            $class1 = array(
+                "ID" => '1',
+                "crseID" => "EX101",
+                "sectNum" => '1',
+                "crseName" => "Example Course, Section 1",
+                "0" => '1',
+                "1" => "EX101",
+                "2" => '1',
+                "3" => "Example Course, Section 1"
+            );
+
+            $class2 = array(
+                "ID" => '2',
+                "crseID" => "EX101",
+                "sectNum" => '2',
+                "crseName" => "Example Course, Section 2",
+                "0" => '1',
+                "1" => "EX101",
+                "2" => '2',
+                "3" => "Example Course, Section 2"
+            );
 
             $correctIDArray = array(
-                "UserID" => "BrendenJones12"
+                0 => $class1,
+                1 => $class2
             );
 
             $this->assertEquals($correctIDArray, defaultMethods::getEnrolledCourses(), "They're the same!");
