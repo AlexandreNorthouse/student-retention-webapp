@@ -23,13 +23,12 @@
                 <input type="number" name="courseNumber" required min=1 max=99999999999 value="
                     <?php if(!empty($_POST['courseNumber'])){ echo $_POST['courseNumber']; } else { echo ''; } ?>"/>
                 <br><br>
-
                 <button type="submit" name="submit" value="✓">Submit</button>
-                <br><br>
             </form>
+            <br><br>
 
             <?php
-            // this prints the feedback array
+            // this displays the feedback from the logic method
             if (!empty($feedback["Feedback"])) {
                 echo("<span class=\"". $feedback["Outcome"] . "\">");
                 foreach($feedback["Feedback"] as $a) echo $a . "<br>";
