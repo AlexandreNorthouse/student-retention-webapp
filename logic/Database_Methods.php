@@ -26,7 +26,8 @@
 
 
 
-
+        // ==================================================================================================== //
+        // ==================================================================================================== //
         // Universally used methods
 
         // Creates the conn variable for the below methods to use.
@@ -53,6 +54,23 @@
             }
         }
 
+        // Returns an array of enrolled courses with their professors' names; returns empty array if there are none.
+        public static function getEnrolledCoursesAndProfessorNames($userID): array
+        {
+            try {
+                $conn = DatabaseMethods::setConnVariable();
+                $query = "SELECT c.ID, c.crseID, c.sectNum, c.crseName, p.fname, p.lname "
+                    . "FROM courses c, coursesusersroster cur1, coursesusersroster cur2, users p "
+                    . "WHERE (c.ID=cur1.crseID AND cur1.userID=$userID) AND "
+                    . "(cur1.crseID=cur2.crseID AND cur2.userID=p.ID AND p.isProf=1)";
+                $sql = $conn->prepare($query);
+                $sql->execute();
+                return $sql->fetchAll();
+            } catch (PDOException $e) {
+                return array();
+            }
+        }
+
         // Attempts to insert row into "coursesusersroster"; returns TRUE for success, FALSE otherwise.
         public static function attemptCourseUserRelationshipInsertion(int $courseID, string $userID): bool
         {
@@ -69,7 +87,8 @@
 
 
 
-
+        // ==================================================================================================== //
+        // ==================================================================================================== //
         // Login methods
 
         // Attempts to log the user in; returns array of user data on success, empty array otherwise.
@@ -98,7 +117,7 @@
 
         // Register methods
 
-        // Checks database for university / username combo; returns TRUE if exists, FALSE otherwise
+        // Checks database for university / username combo; returns TRUE if exists, FALSE otherwise.
         public static function duplicateUsernameCheck(string $username, string $uniID): bool
         {
             try {
@@ -114,7 +133,7 @@
             }
         }
 
-        // Attempts to insert the user into the database; returns TRUE for success, FALSE for failure
+        // Attempts to insert the user into the database; returns TRUE for success, FALSE for failure.
         public static function attemptUserInsertion(string $username, string $password, string $uniID,
             string $fName, string $lName, string $isProf): bool
         {
@@ -133,46 +152,56 @@
 
 
 
+        // ==================================================================================================== //
+        // ==================================================================================================== //
+        // Add_Course database methods
 
-        // Add_Course_Methods database methods
-
-        // Checks the database for a provided course ID; returns TRUE if it exists, FALSE otherwise
+        // Checks the database for a provided course ID; returns TRUE if it exists, FALSE otherwise.
 		public static function checkCourseExists(int $courseNumber): bool
         {
-            /*
 			try {
                 $conn = DatabaseMethods::setConnVariable();
-				$query = "SELECT classID FROM Class WHERE classID=$courseNumber";
+				$query = "SELECT ID FROM courses WHERE ID=$courseNumber";
                 $sql = $conn->prepare($query);
 				$sql->execute();
-				$class = $sql->fetchAll();
 
-				if (empty($class))
+				if (empty($sql->fetchAll()))
 					return FALSE;
+				return TRUE;
 			} catch (PDOException $e) {
 				return FALSE;
 			}
-            */
-			return TRUE;
 		}
 
-        // Checks the "coursesusersroster" for a user's enrollment; returns TRUE if already enrolled, FALSE otherwise.
-        public static function checkEnrollment(int $courseNumber, int $userID): bool
+        // Checks database for user / course combo; returns FALSE if not enrolled, TRUE otherwise.
+        public static function checkEnrollment(int $courseNumber, int $studentID): bool
         {
-            /*
             try {
                 $conn = DatabaseMethods::setConnVariable();
-                $query = "";
+                $query = "SELECT * FROM coursesusersroster WHERE crseID=$courseNumber AND userID=$studentID";
                 $sql = $conn->prepare($query);
                 $sql->execute();
-                $class = $sql->fetchAll();
 
-                if ()
-                    return FALSE;
+                if (!empty($sql->fetchAll()))
+                    return TRUE;
+                return FALSE;
             } catch (PDOException $e) {
-
+                return TRUE;
             }
-           */
+        }
+
+        // Attempts to insert row into coursesusersroster; returns TRUE for success, FALSE for failure.
+        public static function attemptStudentInsertion(string $courseNumber, string $userID): bool
+        {
+            try {
+                $conn = DatabaseMethods::setConnVariable();
+                $query = "INSERT INTO coursesusersroster VALUES ($courseNumber, $userID)";
+                $sql = $conn->prepare($query);
+                $sql->execute();
+                return TRUE;
+            } catch (PDOException $e) {
+                return FALSE;
+            }
         }
 
 
@@ -185,7 +214,7 @@
 
 
 
-        // Add_Data_Methods database methods
+        // Add_Data database methods
 
         // Checks database for course / question combo; returns TRUE if it exists, FALSE otherwise.
         public static function duplicateQACheck(string $question, string $answer, int $selectedCourse): bool
@@ -205,7 +234,7 @@
             }
         }
 
-        // Attempts to insert row into questions; returns TRUE for success, FALSE otherwise
+        // Attempts to insert row into questions; returns TRUE for success, FALSE otherwise.
         public static function attemptQAInsertion(string $question, string $answer, int $selectedCourse): bool
         {
             try {
@@ -223,7 +252,27 @@
 
 
 
-        // Create_Course_Methods database methods
+        // View_Courses database methods
+
+        // Attempts to delete row in coursesusersroster; returns TRUE for success, FALSE for failure.
+        public static function attemptCourseWithdraw($courseNumber, $studentID)
+        {
+            try {
+                $conn = DatabaseMethods::setConnVariable();
+                $query = "DELETE FROM coursesusersroster WHERE crseID=$courseNumber AND userID=$studentID";
+                $sql = $conn->prepare($query);
+                $sql->execute();
+                return TRUE;
+            } catch (PDOException $e) {
+                return FALSE;
+            }
+        }
+
+
+
+        // ==================================================================================================== //
+        // ==================================================================================================== //
+        // Create_Course database methods
 
         // Checks database for course number / section combo; returns TRUE if it exists, FALSE otherwise.
         public static function duplicateCrseNumSectCheck(string $courseNumber, string $courseSection,
@@ -245,7 +294,7 @@
             }
         }
 
-        // Attempts to insert row into courses; returns course ID for success, empty return otherwise
+        // Attempts to insert row into courses; returns course ID for success, empty return otherwise.
         public static function attemptCourseInsertion(string $courseNumber, string $courseSection, string $courseName,
             string $universityID): int
         {
@@ -263,7 +312,7 @@
 
 
 
-        // Create_Syllabus_Methods database methods
+        // Create_Syllabus database methods
 
         // Checks database for a syllabus with that course ID; returns TRUE if it exists, FALSE otherwise.
         public static function checkSyllabusExists ($courseID): bool
@@ -303,7 +352,7 @@
 
 
 
-        // View_Data_Methods database methods
+        // View_Data database methods
 
         // Attempts to pull a courses' questions; returns array of questions if they exist, empty array otherwise.
         public static function attemptQuestionsPull($courseID): array
