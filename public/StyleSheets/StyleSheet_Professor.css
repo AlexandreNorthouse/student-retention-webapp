@@ -36,7 +36,7 @@ html {
 }
 
 table {
-  border-left: 2px solid #6b7fae;
+  width: 100%;
 }
 
 .content th, td {
