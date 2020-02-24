@@ -40,7 +40,7 @@
                 "UserID" => "BrendenJones12"
             );
 
-            $this->assertEquals($correctIDArray, defaultMethods::ggetEnrolledCourses(), "They're the same!");
+            $this->assertEquals($correctIDArray, defaultMethods::getEnrolledCourses(), "They're the same!");
         }
 
     }
