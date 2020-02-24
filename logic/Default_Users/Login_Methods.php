@@ -46,16 +46,8 @@
                 return $feedback;
 
 
-            // sets session variables
-            $feedback = LoginMethods::setSessionVariables($inputArray);
-            if (isset($feedback["Outcome"]))
-                return $feedback;
-
-
             // then redirects them to their proper home page
-            $feedback = LoginMethods::redirectHomepage($inputArray);
-            if (isset($feedback["Outcome"]))
-                return $feedback;
+            LoginMethods::redirectHomepage($inputArray);
 
 
             // if the redirect managed to fail, it will send them an error.
@@ -65,22 +57,46 @@
 
 
 
-        // [description]
+        // Attempts to sign the user in, then sets the session variables with the temporary array.
         private static function attemptLogin(array $inputArray): array
         {
-            return array();
+            $username = $inputArray["Username"];
+            $password = $inputArray["Password"];
+            $user = DatabaseMethods::attemptLogin($username, $password);
+
+            // course check failure code
+            if (empty($user)) {
+                $errorArray = array("That password and username combination doesn't exist, please try again.");
+                return DefaultMethods::generateReturnArray("Error", $errorArray);
+            }
+
+            // course check success code
+            LoginMethods::setSessionVariables($user);
+            return DefaultMethods::generateReturnArray();
         }
 
-        // [description]
-        private static function setSessionVariables(array $inputArray): array
+        // Sets the session variables to store the user values.
+        private static function setSessionVariables(array $user)
         {
-            return array();
+            $_SESSION["userID"]   = $user['ID'];
+            $_SESSION["uniID"]    = $user['uniID'];
+            $_SESSION["username"] = $user['username'];
+            $_SESSION["fName"]    = $user['fname'];
+            $_SESSION["lName"]    = $user['lname'];
+            $_SESSION["isProf"]   = $user['isProf'];
         }
 
-        // [description]
-        private static function redirectHomepage(array $inputArray): array
+        // Redirects the browser to the student or professor landing pages.
+        private static function redirectHomepage(array $inputArray)
         {
-            return array();
+            if ($_SESSION['isProf'] == 1) {
+                header("Location: ../Professor/View_Data.php");
+                die();
+            }
+            if ($_SESSION['isProf'] == 0) {
+                header("Location: ../Student/Chatbot.php");
+                die();
+            }
         }
 
 

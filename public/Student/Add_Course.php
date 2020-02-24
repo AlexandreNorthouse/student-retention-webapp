@@ -13,7 +13,7 @@
             <a href="Chatbot.php">Use the Chatbot</a>
             <a class="active" href="Add_Course.php">Enroll in a Course</a>
             <a href="View_Courses.php">View Enrolled Courses</a>
-            <a class="bottom" href="../Logout_User.php">Logout</a>
+            <a class="bottom" href="../../logic/Logout_User.php">Logout</a>
         </div>
 
         <div class="content">
@@ -31,7 +31,7 @@
             <?php
             // this prints the feedback array
             if (!empty($feedback["Feedback"])) {
-                echo("<span class=\"". $feedback["Status"] . "\">");
+                echo("<span class=\"". $feedback["Outcome"] . "\">");
                 foreach($feedback["Feedback"] as $a) echo $a . "<br>";
                 echo("</span>");
             }

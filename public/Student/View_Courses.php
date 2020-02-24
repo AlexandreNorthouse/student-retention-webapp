@@ -4,16 +4,16 @@
 
 <html>
     <head>
-        <title>Student - Drop Course</title>
-        <link rel="stylesheet" href="StyleSheet_Sidebar.css">
-        <link rel="stylesheet" href="StyleSheet_Student.css">
+        <title>Student - Add Course</title>
+        <link rel="stylesheet" href="../StyleSheets/StyleSheet_Sidebar.css">
+        <link rel="stylesheet" href="../StyleSheets/StyleSheet_Student.css">
     </head>
     <body>
         <div class="sidebar">
-            <a href="stu-chatbot.php">Use the Chatbot</a>
-            <a href="stu-addCourse.php">Add a Class</a>
-            <a class="active" href="stu-addCourse.php">Drop a Class</a><!--needs a different href-->
-            <a class="bottom" href="user-logout.php">Logout</a>
+            <a href="Chatbot.php">Use the Chatbot</a>
+            <a href="Add_Course.php">Enroll in a Course</a>
+            <a class="active" href="View_Courses.php">View Enrolled Courses</a>
+            <a class="bottom" href="../../logic/Logout_User.php">Logout</a>
         </div>
 
         <div class="content">
@@ -29,7 +29,7 @@
             <?php
             // this prints the feedback array
             if (!empty($feedback["Feedback"])) {
-                echo("<span class=\"". $feedback["Status"] . "\">");
+                echo('<span class="'. $feedback["Outcome"] . '">');
                 foreach($feedback["Feedback"] as $a) echo $a . "<br>";
                 echo("</span>");
             }

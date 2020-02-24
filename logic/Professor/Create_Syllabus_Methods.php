@@ -66,14 +66,14 @@
 
 
 
-        // [description of what the method does]
+        // Checks database for a syllabus with that course ID; returns empty array if it exists, error array otherwise.
         private static function checkSyllabusExists(array $inputArray): array
         {
             // sets variables for more legible variable names
             $courseID = $inputArray['Course ID'];
 
             // attempted insertion error code
-            if (!DatabaseMethods::checkSyllabusExists($courseID)) {
+            if (DatabaseMethods::checkSyllabusExists($courseID)) {
                 $errorArray = array("It seems like a syllabus already exists for this course!");
                 return DefaultMethods::generateReturnArray("Error", $errorArray);
             }
@@ -82,7 +82,7 @@
             return DefaultMethods::generateReturnArray();
         }
 
-        // [description of what the method does]
+        // Attempts to insert row into syllabi; returns empty array for success, error array otherwise
         private static function attemptSyllabusInsertion(array $inputArray): array
         {
             // sets variables for more legible variable names
