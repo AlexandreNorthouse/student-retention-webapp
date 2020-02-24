@@ -49,12 +49,12 @@
 
 
 
-        // [description of what the method does]
+        // Attempts to pull a courses' questions; returns array of questions on success, error array otherwise.
         private static function attemptQuestionsPull(array $inputArray): array
         {
             // sets variables for more legible variable names
-            $courseNumber = $inputArray['Selected Course'];
-            $questionsArray = DatabaseMethods::attemptQuestionsPull($courseNumber);
+            $courseID = $inputArray['Selected Course'];
+            $questionsArray = DatabaseMethods::attemptQuestionsPull($courseID);
 
             // attempted insertion error code
             if (empty($questionsArray)) {

@@ -30,6 +30,31 @@ html {
   color: YellowGreen;
 }
 
+.content table {
+    width: 100%;
+}
+
+.content th, td {
+    padding: 10px;
+    text-align: left;
+    border-bottom: 1px dashed #6b7fae;
+}
+
+.content td:nth-child(3n) {
+    text-align: center;
+}
+
+.content tr:nth-child(odd) {
+    background-color: #516594;
+}
+
+.content tr:nth-child(even) {
+    background-color: #485a84;
+}
+
+.content tr:hover {
+    background-color: #5b71a4;
+}
 
 @media screen and (max-width: 700px) {
   .content iframe{

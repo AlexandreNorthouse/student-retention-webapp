@@ -2,7 +2,7 @@
     if (isset($_SESSION)) {
         session_destroy();
     }
-    require_once( dirname(__FILE__, 3) . "\logic\Default_Users\Login_Methods.php" );
+    require_once( dirname(__FILE__, 3) . "\logic\Default_Users\Register_Methods.php" );
 ?>
 
 <html>
@@ -18,13 +18,13 @@
             <form action="" method="post">
                 <section class="fields">
                     <label for="username">Username: </label>
-                    <input name="username" type="text" required value="
-                        <?php if(!empty($_POST['username'])){ echo $username; } else { echo ''; } ?>"/>
+                    <input name="username" type="text" required
+                        value="<?php if(!empty($_POST['username'])){ echo $_POST['username']; } else { echo ''; } ?>"/>
                     <br>
 
                     <label for="uniID">University ID Number: </label>
-                    <input name="uniID" type="number" required min=1 max=99999999999 value="
-                        <?php if(!empty($_POST['uniID'])){ echo $_POST['uniID']; } else { echo ''; } ?>"/>
+                    <input name="uniID" type="number" required min=1 max=99999999999
+                        value="<?php if(!empty($_POST['uniID'])){ echo $_POST['uniID']; } else { echo ''; } ?>"/>
                     <br>
 
                     <label for="password">Password: </label>
@@ -36,19 +36,19 @@
                     <br><br>
 
                     <label for="fName">First Name: </label>
-                    <input name="fName" type="text" required value="
-                        <?php if(!empty($_POST['fName'])){ echo $_POST['fName']; } else { echo ''; } ?>"/>
+                    <input name="fName" type="text" required
+                        value="<?php if(!empty($_POST['fName'])){ echo $_POST['fName']; } else { echo ''; } ?>"/>
                     <br>
 
                     <label for="lName">Last Name: </label>
-                    <input name="lName" type="text" required value="
-                        <?php if(!empty($_POST['lName'])){ echo $_POST['lName']; } else { echo ''; } ?>"/>
-                    <br>
+                    <input name="lName" type="text" required
+                        value="<?php if(!empty($_POST['lName'])){ echo $_POST['lName']; } else { echo ''; } ?>"/>
                 </section>
 
+                <br><br>
                 <?php
                 if (!empty($feedback["Feedback"])) {
-                    echo("<span class=\"". $feedback["Status"] . "\">");
+                    echo("<span class=\"". $feedback["Outcome"] . "\">");
                     foreach($feedback["Feedback"] as $a) echo $a . "<br>";
                     echo("</span>");
                 }
@@ -56,8 +56,8 @@
                 <br><br>
 
                 <section class="horizontal_section">
-                    <button type="submit" name="createStudent" value="✓">Create Student</button>
-                    <button type="submit" name="createProfessor" value="✓">Create Professor</button>
+                    <button type="submit" name="createUser" value="Student">Create Student</button>
+                    <button type="submit" name="createUser" value="Professor">Create Professor</button>
                 </section>
             </form>
 

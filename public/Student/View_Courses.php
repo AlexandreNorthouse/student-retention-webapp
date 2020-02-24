@@ -4,36 +4,45 @@
 
 <html>
     <head>
-        <title>Student - Drop Course</title>
-        <link rel="stylesheet" href="StyleSheet_Sidebar.css">
-        <link rel="stylesheet" href="StyleSheet_Student.css">
+        <title>Student - View Course</title>
+        <link rel="stylesheet" href="../StyleSheets/StyleSheet_Sidebar.css">
+        <link rel="stylesheet" href="../StyleSheets/StyleSheet_Student.css">
     </head>
     <body>
         <div class="sidebar">
-            <a href="stu-chatbot.php">Use the Chatbot</a>
-            <a href="stu-addCourse.php">Add a Class</a>
-            <a class="active" href="stu-addCourse.php">Drop a Class</a><!--needs a different href-->
-            <a class="bottom" href="user-logout.php">Logout</a>
+            <a href="Chatbot.php">Use the Chatbot</a>
+            <a href="Add_Course.php">Enroll in a Course</a>
+            <a class="active" href="View_Courses.php">View Enrolled Courses</a>
+            <a class="bottom" href="../../logic/Logout_User.php">Logout</a>
         </div>
 
         <div class="content">
-            <h2>Drop Course</h2>
-            <form action="" method="post">
-                <label for="courseNumber">Course Number: </label><br>
-                <input type="number" name="courseNumber" required min=1 max=99999999999 value="
-                    <?php if(!empty($_POST['courseNumber'])){ echo $_POST['courseNumber']; } else { echo ''; } ?>"/><br><br>
-                <button type="submit" name="submit" value="✓">Submit</button>
-                <br><br>
-            </form>
+            <h2>View Course</h2>
 
             <?php
             // this prints the feedback array
             if (!empty($feedback["Feedback"])) {
-                echo("<span class=\"". $feedback["Status"] . "\">");
+                echo('<span class="'. $feedback["Outcome"] . '">');
                 foreach($feedback["Feedback"] as $a) echo $a . "<br>";
                 echo("</span>");
+                echo("<br>");
             }
             ?>
+
+            <form action="" method="post">
+                <?php
+                // this will print rows of courses: their name, professor, and the option to drop them.
+                if (!empty($classList)){
+                    echo("<table><tr><th> Course Name:</th><th> Course Professor:</th><th>Drop Course:</th></tr>");
+                    foreach($classList as $c){
+                        echo("<tr><td>" . $c['crseName'] . "</td><td>" . $c['fname'] . " " . $c['lname'] . "</td>");
+                        echo("<td><button type='submit' name='selectedCourse' value='"
+                                . $c['ID'] . "'> Drop Course</button></td></tr>");
+                        echo("</div>");
+                    }
+                }
+                ?>
+            </form>
         </div>
     </body>
 </html>

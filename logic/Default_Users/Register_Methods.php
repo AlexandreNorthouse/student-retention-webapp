@@ -24,10 +24,11 @@
             $inputArray = array(
                 "Username" => $_POST['username'],
                 "University ID" => $_POST['uniID'],
-                "Password 1" => $_POST['password'],
+                "Password" => $_POST['password'],
                 "Password 2" => $_POST['password2'],
                 "First Name" => $_POST['fName'],
-                "Last Name" => $_POST['lName']
+                "Last Name" => $_POST['lName'],
+                "Is Professor" => $_POST['createUser']
             );
 
 
@@ -35,6 +36,11 @@
             $feedback = DefaultMethods::formatFields($inputArray);
             if (isset($feedback["Outcome"]))
                 return $feedback;
+
+
+            // This is a quick password matching test to prevent wasting server resources
+            if ($inputArray['Password'] != $inputArray['Password 2'])
+                return DefaultMethods::generateReturnArray("Error", array("Your passwords didn't match!"));
 
 
             // this converts the username to lowercase and the password to a secure one
@@ -55,22 +61,48 @@
                 return $feedback;
 
 
-            // if the redirect managed to fail, it will send them an error.
-            $error = array("Something went wrong in the redirection, please try again!");
+            // informs of the success and resets all the post variables
+            $error = array("Account successfully added! Return to the login page to login.");
+            unset($_POST);
             return DefaultMethods::generateReturnArray("Success", $error);
         }
 
 
-        // [description]
+        // Logic for checking if a duplicate username already exists for the inputted university
         private static function duplicateUsernameCheck(array $inputArray): array
         {
-            return array();
+            $username = $inputArray["Username"];
+            $isProf = $inputArray["Is Professor"];
+
+            // duplicate found
+            if (DatabaseMethods::duplicateUsernameCheck($username, $isProf)) {
+                $errorArray = array("That username already exists for that university!");
+                return DefaultMethods::generateReturnArray("Error", $errorArray);
+            }
+
+            // duplicate not found
+            return DefaultMethods::generateReturnArray();
         }
 
-        // [description]
+        // Attempts to log the user in; sets $_SESSION variables on success, returns error array otherwise.
         private static function attemptUserInsertion(array $inputArray): array
         {
-            return array();
+            $username = $inputArray["Username"];
+            $password = $inputArray["Password"];
+            $uniID  = $inputArray["University ID"];
+            $fName  = $inputArray["First Name"];
+            $lName  = $inputArray["Last Name"];
+            $isProf = $inputArray["Is Professor"];
+
+            // Insertion failure code
+            if (!DatabaseMethods::attemptUserInsertion($username, $password, $uniID, $fName, $lName, $isProf)) {
+                $errorArray = array("Something went wrong with adding that account, " .
+                    "please try again in a few moments or contact your system administrator.");
+                return DefaultMethods::generateReturnArray("Error", $errorArray);
+            }
+
+            // Insertion success code
+            return DefaultMethods::generateReturnArray();
         }
 
 

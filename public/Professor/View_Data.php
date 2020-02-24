@@ -14,7 +14,7 @@
             <a href="Add_Data.php">Add Questions</a>
             <a href="Create_Syllabus.php">Create Syllabus</a>
             <a href="Create_Course.php">Create a Course</a>
-            <a class="bottom" href="../Logout_User.php">Logout</a>
+            <a class="bottom" href="../../logic/Logout_User.php">Logout</a>
         </div>
 
         <div class="content">
@@ -27,9 +27,9 @@
                     // this shows the currently enrolled courses
                     if (!empty($classList)){
                         foreach($classList as $c){
-                            echo ('<option value="' . $c['classID'] . '"');
+                            echo ('<option value="' . $c['ID'] . '"');
                             // this is a variable instantiated in the required file
-                            if ($_POST['courseID'] == $c['classID']) {
+                            if (isset($_POST['courseID']) && $_POST['courseID'] == $c['ID']) {
                                 echo (" selected ");
                             }
                             echo ('>' . $c['crseName'] . '</option>');
@@ -40,29 +40,31 @@
                 <br><br>
 
                 <button type="submit" name="submitData" value="✓">View Course's Data</button>
-                <br><br>
             </form>
+            <br><br>
 
             <?php
-            // this prints out all the received questions in a table
-            if (!empty($feedback)) {
+            // this prints out all the received questions in a table if they exist, otherwise displays the error code
+            if (!empty($feedback[0])) {
                 echo '<p>Retrieved Data:</p>';
                 echo '<table>';
                     echo '<tr>';
                         echo '<th> Question Number</th>';
                         echo '<th> Question Text </th>';
                         echo '<th> Question Answer </th>';
-                        echo '<th> Question Database Number</th>';
                     echo '</tr>';
                 for ($i = 0; $i < count($feedback); $i++) {
                     echo '<tr>';
                         echo '<td>#' . ($i + 1) . '</td>';
                         echo '<td>' . $feedback[$i]['qtext'] . '</td>';
                         echo '<td>' . $feedback[$i]['atext'] . '</td>';
-                        echo '<td>#' . $feedback[$i]['quesID'] . '</td>';
                     echo '</tr>';
                 }
                 echo '</table>';
+            } else if (!empty($feedback)){
+                echo("<span class=\"". $feedback["Outcome"] . "\">");
+                foreach($feedback["Feedback"] as $a) echo $a . "<br>";
+                echo("</span>");
             }
             ?>
         </div>

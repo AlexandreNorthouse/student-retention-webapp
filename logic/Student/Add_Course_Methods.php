@@ -25,7 +25,8 @@
             // this sets the variables needed for this method.
             $feedback = array();
             $inputArray = array(
-                "Course Number" => ($_POST['courseNumber'])
+                "Course Number" => ($_POST['courseNumber']),
+                "Student ID"    => ($_SESSION['userID'])
             );
 
 
@@ -60,13 +61,14 @@
 
 
 
-        // this is the logic component for calling the database method of (roughly) the same name
+        // Checks the database for a provided course ID; returns empty array if it exists, error array otherwise
         private static function checkCourseExists(array $inputArray): array {
             $courseNumber = $inputArray["Course Number"];
 
             // course check failure code
             if (!DatabaseMethods::checkCourseExists($courseNumber)) {
-                $errorArray = array("It seems like that course number doesn't exist, please contact your professor with this error.");
+                $errorArray = array("It seems like that course number doesn't exist, please contact your " .
+                    "professor with this error.");
                 return DefaultMethods::generateReturnArray("Error", $errorArray);
             }
 
@@ -74,13 +76,15 @@
             return DefaultMethods::generateReturnArray();
         }
 
-        // this is the logic component for calling the database method of (roughly) the same name
+        // Checks database for user / course combo; returns empty array if already enrolled, error array otherwise.
         private static function checkIfNotEnrolled(array $inputArray): array {
             $courseNumber = $inputArray["Course Number"];
+            $studentID    = $inputArray["Student ID"];
 
             // course check failure code
-            if (DatabaseMethods::checkEnrollment($courseNumber, $_SESSION["userID"])) {
-                $errorArray = array("It seems like you're already enrolled in that course! Contact your professor and ask them to check.");
+            if (DatabaseMethods::checkEnrollment($courseNumber, $studentID)) {
+                $errorArray = array("It seems like you're already enrolled in that course! " .
+                    "Contact your professor and ask them to check.");
                 return DefaultMethods::generateReturnArray("Error", $errorArray);
             }
             
@@ -88,12 +92,13 @@
             return DefaultMethods::generateReturnArray();
         }
 
-        // this is the logic component for calling the database method of (roughly) the same name
+        // Attempts to insert row into coursesusersroster; returns TRUE for success, FALSE for failure
         private static function attemptStudentInsertion(array $inputArray): array {
             $courseNumber = $inputArray["Course Number"];
+            $studentID    = $inputArray["Student ID"];
 
             // course check failure code
-            if (DatabaseMethods::attemptStudentInsertion($courseNumber, $_SESSION["userID"])) {
+            if (!DatabaseMethods::attemptStudentInsertion($courseNumber, $studentID)) {
                 $errorArray = array("It seems like something went wrong on our end, please try again in a couple of moments or contact your systems admin!");
                 return DefaultMethods::generateReturnArray("Error", $errorArray);
             }

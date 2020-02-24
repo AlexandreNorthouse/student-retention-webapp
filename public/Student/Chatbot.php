@@ -13,7 +13,7 @@
             <a class="active" href="Chatbot.php">Use the Chatbot</a>
             <a href="Add_Course.php">Enroll in a Course</a>
             <a href="View_Courses.php">View Enrolled Courses</a>
-            <a class="bottom" href="../Logout_User.php">Logout</a>
+            <a class="bottom" href="../../logic/Logout_User.php">Logout</a>
         </div>
 
         <div class="content">
