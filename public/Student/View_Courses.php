@@ -4,7 +4,7 @@
 
 <html>
     <head>
-        <title>Student - Add Course</title>
+        <title>Student - View Course</title>
         <link rel="stylesheet" href="../StyleSheets/StyleSheet_Sidebar.css">
         <link rel="stylesheet" href="../StyleSheets/StyleSheet_Student.css">
     </head>
@@ -17,14 +17,7 @@
         </div>
 
         <div class="content">
-            <h2>Drop Course</h2>
-            <form action="" method="post">
-                <label for="courseNumber">Course Number: </label><br>
-                <input type="number" name="courseNumber" required min=1 max=99999999999 value="
-                    <?php if(!empty($_POST['courseNumber'])){ echo $_POST['courseNumber']; } else { echo ''; } ?>"/><br><br>
-                <button type="submit" name="submit" value="✓">Submit</button>
-                <br><br>
-            </form>
+            <h2>View Course</h2>
 
             <?php
             // this prints the feedback array
@@ -32,8 +25,24 @@
                 echo('<span class="'. $feedback["Outcome"] . '">');
                 foreach($feedback["Feedback"] as $a) echo $a . "<br>";
                 echo("</span>");
+                echo("<br>");
             }
             ?>
+
+            <form action="" method="post">
+                <?php
+                // this will print rows of courses: their name, professor, and the option to drop them.
+                if (!empty($classList)){
+                    echo("<table><tr><th> Course Name:</th><th> Course Professor:</th><th>Drop Course:</th></tr>");
+                    foreach($classList as $c){
+                        echo("<tr><td>" . $c['crseName'] . "</td><td>" . $c['fname'] . " " . $c['lname'] . "</td>");
+                        echo("<td><button type='submit' name='selectedCourse' value='"
+                                . $c['ID'] . "'> Drop Course</button></td></tr>");
+                        echo("</div>");
+                    }
+                }
+                ?>
+            </form>
         </div>
     </body>
 </html>

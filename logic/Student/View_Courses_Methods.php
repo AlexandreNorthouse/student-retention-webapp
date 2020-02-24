@@ -6,10 +6,13 @@
     require_once( dirname(__FILE__, 3) . "\logic\Database_Methods.php" );
     require_once( dirname(__FILE__, 3) . "\logic\Default_Methods.php" );
 
+    DefaultMethods::checkLogin('Student');
+    $classList = DefaultMethods::getEnrolledCourses("Professor Details");
 
     // this handles calling the logic function and its return array
     if (!empty($_POST)) {
-        $feedback = ViewCoursesMethods::addCourse();
+        $feedback = ViewCoursesMethods::dropCourse();
+        $classList = DefaultMethods::getEnrolledCourses("Professor Details");
     } else {
         $feedback = array();
     }
@@ -18,19 +21,17 @@
     class ViewCoursesMethods {
 
         // main function called by presentation layer
-        public static function addCourse(): array {
-            //DefaultMethods::checkLogin('Student');
-
-
+        public static function dropCourse(): array {
             // this sets the variables needed for this method.
             $feedback = array();
             $inputArray = array(
-                "Course Number" => ($_POST['courseNumber'])
+                "Selected Course" => ($_POST['selectedCourse']),
+                "Student ID" => ($_SESSION['userID'])
             );
 
 
             // attempts to withdraw the student from the class
-            $feedback = ViewCoursesMethods::attemptCourseWithdrawl($inputArray);
+            $feedback = ViewCoursesMethods::attemptCourseWithdraw($inputArray);
             if (isset($feedback["Outcome"]))
                 return $feedback;
 
@@ -43,16 +44,18 @@
 
 
         // this is the logic component for calling the database method of (roughly) the same name
-        private static function attemptCourseWithdrawl(array $inputArray): array {
-            $courseNumber = $inputArray["Course Number"];
+        private static function attemptCourseWithdraw(array $inputArray): array {
+            $courseNumber = $inputArray["Selected Course"];
+            $studentID = $inputArray["Student ID"];
 
-            // course check failure code
-            if (!DatabaseMethods::checkCourseExists($courseNumber)) {
-                $errorArray = array("It seems like that course number doesn't exist, please contact your professor with this error.");
+            // course withdraw failure code
+            if (!DatabaseMethods::attemptCourseWithdraw($courseNumber, $studentID)) {
+                $errorArray = array("It seems like there was an error removing you from that course, "
+                    . "please contact your professor with this error.");
                 return DefaultMethods::generateReturnArray("Error", $errorArray);
             }
 
-            // course check success code
+            // course withdraw success code
             return DefaultMethods::generateReturnArray();
         }
 
