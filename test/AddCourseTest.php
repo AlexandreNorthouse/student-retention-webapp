@@ -40,7 +40,6 @@ declare(strict_types=1);
             $correctArray = array();
             $this->assertEquals($correctArray, defaultMethods::attemptStudentInsertion($testArray), "They're the same!");
         }*/
-
         
     }
 
