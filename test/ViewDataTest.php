@@ -10,7 +10,7 @@
         public function testViewCourse()
         {
             $testArray = array(
-                "Selected Course" => "Ex101",
+                "Selected Course" => "1",
             );
 
             $correctArray = array();
@@ -21,7 +21,7 @@
         public function testAttemptQuestionPull()
         {
             $testArray = array(
-                "Selected Course" => "Ex101",
+                "Selected Course" => "1",
             );
 
             $correctArray = array();
