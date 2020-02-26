@@ -10,16 +10,48 @@
         public function testCreateCourse()
         {
             $testArray = array(
-                "University ID" => "",
-                "Course Number" => "",
-                "Course Section" => "",
-                "Course Name" => "",
-                "Professor ID" => ""//Add data
+                "University ID" => "1",
+                "Course Number" => "PSYC101",
+                "Course Section" => "1",
+                "Course Name" => "Intro to Psychology, Section 1",
+                "Professor ID" => "1"
             );
 
-            $correctArray = array();
+            $correctArray = array(
+                "Outcome" => "Success",
+                "Feedback" => array("The course was successfully added to the university! " .
+                "It should now appear in your enrolled courses.")
+            );
             $this->assertEquals($correctArray, defaultMethods::createCourse($testArray), "They're the same!");
         }
 
+        public function testDuplicateCourseCheck()
+        {
+            $testArray = array(
+                "University ID" => "1",
+                "Course Number" => "PSYC101",
+                "Course Section" => "1",
+            );
+
+            $correctArray = array();
+            $this->assertEquals($correctArray, defaultMethods::duplicateCrseNumSectCheck($testArray), "They're the same!");
+        }
+
+        public function testAttempCourseInsertion()
+        {
+            $testArray = array(
+                "University ID" => "1",
+                "Course Number" => "PSYC101",
+                "Course Section" => "1",
+                "Course Name" => "Intro to Psychology, Section 1",
+                "Professor ID" => "1"
+            );
+
+            $correctArray = array();
+            $this->assertNotEquals($correctArray, defaultMethods::attemptCourseInsertion($testArray), "They're the same!");
+        }
+
     }
+
+
 ?>

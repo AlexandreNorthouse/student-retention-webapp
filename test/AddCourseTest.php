@@ -29,8 +29,8 @@ declare(strict_types=1);
             $this->assertEquals($correctArray, defaultMethods::checkIfNotEnrolled($testArray), "They're the same!");
         }
 
-        //Work on this more later
-        /*public function testAttemptStudentInsertion()
+        
+        public function testAttemptStudentInsertion()
         {
             $testArray = array(
                 "Course Number" => "1",
@@ -39,7 +39,7 @@ declare(strict_types=1);
 
             $correctArray = array();
             $this->assertEquals($correctArray, defaultMethods::attemptStudentInsertion($testArray), "They're the same!");
-        }*/
+        }
         
     }
 
