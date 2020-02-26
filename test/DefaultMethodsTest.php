@@ -54,7 +54,7 @@ require_once(dirname(__FILE__, 2) . "/logic/Database_Methods.php");
                 "crseID" => "EX101",
                 "sectNum" => '2',
                 "crseName" => "Example Course, Section 2",
-                "0" => '1',
+                "0" => '2',
                 "1" => "EX101",
                 "2" => '2',
                 "3" => "Example Course, Section 2"

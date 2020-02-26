@@ -7,6 +7,25 @@
 
     class ViewDataTest extends TestCase
     {
+        public function testViewCourse()
+        {
+            $testArray = array(
+                "Selected Course" => "Ex101",
+            );
 
+            $correctArray = array();
+            $this->assertEquals($correctArray, defaultMethods::viewCourse($testArray), "They're the same!");
+        }
+    
+
+        public function testAttemptQuestionPull()
+        {
+            $testArray = array(
+                "Selected Course" => "Ex101",
+            );
+
+            $correctArray = array();
+            $this->assertEquals($correctArray, defaultMethods::attemptQuestionPull($testArray), "They're the same!");
+        }
     }
 ?>
