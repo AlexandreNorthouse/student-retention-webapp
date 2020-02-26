@@ -9,7 +9,16 @@
 
     // this handles calling the logic function and its return array
     if (!empty($_POST)) {
-        $feedback = RegisterMethods::register();
+        $inputArray = array(
+            "Username" => $_POST['username'],
+            "University ID" => $_POST['uniID'],
+            "Password" => $_POST['password'],
+            "Password 2" => $_POST['password2'],
+            "First Name" => $_POST['fName'],
+            "Last Name" => $_POST['lName'],
+            "Is Professor" => $_POST['createUser']
+        );
+        $feedback = RegisterMethods::register($inputArray);
     } else {
         $feedback = array();
     }
@@ -18,18 +27,9 @@
     class RegisterMethods {
 
         // main function called by presentation layer
-        public static function register(): array {
+        public static function register($inputArray): array {
             // this sets the variables needed for this method.
             $feedback = array();
-            $inputArray = array(
-                "Username" => $_POST['username'],
-                "University ID" => $_POST['uniID'],
-                "Password" => $_POST['password'],
-                "Password 2" => $_POST['password2'],
-                "First Name" => $_POST['fName'],
-                "Last Name" => $_POST['lName'],
-                "Is Professor" => $_POST['createUser']
-            );
 
 
             // this formats the fields, returns false if at least 1 field is empty
@@ -62,14 +62,14 @@
 
 
             // informs of the success and resets all the post variables
-            $error = array("Account successfully added! Return to the login page to login.");
+            $success = array("Account successfully added! Return to the login page to login.");
             unset($_POST);
-            return DefaultMethods::generateReturnArray("Success", $error);
+            return DefaultMethods::generateReturnArray("Success", $success);
         }
 
 
         // Logic for checking if a duplicate username already exists for the inputted university
-        private static function duplicateUsernameCheck(array $inputArray): array
+        public static function duplicateUsernameCheck(array $inputArray): array
         {
             $username = $inputArray["Username"];
             $isProf = $inputArray["Is Professor"];
@@ -84,8 +84,8 @@
             return DefaultMethods::generateReturnArray();
         }
 
-        // Attempts to log the user in; sets $_SESSION variables on success, returns error array otherwise.
-        private static function attemptUserInsertion(array $inputArray): array
+        // Attempts to insert the user into the database; empty array for success, error array for failure
+        public static function attemptUserInsertion(array $inputArray): array
         {
             $username = $inputArray["Username"];
             $password = $inputArray["Password"];

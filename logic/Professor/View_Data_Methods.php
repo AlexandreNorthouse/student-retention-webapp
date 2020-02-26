@@ -6,11 +6,15 @@
     require_once( dirname(__FILE__, 3) . "\logic\Database_Methods.php" );
     require_once( dirname(__FILE__, 3) . "\logic\Default_Methods.php" );
 
+    DefaultMethods::checkLogin("Professor");
     $classList = DefaultMethods::getEnrolledCourses();
 
     // this handles calling the logic function and its return array
     if (!empty($_POST)) {
-        $feedback = ViewDataMethods::viewData();
+        $inputArray = array(
+            "Selected Course" => ($_POST['courseID'])
+        );
+        $feedback = ViewDataMethods::viewData($inputArray);
     } else {
         $feedback = array();
     }
@@ -19,16 +23,10 @@
     class ViewDataMethods {
 
         // main function called by presentation layer
-        public static function viewData(): array
+        public static function viewData($inputArray): array
         {
-            DefaultMethods::checkLogin('Professor');
-
-
             // this sets the variables needed for this method.
             $feedback = array();
-            $inputArray = array(
-                "Selected Course" => ($_POST['courseID'])
-            );
 
 
             // this formats the fields, returns false if at least 1 field is empty
@@ -50,7 +48,7 @@
 
 
         // Attempts to pull a courses' questions; returns array of questions on success, error array otherwise.
-        private static function attemptQuestionsPull(array $inputArray): array
+        public static function attemptQuestionsPull(array $inputArray): array
         {
             // sets variables for more legible variable names
             $courseID = $inputArray['Selected Course'];

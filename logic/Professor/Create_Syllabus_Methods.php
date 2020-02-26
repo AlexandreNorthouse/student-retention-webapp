@@ -6,11 +6,25 @@
     require_once( dirname(__FILE__, 3) . "\logic\Database_Methods.php" );
     require_once( dirname(__FILE__, 3) . "\logic\Default_Methods.php" );
 
+    DefaultMethods::checkLogin("Professor");
     $classList = DefaultMethods::getEnrolledCourses();
 
     // this handles calling the logic function and its return array
     if (!empty($_POST)) {
-        $feedback = CreateSyllabusMethods::createSyllabus();
+        $inputArray = array(
+            "Course ID"           => $_POST['courseID'],
+            "Course Title"        => $_POST['courseTitle'],
+            "Contact Information" => $_POST['contactInfo'],
+            "Office Hours"        => $_POST['officeHours'],
+            "Course Description"  => $_POST['courseDes'],
+            "Course Goals"        => $_POST['courseGoals'],
+            "Required Materials"  => $_POST['reqMaterials'],
+            "Grading Policy"      => $_POST['gradingPolicy'],
+            "Attendance Policy"   => $_POST['attenPolicy'],
+            "University Policies" => $_POST['uniPolicies'],
+            "Student Resources"   => $_POST['stuResources']
+        );
+        $feedback = CreateSyllabusMethods::createSyllabus($inputArray);
     } else {
         $feedback = array();
     }
@@ -19,26 +33,10 @@
     class CreateSyllabusMethods {
 
         // main function called by presentation layer
-        public static function createSyllabus(): array
+        public static function createSyllabus($inputArray): array
         {
-            DefaultMethods::checkLogin('Professor');
-
-
             // this sets the variables needed for this method.
             $feedback = array();
-            $inputArray = array(
-                "Course ID"           => $_POST['courseID'],
-                "Course Title"        => $_POST['courseTitle'],
-                "Contact Information" => $_POST['contactInfo'],
-                "Office Hours"        => $_POST['officeHours'],
-                "Course Description"  => $_POST['courseDes'],
-                "Course Goals"        => $_POST['courseGoals'],
-                "Required Materials"  => $_POST['reqMaterials'],
-                "Grading Policy"      => $_POST['gradingPolicy'],
-                "Attendance Policy"   => $_POST['attenPolicy'],
-                "University Policies" => $_POST['uniPolicies'],
-                "Student Resources"   => $_POST['stuResources']
-            );
 
 
             // this formats the fields, returns false if at least 1 field is empty
@@ -59,7 +57,8 @@
                 return $feedback;
 
 
-            // if all went according to plan, it will return a success feedback
+            // if all went according to plan, it will return a success feedback and unset $_POST
+            unset($_POST);
             $success = array("The syllabus was successfully added to the course!");
             return DefaultMethods::generateReturnArray("Success", $success);
         }
@@ -67,7 +66,7 @@
 
 
         // Checks database for a syllabus with that course ID; returns empty array if it exists, error array otherwise.
-        private static function checkSyllabusExists(array $inputArray): array
+        public static function checkSyllabusExists(array $inputArray): array
         {
             // sets variables for more legible variable names
             $courseID = $inputArray['Course ID'];
@@ -83,7 +82,7 @@
         }
 
         // Attempts to insert row into syllabi; returns empty array for success, error array otherwise
-        private static function attemptSyllabusInsertion(array $inputArray): array
+        public static function attemptSyllabusInsertion(array $inputArray): array
         {
             // sets variables for more legible variable names
             $courseID     = $inputArray['Course ID'];

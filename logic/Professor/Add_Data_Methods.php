@@ -6,11 +6,17 @@
     require_once( dirname(__FILE__, 3) . "\logic\Database_Methods.php" );
     require_once( dirname(__FILE__, 3) . "\logic\Default_Methods.php" );
 
+    DefaultMethods::checkLogin("Professor");
     $classList = DefaultMethods::getEnrolledCourses();
 
     // this handles calling the logic function and its return array
     if (!empty($_POST)) {
-        $feedback = AddDataMethods::addQuestion();
+        $inputArray = array(
+            "Selected Course" => ($_POST['courseID']),
+            "Question"       => ($_POST['dataQuestion']),
+            "Answer"         => ($_POST['dataAnswer'])
+        );
+        $feedback = AddDataMethods::addQuestion($inputArray);
     } else {
         $feedback = array();
     }
@@ -19,18 +25,10 @@
     class AddDataMethods {
 
         // main function called by presentation layer
-        public static function addQuestion(): array
+        public static function addQuestion($inputArray): array
         {
-            DefaultMethods::checkLogin('Professor');
-
-
             // this sets the variables needed for this method.
             $feedback = array();
-            $inputArray = array(
-                "Selected Course" => ($_POST['courseID']),
-                "Question"       => ($_POST['dataQuestion']),
-                "Answer"         => ($_POST['dataAnswer'])
-            );
 
 
             // this formats the fields, returns false if at least 1 field is empty
@@ -51,7 +49,8 @@
                 return $feedback;
 
 
-            // if all went according to plan, it will return a success feedback
+            // if all went according to plan, it will return a success feedback and unset $_POST
+            unset($_POST);
             $success = array("The question was successfully added to the course!");
             return DefaultMethods::generateReturnArray("Success", $success);
         }
@@ -59,7 +58,7 @@
 
 
         // Checks database for course / question combo; returns error if it exists, empty array otherwise.
-        private static function duplicateQACheck(array $inputArray): array
+        public static function duplicateQACheck(array $inputArray): array
         {
             // sets variables for more legible variable names
             $question = $inputArray['Question'];
@@ -78,7 +77,7 @@
         }
 
         // Attempts to insert row into questions; returns empty array for success, error array otherwise
-        private static function attemptQAInsertion(array $inputArray): array
+        public static function attemptQAInsertion(array $inputArray): array
         {
             // sets variables for more legible variable names
             $question = $inputArray['Question'];

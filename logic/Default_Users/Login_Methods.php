@@ -9,7 +9,11 @@
 
     // this handles calling the logic function and its return array
     if (!empty($_POST)) {
-        $feedback = LoginMethods::login();
+        $inputArray = array(
+            "Username" => ($_POST['username']),
+            "Password" => ($_POST['password'])
+        );
+        $feedback = LoginMethods::login($inputArray);
     } else {
         $feedback = array();
     }
@@ -18,13 +22,9 @@
     class LoginMethods {
 
         // main function called by presentation layer
-        public static function login(): array {
+        public static function login($inputArray): array {
             // this sets the variables needed for this method.
             $feedback = array();
-            $inputArray = array(
-                "Username" => ($_POST['username']),
-                "Password" => ($_POST['password'])
-            );
 
 
             // this formats the fields, returns false if at least 1 field is empty
@@ -46,8 +46,12 @@
                 return $feedback;
 
 
-            // then redirects them to their proper home page
-            LoginMethods::redirectHomepage($inputArray);
+            // then gets the string for the url to their proper home page
+            $redirect = LoginMethods::getRedirectString($inputArray['isProf']);
+
+            // redirect:
+            if ($redirect != "Error")
+                header($redirect);
 
 
             // if the redirect managed to fail, it will send them an error.
@@ -58,7 +62,7 @@
 
 
         // Attempts to sign the user in, then sets the session variables with the temporary array.
-        private static function attemptLogin(array $inputArray): array
+        public static function attemptLogin(array &$inputArray): array
         {
             $username = $inputArray["Username"];
             $password = $inputArray["Password"];
@@ -71,12 +75,13 @@
             }
 
             // course check success code
+            $inputArray['isProf'] = $user['isProf'];
             LoginMethods::setSessionVariables($user);
             return DefaultMethods::generateReturnArray();
         }
 
         // Sets the session variables to store the user values.
-        private static function setSessionVariables(array $user)
+        public static function setSessionVariables(array $user)
         {
             $_SESSION["userID"]   = $user['ID'];
             $_SESSION["uniID"]    = $user['uniID'];
@@ -87,16 +92,15 @@
         }
 
         // Redirects the browser to the student or professor landing pages.
-        private static function redirectHomepage(array $inputArray)
+        public static function getRedirectString(string $isProf): string
         {
-            if ($_SESSION['isProf'] == 1) {
-                header("Location: ../Professor/View_Data.php");
-                die();
+            if ($isProf == 1) {
+                return ("Location: ../Professor/View_Data.php");
             }
-            if ($_SESSION['isProf'] == 0) {
-                header("Location: ../Student/Chatbot.php");
-                die();
+            if ($isProf == 0) {
+                return("Location: ../Student/Chatbot.php");
             }
+            return ("Error");
         }
 
 

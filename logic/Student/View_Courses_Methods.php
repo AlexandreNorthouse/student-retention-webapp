@@ -11,23 +11,23 @@
 
     // this handles calling the logic function and its return array
     if (!empty($_POST)) {
-        $feedback = ViewCoursesMethods::dropCourse();
+        $inputArray = array(
+            "Selected Course" => ($_POST['selectedCourse']),
+            "Student ID" => ($_SESSION['userID'])
+        );
+        $feedback = ViewCoursesMethods::dropCourse($inputArray);
         $classList = DefaultMethods::getEnrolledCourses("Professor Details");
     } else {
         $feedback = array();
     }
 
 
-    class ViewCoursesMethods {
-
+    class ViewCoursesMethods
+    {
         // main function called by presentation layer
-        public static function dropCourse(): array {
+        public static function dropCourse($inputArray): array {
             // this sets the variables needed for this method.
             $feedback = array();
-            $inputArray = array(
-                "Selected Course" => ($_POST['selectedCourse']),
-                "Student ID" => ($_SESSION['userID'])
-            );
 
 
             // attempts to withdraw the student from the class

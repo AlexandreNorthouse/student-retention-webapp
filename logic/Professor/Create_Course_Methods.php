@@ -6,9 +6,18 @@
     require_once( dirname(__FILE__, 3) . "\logic\Database_Methods.php" );
     require_once( dirname(__FILE__, 3) . "\logic\Default_Methods.php" );
 
+    DefaultMethods::checkLogin("Professor");
+
     // this handles calling the logic function and its return array
     if (!empty($_POST)) {
-        $feedback = CreateCourseMethods::createCourse();
+        $inputArray = array(
+            "University ID" => ($_SESSION['uniID']),
+            "Course Number" => ($_POST['courseNumber']),
+            "Course Section" => ($_POST['courseSection']),
+            "Course Name" => ($_POST['courseName']),
+            "Professor ID" => ($_SESSION['userID'])
+        );
+        $feedback = CreateCourseMethods::createCourse($inputArray);
     } else {
         $feedback = array();
     }
@@ -17,20 +26,10 @@
     class CreateCourseMethods {
 
         // main function called by presentation layer
-        public static function createCourse(): array
+        public static function createCourse($inputArray): array
         {
-            DefaultMethods::checkLogin('Professor');
-
-
             // this sets the variables needed for this method.
             $feedback = array();
-            $inputArray = array(
-                "University ID" => ($_SESSION['uniID']),
-                "Course Number" => ($_POST['courseNumber']),
-                "Course Section" => ($_POST['courseSection']),
-                "Course Name" => ($_POST['courseName']),
-                "Professor ID" => ($_SESSION['userID'])
-            );
 
 
             // this formats the fields, returns false if at least 1 field is empty
@@ -53,7 +52,8 @@
                 return $feedback;
 
 
-            // if all went according to plan, it will return a success feedback
+            // if all went according to plan, it will return a success feedback and unset $_POST
+            unset($_POST);
             $success = array("The course was successfully added to the university! " .
                 "It should now appear in your enrolled courses.");
             return DefaultMethods::generateReturnArray("Success", $success);
@@ -62,7 +62,7 @@
 
 
         // Checks database for course number / section combo; returns empty array on success, error array otherwise.
-        private static function duplicateCrseNumSectCheck(array $inputArray): array
+        public static function duplicateCrseNumSectCheck(array $inputArray): array
         {
             // sets variables for more legible variable names
             $courseNumber   = $inputArray['Course Number'];
@@ -80,7 +80,7 @@
         }
 
         // Attempts Course Insertion and updating the relational table with the course id and user id
-        private static function attemptCourseInsertion(array $inputArray): array
+        public static function attemptCourseInsertion(array $inputArray): array
         {
             // sets variables for more legible variable names
             $courseNumber   = $inputArray['Course Number'];

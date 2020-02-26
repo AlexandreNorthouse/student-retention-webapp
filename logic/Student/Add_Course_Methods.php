@@ -6,10 +6,15 @@
     require_once( dirname(__FILE__, 3) . "\logic\Database_Methods.php" );
     require_once( dirname(__FILE__, 3) . "\logic\Default_Methods.php" );
 
+    DefaultMethods::checkLogin('Student');
 
     // this handles calling the logic function and its return array
     if (!empty($_POST)) {
-        $feedback = AddCourseMethods::addCourse();
+        $inputArray = array(
+            "Course Number" => ($_POST['courseNumber']),
+            "Student ID"    => ($_SESSION['userID'])
+        );
+        $feedback = AddCourseMethods::addCourse($inputArray);
     } else {
         $feedback = array();
     }
@@ -18,16 +23,10 @@
     class AddCourseMethods {
 
         // main function called by presentation layer
-        public static function addCourse(): array {
-            //DefaultMethods::checkLogin('Student');
-
-            
+        public static function addCourse($inputArray): array
+        {
             // this sets the variables needed for this method.
             $feedback = array();
-            $inputArray = array(
-                "Course Number" => ($_POST['courseNumber']),
-                "Student ID"    => ($_SESSION['userID'])
-            );
 
 
             // this formats the fields, returns false if at least 1 field is empty
@@ -49,7 +48,7 @@
             
 
             // this inserts the student course pair, and returns false if it fails
-            $feedback = AddCourseMethods::attemptStudentInsertion($inputArray);
+            $feedback = AddCourseMethods::attemptStudentEnrollment($inputArray);
             if (isset($feedback["Outcome"]))
                 return $feedback;
             
@@ -62,7 +61,7 @@
 
 
         // Checks the database for a provided course ID; returns empty array if it exists, error array otherwise
-        private static function checkCourseExists(array $inputArray): array {
+        public static function checkCourseExists(array $inputArray): array {
             $courseNumber = $inputArray["Course Number"];
 
             // course check failure code
@@ -77,7 +76,7 @@
         }
 
         // Checks database for user / course combo; returns empty array if already enrolled, error array otherwise.
-        private static function checkIfNotEnrolled(array $inputArray): array {
+        public static function checkIfNotEnrolled(array $inputArray): array {
             $courseNumber = $inputArray["Course Number"];
             $studentID    = $inputArray["Student ID"];
 
@@ -92,8 +91,8 @@
             return DefaultMethods::generateReturnArray();
         }
 
-        // Attempts to insert row into coursesusersroster; returns TRUE for success, FALSE for failure
-        private static function attemptStudentInsertion(array $inputArray): array {
+        // Attempts to insert row into coursesusersroster; returns empty array if already enrolled, error array otherwise
+        public static function attemptStudentEnrollment(array $inputArray): array {
             $courseNumber = $inputArray["Course Number"];
             $studentID    = $inputArray["Student ID"];
 
