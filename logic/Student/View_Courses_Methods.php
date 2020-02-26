@@ -27,7 +27,7 @@
             $inputArray = array(
                 "Selected Course" => ($_POST['selectedCourse']),
                 "Student ID" => ($_SESSION['userID'])
-            );
+            ); 
 
 
             // attempts to withdraw the student from the class
