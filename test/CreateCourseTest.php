@@ -7,6 +7,19 @@
 
     class CreateCourseTest extends TestCase
     {
+        public function testCreateCourse()
+        {
+            $testArray = array(
+                "University ID" => "",
+                "Course Number" => "",
+                "Course Section" => "",
+                "Course Name" => "",
+                "Professor ID" => ""//Add data
+            );
+
+            $correctArray = array();
+            $this->assertEquals($correctArray, defaultMethods::createCourse($testArray), "They're the same!");
+        }
 
     }
 ?>
