@@ -14,7 +14,7 @@ declare(strict_types=1);
             );
 
             $correctArray = array();
-            $this->assertEquals($correctArray, Add_Course_Methods::checkCourseExists($testArray), "They're the same!");
+            $this->assertEquals($correctArray, AddCourseMethods::checkCourseExists($testArray), "They're the same!");
         }
 
 
@@ -26,7 +26,7 @@ declare(strict_types=1);
             );
 
             $correctArray = array();
-            $this->assertEquals($correctArray, Add_Course_Methods::checkIfNotEnrolled($testArray), "They're the same!");
+            $this->assertEquals($correctArray, AddCourseMethods::checkIfNotEnrolled($testArray), "They're the same!");
         }
 
         
@@ -38,7 +38,7 @@ declare(strict_types=1);
             );
 
             $correctArray = array();
-            $this->assertEquals($correctArray, Add_Course_Methods::attemptStudentEnrollment($testArray), "They're the same!");
+            $this->assertEquals($correctArray, AddCourseMethods::attemptStudentEnrollment($testArray), "They're the same!");
         }
         
     }

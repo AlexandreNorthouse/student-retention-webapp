@@ -40,7 +40,7 @@
                 "Outcome" => "Error",
                 "Feedback" => array("It seems like a syllabus already exists for this course!")
             );
-            $this->assertNotEquals($correctArray, Create_Syllabus_Methods::checkSyllabusExists($testArray), "They're the same!");
+            $this->assertNotEquals($correctArray, CreateSyllabusMethods::checkSyllabusExists($testArray), "They're the same!");
         }  
 
         public function testAttemptSyllabusInsertion()
@@ -60,7 +60,7 @@
             );
 
             $correctArray = array();
-            $this->assertNotEquals($correctArray, Create_Syllabus_Methods::attemptSyllabusInsertion($testArray), "They're the same!");
+            $this->assertNotEquals($correctArray, CreateSyllabusMethods::attemptSyllabusInsertion($testArray), "They're the same!");
         }  
     }
 ?>
