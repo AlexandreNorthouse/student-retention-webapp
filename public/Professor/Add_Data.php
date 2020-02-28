@@ -10,10 +10,12 @@
     </head>
     <body>
         <div class="sidebar">
-            <a href="View_Data.php">View Data</a>
+            <a href="View_Data.php">View Questions</a>
             <a class="active" href="Add_Data.php">Add Questions</a>
             <a href="Create_Syllabus.php">Create Syllabus</a>
             <a href="Create_Course.php">Create a Course</a>
+            <a href="View_Courses.php">View Created Courses</a>
+            <a href="Student_Enrollment.php">Modify Student Enrollment</a>
             <a class="bottom" href="../../logic/Logout_User.php">Logout</a>
         </div>
 
