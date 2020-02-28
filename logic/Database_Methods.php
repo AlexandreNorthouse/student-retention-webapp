@@ -72,7 +72,7 @@
         }
 
         // Attempts to insert row into "coursesusersroster"; returns TRUE for success, FALSE otherwise.
-        public static function attemptCourseUserRelationshipInsertion(int $courseID, string $userID): bool
+        public static function attemptCourseUserRelationshipInsertion(string $courseID, string $userID): bool
         {
             try {
                 $conn = DatabaseMethods::setConnVariable();
@@ -89,6 +89,7 @@
 
         // ==================================================================================================== //
         // ==================================================================================================== //
+        // DEFAULT USER METHODS:
         // Login methods
 
         // Attempts to log the user in; returns array of user data on success, empty array otherwise.
@@ -96,7 +97,7 @@
         {
             try {
                 $conn = DatabaseMethods::setConnVariable();
-                $query = "SELECT * FROM users WHERE username='$username'";
+                $query = "SELECT * FROM users WHERE username=\"$username\"";
                 $sql = $conn->prepare($query);
                 $sql->execute();
                 $user = $sql->fetchAll();
@@ -122,7 +123,7 @@
         {
             try {
                 $conn = DatabaseMethods::setConnVariable();
-                $query = "SELECT * FROM users WHERE uniID=$uniID AND username='$username'";
+                $query = "SELECT * FROM users WHERE uniID=$uniID AND username=\"$username\"";
                 $sql = $conn->prepare($query);
                 $sql->execute();
 
@@ -140,7 +141,7 @@
             try {
                 $conn = DatabaseMethods::setConnVariable();
                 $query = "INSERT INTO users VALUES ".
-                    "(NULL, $uniID, '$username', '$password', '$fName', '$lName', '$isProf')";
+                    "(NULL, $uniID, \"$username\", \"$password\", \"$fName\", \"$lName\", \"$isProf\")";
                 $conn->exec($query);
 
                 echo ($conn->lastInsertID());
@@ -154,10 +155,11 @@
 
         // ==================================================================================================== //
         // ==================================================================================================== //
+        // STUDENT METHODS:
         // Add_Course database methods
 
         // Checks the database for a provided course ID; returns TRUE if it exists, FALSE otherwise.
-		public static function checkCourseExists(int $courseNumber): bool
+		public static function checkCourseExists(string $courseNumber): bool
         {
 			try {
                 $conn = DatabaseMethods::setConnVariable();
@@ -174,7 +176,7 @@
 		}
 
         // Checks database for user / course combo; returns FALSE if not enrolled, TRUE otherwise.
-        public static function checkEnrollment(int $courseNumber, int $studentID): bool
+        public static function checkEnrollment(string $courseNumber, string $studentID): bool
         {
             try {
                 $conn = DatabaseMethods::setConnVariable();
@@ -217,11 +219,11 @@
         // Add_Data database methods
 
         // Checks database for course / question combo; returns TRUE if it exists, FALSE otherwise.
-        public static function duplicateQACheck(string $question, string $answer, int $selectedCourse): bool
+        public static function duplicateQACheck(string $question, string $answer, string $selectedCourse): bool
         {
             try {
                 $conn = DatabaseMethods::setConnVariable();
-                $query = "SELECT * FROM questions WHERE crseID=$selectedCourse AND qtext='$question'";
+                $query = "SELECT * FROM questions WHERE crseID=$selectedCourse AND qtext=\"$question\"";
                 $sql = $conn->prepare($query);
                 $sql->execute();
 
@@ -235,11 +237,11 @@
         }
 
         // Attempts to insert row into questions; returns TRUE for success, FALSE otherwise.
-        public static function attemptQAInsertion(string $question, string $answer, int $selectedCourse): bool
+        public static function attemptQAInsertion(string $question, string $answer, string $selectedCourse): bool
         {
             try {
                 $conn = DatabaseMethods::setConnVariable();
-                $query = "INSERT INTO questions VALUES (NULL, $selectedCourse, '$question', '$answer')";
+                $query = "INSERT INTO questions VALUES (NULL, $selectedCourse, \"$question\", \"$answer\")";
                 $sql = $conn->prepare($query);
                 $sql->execute();
 
@@ -272,6 +274,7 @@
 
         // ==================================================================================================== //
         // ==================================================================================================== //
+        // PROFESSOR METHODS:
         // Create_Course database methods
 
         // Checks database for course number / section combo; returns TRUE if it exists, FALSE otherwise.
@@ -280,7 +283,7 @@
         {
             try {
                 $conn = DatabaseMethods::setConnVariable();
-                $query = "SELECT * FROM courses WHERE uniID=$universityID AND crseID='$courseNumber' " .
+                $query = "SELECT * FROM courses WHERE uniID=$universityID AND crseID=\"$courseNumber\" " .
                     "AND sectNum=$courseSection";
                 $sql = $conn->prepare($query);
                 $sql->execute();
@@ -301,7 +304,7 @@
             try {
                 $conn = DatabaseMethods::setConnVariable();
                 $query = "INSERT INTO courses VALUES ".
-                    "(NULL, $universityID, '$courseNumber', '$courseSection', '$courseName')";
+                    "(NULL, $universityID, \"$courseNumber\", \"$courseSection\", \"$courseName\")";
                 $conn->exec($query);
                 return $conn->lastInsertID();
             } catch (PDOException $e) {
@@ -314,33 +317,69 @@
 
         // Create_Syllabus database methods
 
-        // Checks database for a syllabus with that course ID; returns TRUE if it exists, FALSE otherwise.
-        public static function checkSyllabusExists ($courseID): bool
+        // Database check for a syllabus with that courseID; returns syllabus array if it exists, empty array otherwise.
+        public static function checkSyllabusExists ($courseID): array
         {
             try {
                 $conn = DatabaseMethods::setConnVariable();
-                $query = "SELECT ID FROM syllabi WHERE crseID=$courseID";
+                $query = "SELECT courseTitle, contactInformation, officeHoursPolicy, courseDescription, "
+                    . "courseGoals, requiredMaterials, gradingPolicy, attendancePolicy, universityPolicy, "
+                    . "studentResources FROM syllabi WHERE crseID=$courseID";
                 $sql = $conn->prepare($query);
                 $sql->execute();
-
-                if (empty($sql->fetchAll()))
-                    return FALSE;
-                return TRUE;
+                $variable = $sql->fetchAll();
+                return $variable;
             } catch (PDOException $e) {
-                return TRUE;
+                return array();
             }
         }
 
         // Attempts to insert row into syllabi; returns TRUE for success, FALSE otherwise
-        public static function attemptSyllabusInsertion(int $courseID, string $courseTitle, string $contactInfo,
+        public static function attemptSyllabusInsertion(string $courseID, string $courseTitle, string $contactInfo,
             string $officeHours, string $courseDesc, string $courseGoals, string $reqMaterials, string $grading,
             string $attendance, string $uniPolicies, string $stuResources): bool
         {
             try {
                 $conn = DatabaseMethods::setConnVariable();
-                $query = "INSERT INTO syllabi VALUES (NULL, $courseID, '$courseTitle', '$contactInfo', '$officeHours',"
-                    . " '$courseDesc', '$courseGoals', '$reqMaterials', '$grading', '$attendance',"
-                    . " '$uniPolicies', '$stuResources')";
+                $query = "INSERT INTO syllabi VALUES (NULL, $courseID, \"$courseTitle\", \"$contactInfo\", \"$officeHours\","
+                    . " \"$courseDesc\", \"$courseGoals\", \"$reqMaterials\", \"$grading\", \"$attendance\","
+                    . " \"$uniPolicies\", \"$stuResources\")";
+                $sql = $conn->prepare($query);
+                $sql->execute();
+                return TRUE;
+            } catch (PDOException $e) {
+                return FALSE;
+            }
+        }
+
+        // Attempts to update a syllabus; returns TRUE if successful, FALSE otherwise.
+        public static function attemptSyllabusUpdate(string $courseID, string $courseTitle, string $contactInfo,
+            string $officeHours, string $courseDesc, string $courseGoals, string $reqMaterials, string $grading,
+            string $attendance, string $uniPolicies, string $stuResources): bool
+        {
+            try {
+                $conn = DatabaseMethods::setConnVariable();
+                $query = "UPDATE syllabi "
+                    . "SET courseTitle=\"$courseTitle\", contactInformation=\"$contactInfo\", "
+                        . "officeHoursPolicy=\"$officeHours\", courseDescription=\"$courseDesc\", "
+                        . "courseGoals=\"$courseGoals\", requiredMaterials=\"$reqMaterials\", "
+                        . "gradingPolicy=\"$grading\", attendancePolicy=\"$attendance\", "
+                        . "universityPolicy=\"$uniPolicies\", studentResources=\"$stuResources\" "
+                    . "WHERE crseID=$courseID;";
+                $sql = $conn->prepare($query);
+                $sql->execute();
+                return TRUE;
+            } catch (PDOException $e) {
+                return FALSE;
+            }
+        }
+
+        // Attempts to delete a syllabus; returns TRUE if successful, FALSE otherwise.
+        public static function attemptSyllabusDeletion($courseID)
+        {
+            try {
+                $conn = DatabaseMethods::setConnVariable();
+                $query = "DELETE FROM syllabi WHERE crseID=$courseID;";
                 $sql = $conn->prepare($query);
                 $sql->execute();
                 return TRUE;
@@ -367,5 +406,91 @@
                 return array();
             }
         }
+
+        // Attempts to update a question's text; returns TRUE if successful, FALSE otherwise.
+        public static function attemptQuestionUpdate($quesID, $updateAText, $updateQText): bool
+        {
+            try {
+                $conn = DatabaseMethods::setConnVariable();
+                $query = "UPDATE questions "
+                    . "SET qtext=\"$updateQText\", atext=\"$updateAText\" "
+                    . "WHERE ID=$quesID;";
+                $sql = $conn->prepare($query);
+                $sql->execute();
+                return TRUE;
+            } catch (PDOException $e) {
+                return FALSE;
+            }
+        }
+
+        // Attempts to delete a question; returns TRUE if successful, FALSE otherwise.
+        public static function attemptQuestionDelete($quesID)
+        {
+            try {
+                $conn = DatabaseMethods::setConnVariable();
+                $query = "DELETE FROM questions WHERE ID=$quesID;";
+                $sql = $conn->prepare($query);
+                $sql->execute();
+                return TRUE;
+            } catch (PDOException $e) {
+                return FALSE;
+            }
+        }
+
+
+
+
+        //  database methods
+
+        // Attempts to delete row in courses; returns TRUE for success, FALSE for failure.
+        public static function attemptCourseDeletion($courseNumber): bool
+        {
+            try {
+                $conn = DatabaseMethods::setConnVariable();
+                $query = "DELETE FROM courses WHERE ID=$courseNumber";
+                $sql = $conn->prepare($query);
+                $sql->execute();
+                return TRUE;
+            } catch (PDOException $e) {
+                return FALSE;
+            }
+        }
+
+
+
+
+        //  database methods
+
+        // Attempts to get students enrolled in a course; returns array of students for success, empty array otherwise.
+        public static function getStudents($courseNumber): array
+        {
+            try {
+                $conn = DatabaseMethods::setConnVariable();
+                $query = "SELECT s.ID, s.fname, s.lname FROM coursesusersroster cur, users s "
+                    . " WHERE cur.crseID=$courseNumber AND s.ID=cur.userID and s.isProf=0";
+                $sql = $conn->prepare($query);
+                $sql->execute();
+                return $sql->fetchAll();
+            } catch (PDOException $e) {
+                return array();
+            }
+        }
+
+        // Attempts to delete a row in coursesusersoster; returns TRUE for success, FALSE for failure.
+        public static function attemptStudentRemoval($courseNumber, $studentID)
+        {
+            try {
+                $conn = DatabaseMethods::setConnVariable();
+                $query = "DELETE FROM coursesusersroster WHERE crseID=$courseNumber AND userID=$studentID";
+                $sql = $conn->prepare($query);
+                $sql->execute();
+                return TRUE;
+            } catch (PDOException $e) {
+                return FALSE;
+            }
+        }
+
+        // ==================================================================================================== //
+        // ==================================================================================================== //
     }
 ?>
