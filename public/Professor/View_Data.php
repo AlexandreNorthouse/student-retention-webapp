@@ -10,10 +10,12 @@
     </head>
     <body>
         <div class="sidebar">
-            <a class="active" href="View_Data.php">View Data</a>
+            <a class="active" href="View_Data.php">View Questions</a>
             <a href="Add_Data.php">Add Questions</a>
             <a href="Create_Syllabus.php">Create Syllabus</a>
             <a href="Create_Course.php">Create a Course</a>
+            <a href="View_Courses.php">View Created Courses</a>
+            <a href="Student_Enrollment.php">Modify Student Enrollment</a>
             <a class="bottom" href="../../logic/Logout_User.php">Logout</a>
         </div>
 
@@ -40,33 +42,55 @@
                 <br><br>
 
                 <button type="submit" name="submitData" value="✓">View Course's Data</button>
-            </form>
-            <br><br>
+                <br><br>
 
-            <?php
-            // this prints out all the received questions in a table if they exist, otherwise displays the error code
-            if (!empty($feedback[0])) {
-                echo '<p>Retrieved Data:</p>';
-                echo '<table>';
-                    echo '<tr>';
-                        echo '<th> Question Number</th>';
-                        echo '<th> Question Text </th>';
-                        echo '<th> Question Answer </th>';
-                    echo '</tr>';
-                for ($i = 0; $i < count($feedback); $i++) {
-                    echo '<tr>';
-                        echo '<td>#' . ($i + 1) . '</td>';
-                        echo '<td>' . $feedback[$i]['qtext'] . '</td>';
-                        echo '<td>' . $feedback[$i]['atext'] . '</td>';
-                    echo '</tr>';
+
+                <?php
+                // this prints the feedback array
+                if (isset($feedback["Feedback"]) && !empty($feedback["Feedback"])) {
+                    echo('<span class="'. $feedback["Outcome"] . '">');
+                    foreach($feedback["Feedback"] as $a) echo $a . "<br>";
+                    echo("</span>");
+                    echo("<br>");
                 }
-                echo '</table>';
-            } else if (!empty($feedback)){
-                echo("<span class=\"". $feedback["Outcome"] . "\">");
-                foreach($feedback["Feedback"] as $a) echo $a . "<br>";
-                echo("</span>");
-            }
-            ?>
+                ?>
+
+
+                <?php
+                // this prints out all the received questions in a table if they exist, otherwise displays the error code
+                if (!empty($questionList[0])) {
+                    echo '<p>Retrieved Questions:</p>';
+                    echo '<table><tr><th>Question Number</th><th>Question Text</th><th>Question Answer</th>';
+                    echo '<th>Edit Question</th><th>Delete Question</th></tr>';
+                    for ($i = 0; $i < count($questionList); $i++) {
+                        if (isset($_POST["editQuestion"]) && $_POST["editQuestion"] == $questionList[$i]['ID']) {
+                            echo '<tr><td>#' . ($i + 1) . '</td>';
+                            echo '<td><textarea name="updateQuestion" required>' . $questionList[$i]['qtext'] . '</textarea></td>';
+                            echo '<td><textarea name="updateAnswer" required>' . $questionList[$i]['atext'] . '</textarea></td>';
+                            echo "<td><button type='submit' name='submitUpdate' value='"
+                                . $questionList[$i]['ID'] . "'>Submit Edit</button></td>";
+                            echo "<td><button type='submit' name='deleteQuestion' value='"
+                                . $questionList[$i]['ID'] . "'>Delete Question</button></td>";
+                            echo '</tr>';
+                        } else {
+                            echo '<tr><td>#' . ($i + 1) . '</td>';
+                            echo '<td>' . $questionList[$i]['qtext'] . '</td>';
+                            echo '<td>' . $questionList[$i]['atext'] . '</td>';
+                            echo "<td><button type='submit' name='editQuestion' value='"
+                                . $questionList[$i]['ID'] . "'>Edit Question</button></td>";
+                            echo "<td><button type='submit' name='deleteQuestion' value='"
+                                . $questionList[$i]['ID'] . "'>Delete Question</button></td>";
+                            echo '</tr>';
+                        }
+                    }
+                    echo '</table>';
+                } else if (!empty($questionList['Outcome'])){
+                    echo("<span class=\"". $questionList["Outcome"] . "\">");
+                    foreach($questionList["Feedback"] as $a) echo $a . "<br>";
+                    echo("</span>");
+                }
+                ?>
+            </form>
         </div>
     </body>
 </html>
