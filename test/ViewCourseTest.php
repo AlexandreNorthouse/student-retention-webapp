@@ -15,7 +15,7 @@ declare(strict_types=1);
             );
 
             $correctArray = array();
-            $this->assertEquals($correctArray, View_Course_Methods::dropCourse($testArray), "They're the same!");
+            $this->assertEquals($correctArray, ViewCourseMethods::dropCourse($testArray), "They're the same!");
         }
 
         public function testAttemptCourseWithdraw()
@@ -26,7 +26,7 @@ declare(strict_types=1);
             );
 
             $correctArray = array();
-            $this->assertEquals($correctArray, View_Course_Methods::attemptCourseWithdraw($testArray), "They're the same!");
+            $this->assertEquals($correctArray, ViewCourseMethods::attemptCourseWithdraw($testArray), "They're the same!");
         }
     }
 

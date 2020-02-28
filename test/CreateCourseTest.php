@@ -22,7 +22,7 @@
                 "Feedback" => array("The course was successfully added to the university! " .
                 "It should now appear in your enrolled courses.")
             );
-            $this->assertEquals($correctArray, Create_Course_Methods::createCourse($testArray), "They're the same!");
+            $this->assertEquals($correctArray, CreateCourseMethods::createCourse($testArray), "They're the same!");
         }
 
         public function testDuplicateCourseCheck()
@@ -34,7 +34,7 @@
             );
 
             $correctArray = array();
-            $this->assertEquals($correctArray, Create_Course_Methods::duplicateCrseNumSectCheck($testArray), "They're the same!");
+            $this->assertEquals($correctArray, CreateCourseMethods::duplicateCrseNumSectCheck($testArray), "They're the same!");
         }
 
         public function testAttempCourseInsertion()
@@ -48,7 +48,7 @@
             );
 
             $correctArray = array();
-            $this->assertNotEquals($correctArray, Create_Course_Methods::attemptCourseInsertion($testArray), "They're the same!");
+            $this->assertNotEquals($correctArray, CreateCourseMethods::attemptCourseInsertion($testArray), "They're the same!");
         }
 
     }

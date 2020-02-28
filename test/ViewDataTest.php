@@ -14,7 +14,7 @@
             );
 
             $correctArray = array();
-            $this->assertEquals($correctArray, View_Data_Methods::viewCourse($testArray), "They're the same!");
+            $this->assertEquals($correctArray, ViewDataMethods::viewCourse($testArray), "They're the same!");
         }
     
 
@@ -25,7 +25,7 @@
             );
 
             $correctArray = array();
-            $this->assertEquals($correctArray, View_Data_Methods::attemptQuestionPull($testArray), "They're the same!");
+            $this->assertEquals($correctArray, ViewDataMethods::attemptQuestionPull($testArray), "They're the same!");
         }
     }
 ?>

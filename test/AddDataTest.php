@@ -21,7 +21,7 @@
                     "The question was successfully added to the course"
                 )
             );
-            $this->assertEquals($correctArray, Add_Data_Methods::addQuestion($testArray), "They're the same!");
+            $this->assertEquals($correctArray, AddDataMethods::addQuestion($testArray), "They're the same!");
         }
 
         public function testCheckDuplicate()
@@ -38,7 +38,7 @@
                     "It seems like that question / answer combo already exists, please contact your system admin with this error."
                 )
             );
-            $this->assertNotEquals($correctArray, Add_Data_Methods::duplicateQACheck($testArray), "They're the same!");
+            $this->assertNotEquals($correctArray, AddDataMethods::duplicateQACheck($testArray), "They're the same!");
         }
         
         public function testQAInsertion()
@@ -51,7 +51,7 @@
 
             $correctArray = array();
             
-            $this->assertEquals($correctArray, Add_Data_Methods::attemptQAInsertion($testArray), "They're the same!");
+            $this->assertEquals($correctArray, AddDataMethods::attemptQAInsertion($testArray), "They're the same!");
         }
 
     }
