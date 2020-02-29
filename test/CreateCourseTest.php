@@ -7,6 +7,16 @@
 
     class CreateCourseTest extends TestCase
     {
+
+        public static function tearDownAfterClass(): void
+        {
+            $conn = DatabaseMethods::setConnVariable();
+            $query = "DELETE FROM courses WHERE crseID=\"PSYC101\"; "
+                . "DELETE FROM courses WHERE crseID=\"PSYC102\";";
+            $sql = $conn->prepare($query);
+            $sql->execute();
+        }
+
         public function testCreateCourse()
         {
             $testArray = array(
@@ -22,33 +32,36 @@
                 "Feedback" => array("The course was successfully added to the university! " .
                 "It should now appear in your enrolled courses.")
             );
-            $this->assertEquals($correctArray, CreateCourseMethods::createCourse($testArray), "They're the same!");
+            $this->assertEquals($correctArray, CreateCourseMethods::createCourse($testArray),
+                "They're the same!");
         }
 
         public function testDuplicateCourseCheck()
         {
             $testArray = array(
                 "University ID" => "1",
-                "Course Number" => "PSYC101",
+                "Course Number" => "PSYC103",
                 "Course Section" => "1",
             );
 
             $correctArray = array();
-            $this->assertEquals($correctArray, CreateCourseMethods::duplicateCrseNumSectCheck($testArray), "They're the same!");
+            $this->assertEquals($correctArray, CreateCourseMethods::duplicateCrseNumSectCheck($testArray),
+                "They're the same!");
         }
 
         public function testAttempCourseInsertion()
         {
             $testArray = array(
                 "University ID" => "1",
-                "Course Number" => "PSYC101",
+                "Course Number" => "PSYC102",
                 "Course Section" => "1",
                 "Course Name" => "Intro to Psychology, Section 1",
                 "Professor ID" => "1"
             );
 
             $correctArray = array();
-            $this->assertNotEquals($correctArray, CreateCourseMethods::attemptCourseInsertion($testArray), "They're the same!");
+            $this->assertEquals($correctArray, CreateCourseMethods::attemptCourseInsertion($testArray),
+                "They're the same!");
         }
 
     }

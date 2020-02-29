@@ -7,6 +7,15 @@
 
     class CreateSyllabusTest extends TestCase
     {
+
+        public static function tearDownAfterClass(): void
+        {
+            $conn = DatabaseMethods::setConnVariable();
+            $query = "DELETE FROM syllabi WHERE studentResources=\"Example\";";
+            $sql = $conn->prepare($query);
+            $sql->execute();
+        }
+
         public function testCreateSyllabus()
         {
             $testArray = array(
@@ -27,26 +36,13 @@
                 "Outcome" => "Success",
                 "Feedback" => array("The syllabus was successfully added to the course!")
             );
-            $this->assertNotEquals($correctArray, Create_Syllabus_Methods::createSyllabus($testArray), "They're the same!");
-        }  
-
-        public function testCheckSyllabusExists()
-        {
-            $testArray = array(
-                "Course ID" => "1",
-            );
-
-            $correctArray = array(
-                "Outcome" => "Error",
-                "Feedback" => array("It seems like a syllabus already exists for this course!")
-            );
-            $this->assertNotEquals($correctArray, CreateSyllabusMethods::checkSyllabusExists($testArray), "They're the same!");
-        }  
+            $this->assertEquals($correctArray, CreateSyllabusMethods::createSyllabus($testArray), "They're the same!");
+        }
 
         public function testAttemptSyllabusInsertion()
         {
             $testArray = array(
-                "Course ID"           => "1",
+                "Course ID"           => "2",
                 "Course Title"        => "Example",
                 "Contact Information" => "Example",
                 "Office Hours"        => "Example",
@@ -60,7 +56,7 @@
             );
 
             $correctArray = array();
-            $this->assertNotEquals($correctArray, CreateSyllabusMethods::attemptSyllabusInsertion($testArray), "They're the same!");
+            $this->assertEquals($correctArray, CreateSyllabusMethods::attemptSyllabusInsertion($testArray), "They're the same!");
         }  
     }
 ?>

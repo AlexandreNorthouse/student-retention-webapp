@@ -7,6 +7,15 @@ declare(strict_types=1);
 
     class AddCourseTest extends TestCase
     {
+
+        public static function setUpBeforeClass(): void
+        {
+            $conn = DatabaseMethods::setConnVariable();
+            $query = "DELETE FROM coursesusersroster WHERE crseID=1 AND userID=1;";
+            $sql = $conn->prepare($query);
+            $sql->execute();
+        }
+
         public function testCheckCourseExists()
         {
             $testArray = array(
@@ -14,7 +23,8 @@ declare(strict_types=1);
             );
 
             $correctArray = array();
-            $this->assertEquals($correctArray, AddCourseMethods::checkCourseExists($testArray), "They're the same!");
+            $this->assertEquals($correctArray, AddCourseMethods::checkCourseExists($testArray),
+                "Testing course check method!");
         }
 
 
@@ -26,7 +36,8 @@ declare(strict_types=1);
             );
 
             $correctArray = array();
-            $this->assertEquals($correctArray, AddCourseMethods::checkIfNotEnrolled($testArray), "They're the same!");
+            $this->assertEquals($correctArray, AddCourseMethods::checkIfNotEnrolled($testArray),
+                "Testing check enrollment method!");
         }
 
         
@@ -38,7 +49,8 @@ declare(strict_types=1);
             );
 
             $correctArray = array();
-            $this->assertEquals($correctArray, AddCourseMethods::attemptStudentEnrollment($testArray), "They're the same!");
+            $this->assertEquals($correctArray, AddCourseMethods::attemptStudentEnrollment($testArray),
+                "Testing student insertion method!");
         }
         
     }
