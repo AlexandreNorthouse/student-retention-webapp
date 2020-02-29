@@ -18,9 +18,9 @@ SET time_zone = "+00:00";
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
 /*!40101 SET NAMES utf8mb4 */;
 
---
--- Database: `student-engagement-retention-local`
---
+CREATE DATABASE `student-engagement-retention-local`;
+USE `student-engagement-retention-local`;
+
 
 -- --------------------------------------------------------
 
@@ -221,7 +221,7 @@ ALTER TABLE `syllabi`
 --
 ALTER TABLE `users`
   ADD CONSTRAINT `users_ibfk_1` FOREIGN KEY (`uniID`) REFERENCES `universities` (`ID`) ON DELETE CASCADE,
-  ADD CONSTRAINT `users_ibfk_2` FOREIGN KEY (`uniID`) REFERENCES `users` (`ID`);
+  ADD CONSTRAINT `users_ibfk_2` FOREIGN KEY (`uniID`) REFERENCES `universities` (`ID`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

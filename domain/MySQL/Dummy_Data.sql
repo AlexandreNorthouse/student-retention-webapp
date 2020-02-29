@@ -23,6 +23,22 @@ SET time_zone = "+00:00";
 --
 
 --
+-- Dumping data for table `universities`
+--
+
+INSERT INTO `universities` (`ID`, `name`) VALUES
+(1, 'Example University');
+
+--
+-- Dumping data for table `users`
+--
+
+INSERT INTO `users` (`ID`, `uniID`, `username`, `password`, `fname`, `lname`, `isProf`) VALUES
+(1, 1, 'exampleStudent', '5baa61e4c9b93f3f0682250b6cf8331b7ee68fd8', 'Millie', 'Brown', 0),
+(2, 1, 'exampleProfessor', '5baa61e4c9b93f3f0682250b6cf8331b7ee68fd8', 'Abigail', 'Smith', 1);
+COMMIT;
+
+--
 -- Dumping data for table `courses`
 --
 
@@ -57,22 +73,6 @@ INSERT INTO `questions` (`ID`, `crseID`, `qtext`, `atext`) VALUES
 INSERT INTO `syllabi` (`ID`, `crseID`, `courseTitle`, `contactInformation`, `officeHoursPolicy`, `courseDescription`, `courseGoals`, `requiredMaterials`, `gradingPolicy`, `attendancePolicy`, `universityPolicy`, `studentResources`) VALUES
 (1, 1, 'Example title', 'Example contact information', 'Example office hours policy', 'Example course description', 'Example course goals', 'Example required materials', 'Example grading policy', 'Example attendance policy', 'Example university policy', 'Example student resources'),
 (2, 2, 'Example title 2', 'Example contact information 2', 'Example office hours policy 2', 'Example course description 2', 'Example course goals 2', 'Example required materials 2', 'Example grading policy 2', 'Example attendance policy 2', 'Example university policy 2', 'Example student resources 2');
-
---
--- Dumping data for table `universities`
---
-
-INSERT INTO `universities` (`ID`, `name`) VALUES
-(1, 'Example University');
-
---
--- Dumping data for table `users`
---
-
-INSERT INTO `users` (`ID`, `uniID`, `username`, `password`, `fname`, `lname`, `isProf`) VALUES
-(1, 1, 'exampleStudent', '5baa61e4c9b93f3f0682250b6cf8331b7ee68fd8', 'Millie', 'Brown', 0),
-(2, 1, 'exampleProfessor', '5baa61e4c9b93f3f0682250b6cf8331b7ee68fd8', 'Abigail', 'Smith', 1);
-COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
