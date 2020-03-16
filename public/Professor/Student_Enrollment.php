@@ -20,7 +20,7 @@
         </div>
 
         <div class="content">
-            <h2>View Data</h2>
+            <h2>Modify Student Enrollment</h2>
 
             <form action="" method="post">
                 <label for="selectedCourse">Select Course: </label><br>
@@ -61,7 +61,7 @@
                 if (!empty($studentList[0])){
                     echo("<table><tr><th>Student Lasts Name:</th><th>Student First Name:</th><th>Remove Student:</th></tr>");
                     foreach($studentList as $f){
-                        echo("<tr><td>" . $f['fname'] . "</td><td>" . $f['lname'] . " " . $f['lname'] . "</td>");
+                        echo("<tr><td>" . $f['fname'] . "</td><td>" . $f['lname'] . "</td>");
                         echo("<td><button type='submit' name='selectedStudent' value='"
                             . $f['ID'] . "'> Drop Course</button></td></tr>");
                         echo("</div>");
