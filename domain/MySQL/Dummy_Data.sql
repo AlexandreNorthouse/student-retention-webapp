@@ -34,8 +34,8 @@ INSERT INTO `universities` (`ID`, `name`) VALUES
 --
 
 INSERT INTO `users` (`ID`, `uniID`, `username`, `password`, `fname`, `lname`, `isProf`) VALUES
-(1, 1, 'exampleStudent', '5baa61e4c9b93f3f0682250b6cf8331b7ee68fd8', 'Millie', 'Brown', 0),
-(2, 1, 'exampleProfessor', '5baa61e4c9b93f3f0682250b6cf8331b7ee68fd8', 'Abigail', 'Smith', 1);
+(1, 1, 'exampleStudent', '$2y$10$nEfrO5hm60sZYZLvn1DoSuhlGmJDg0.5Cd2TyM7jD/ewVh0ELA03e', 'Millie', 'Brown', 0),
+(2, 1, 'exampleProfessor', '$2y$10$nEfrO5hm60sZYZLvn1DoSuhlGmJDg0.5Cd2TyM7jD/ewVh0ELA03e', 'Abigail', 'Smith', 1);
 COMMIT;
 
 --
