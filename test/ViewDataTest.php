@@ -5,22 +5,23 @@ declare(strict_types=1);
     use PHPUnit\Framework\TestCase;
 
 
-    class ViewCourseTest extends TestCase
+    class ViewDataTest extends TestCase
     {
 
         //needs setup method
 
-        public function testDeleteCourse()
+        public function testAttemptQuestionPull()
         {
             $testArray = array(
-                //not finished
-                
+                "Selected Course" => "Ex101",
             );
 
             $correctArray = array();
             $this->assertEquals($correctArray, ViewDataMethods::deleteCourse($testArray),
                 "Testing course Delete method!");
         }
+
+        
 
 
 
