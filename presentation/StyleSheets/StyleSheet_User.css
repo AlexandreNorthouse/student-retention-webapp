@@ -7,6 +7,17 @@ html, body {
   overflow: auto;
 }
 
+.doubleUp {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: stretch;
+}
+
+.doubleUp input {
+  width: 100%;
+}
+
 h1 {
   color: #F79144;
   text-align: center;
@@ -71,6 +82,7 @@ button {
   
   margin: auto;
   padding: 20px 20px 60px;
+  box-shadow: 5px 5px 5px black;
 }
 
 .fields {

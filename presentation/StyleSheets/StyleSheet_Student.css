@@ -2,10 +2,32 @@ html {
   background-color: #45567D;
 }
 
+.title {
+    border-width: 0px 0px 3px 0px;
+    border-style: solid;
+    border-color: #eff1f6;
+}
+
+.single_form {
+    border-width: 2px;
+    border-style: inset;
+    border-radius: 6px;
+    padding: 10px;
+    background-color: #364463;
+    box-shadow: inset 5px 5px 5px #121721;
+}
+
 .content h2 {
-  margin-top: 0;
-  color: white;
-  letter-spacing: 0.2em;
+    margin-top: 0;
+    margin-bottom: 0;
+    color: white;
+    letter-spacing: 0.3em;
+}
+
+.content h3 {
+    color: white;
+    font-size: large;
+    letter-spacing: 0.1em;
 }
 
 .content label {

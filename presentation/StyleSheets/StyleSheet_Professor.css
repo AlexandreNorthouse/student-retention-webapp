@@ -1,0 +1,141 @@
+html {
+  background-color: #45567D;
+}
+
+.title {
+    border-width: 0px 0px 3px 0px;
+    border-style: solid;
+    border-color: #eff1f6;
+}
+
+.select_course {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: stretch;
+
+    border-width: 2px;
+    border-style: outset;
+    border-radius: 6px;
+    padding: 8px;
+    background-color: #5b71a4;
+    box-shadow: 5px 5px 5px #121721;
+}
+
+.select_course button, select {
+    padding: 7px;
+}
+
+.action_result {
+    border-width: 2px;
+    border-style: inset;
+    border-radius: 6px;
+    padding: 10px;
+    background-color: #364463;
+    box-shadow: inset 5px 5px 5px #121721;
+}
+
+.single_form {
+    border-width: 2px;
+    border-style: outset;
+    border-radius: 6px;
+    padding: 10px;
+    background-color: #5b71a4;
+    box-shadow: 5px 5px 5px #121721;
+}
+
+.centeredButtons {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: stretch;
+}
+
+.centeredButtons button {
+    padding: 7px;
+}
+
+.content p {
+	color: white;
+}
+
+.content h2 {
+    margin-top: 0;
+    margin-bottom: 0;
+    color: white;
+    letter-spacing: 0.3em;
+}
+
+.content h3 {
+    color: white;
+    font-size: large;
+    letter-spacing: 0.1em;
+}
+
+.content label {
+    color: white;
+    font-size: large;
+}
+
+.content input {
+    padding: 5px;
+    width: 100%;
+}
+
+.content textarea {
+    padding: 5px;
+    width: 100%;
+    height: 5em;
+}
+
+.error {
+    color: Tomato;
+}
+
+.success {
+    color: YellowGreen;
+}
+
+table {
+    width: 100%;
+}
+
+.content th, td {
+    padding: 10px;
+    text-align: left;
+    border-bottom: 1px dashed #6b7fae;
+}
+
+.action_result td:first-child {
+    text-align: center;
+}
+
+.content tr:nth-child(odd) {
+    background-color: #516594;
+}
+
+.content tr:nth-child(even) {
+    background-color: #485a84;
+}
+
+.content tr:hover {
+    background-color: #5b71a4;
+}
+
+@media (min-aspect-ratio: 16/9) {
+    .action_result {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around;
+    }
+
+    .twoTextareas {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-evenly;
+    }
+
+    .twoTextareas div {
+        width: 48%
+    }
+}
