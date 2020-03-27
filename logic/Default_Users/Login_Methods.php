@@ -1,24 +1,4 @@
 <?php
-    // this makes sure that all stored session values are kept
-    session_start();
-
-    // this includes the needed database and default methods
-    require_once( dirname(__FILE__, 3) . "\logic\Database_Methods.php" );
-    require_once( dirname(__FILE__, 3) . "\logic\Default_Methods.php" );
-
-
-    // this handles calling the logic function and its return array
-    if (!empty($_POST)) {
-        $inputArray = array(
-            "Username" => ($_POST['username']),
-            "Password" => ($_POST['password'])
-        );
-        $feedback = LoginMethods::login($inputArray);
-    } else {
-        $feedback = array();
-    }
-
-
     class LoginMethods {
 
         // main function called by presentation layer
@@ -95,7 +75,7 @@
         public static function getRedirectString(string $isProf): string
         {
             if ($isProf == 1) {
-                return ("Location: ../Professor/View_Data.php");
+                return ("Location: ../Professor/ViewData.php");
             }
             if ($isProf == 0) {
                 return("Location: ../Student/Chatbot.php");
