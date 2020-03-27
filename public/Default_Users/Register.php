@@ -3,9 +3,9 @@
     session_start();
 
     // these include the database, default, page, and presentation classes
-    require_once( dirname(__FILE__, 3) . "\logic\Database_Methods.php" );
-    require_once( dirname(__FILE__, 3) . "\logic\Default_Methods.php" );
-    require_once( dirname(__FILE__, 3) . "\logic\Default_Users\Register_Methods.php" );
+    require_once( dirname(__FILE__, 3) . "\logic\DatabaseMethods.php" );
+    require_once( dirname(__FILE__, 3) . "\logic\DefaultMethods.php" );
+    require_once( dirname(__FILE__, 3) . "\logic\Default_Users\RegisterMethods.php" );
     require_once( dirname(__FILE__, 3) . "\presentation\PresentationMethods.php" );
 
 
@@ -26,5 +26,5 @@
     }
 
     // this then loads the presentation layer
-    require_once( dirname(__FILE__, 3) . "\presentation\Default_Users\Register.php" );
+    require_once( dirname(__FILE__, 3) . "\presentation\Default_Users\RegisterPresentation.php" );
 ?>

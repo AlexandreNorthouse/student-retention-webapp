@@ -1,6 +1,7 @@
 <?php
 declare(strict_types=1);
     require_once(dirname(__FILE__, 2) . "/logic/Student/Add_Course_Methods.php");
+    require_once(dirname(__FILE__, 2) . "/logic/Database_Methods.php");
 
     use PHPUnit\Framework\TestCase;
 

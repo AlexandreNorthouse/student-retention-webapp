@@ -3,9 +3,9 @@
     session_start();
 
     // these include the database, default, page, and presentation classes
-    require_once( dirname(__FILE__, 3) . "\logic\Database_Methods.php" );
-    require_once( dirname(__FILE__, 3) . "\logic\Default_Methods.php" );
-    require_once( dirname(__FILE__, 3) . "\logic\Student\Add_Course_Methods.php");
+    require_once( dirname(__FILE__, 3) . "\logic\DatabaseMethods.php" );
+    require_once( dirname(__FILE__, 3) . "\logic\DefaultMethods.php" );
+    require_once( dirname(__FILE__, 3) . "\logic\Student\AddCourseMethods.php");
     require_once( dirname(__FILE__, 3) . "\presentation\PresentationMethods.php");
 
     DefaultMethods::checkLogin('Student');
@@ -22,5 +22,5 @@
     }
 
     // this then loads the presentation layer
-    require_once( dirname(__FILE__, 3) . "\presentation\Student\Add_Course.php");
+    require_once( dirname(__FILE__, 3) . "\presentation\Student\AddCoursePresentation.php");
 ?>
