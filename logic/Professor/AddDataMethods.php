@@ -1,4 +1,7 @@
 <?php
+    require_once( dirname(__FILE__, 3) . "\logic\DatabaseMethods.php" );
+    require_once( dirname(__FILE__, 3) . "\logic\DefaultMethods.php" );
+
     class AddDataMethods {
 
         // main function called by presentation layer
@@ -45,7 +48,8 @@
 
             // Code if there IS a duplicate question
             if (DatabaseMethods::duplicateQACheck($question, $answer, $selectedCourse)) {
-                $errorArray = array("It seems like that question / answer combo already exists, please contact your system admin with this error.");
+                $errorArray = array("It seems like that question / answer combo already exists, "
+                    . "please contact your system admin with this error.");
                 return DefaultMethods::generateReturnArray("Error", $errorArray);
             }
 
@@ -70,7 +74,5 @@
             // attempted insertion success code
             return DefaultMethods::generateReturnArray();
         }
-
     }
-
 ?>

@@ -408,7 +408,7 @@
         }
 
         // Attempts to update a question's text; returns TRUE if successful, FALSE otherwise.
-        public static function attemptQuestionUpdate($quesID, $updateAText, $updateQText): bool
+        public static function attemptQuestionUpdate($quesID, $updateQText, $updateAText): bool
         {
             try {
                 $conn = DatabaseMethods::setConnVariable();

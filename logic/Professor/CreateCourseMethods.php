@@ -1,4 +1,7 @@
 <?php
+    require_once( dirname(__FILE__, 3) . "\logic\DatabaseMethods.php" );
+    require_once( dirname(__FILE__, 3) . "\logic\DefaultMethods.php" );
+
     class CreateCourseMethods {
 
         // main function called by presentation layer
@@ -85,7 +88,5 @@
             // success code
             return DefaultMethods::generateReturnArray();
         }
-
     }
-
 ?>

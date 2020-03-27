@@ -1,4 +1,7 @@
 <?php
+    require_once( dirname(__FILE__, 3) . "\logic\DatabaseMethods.php" );
+    require_once( dirname(__FILE__, 3) . "\logic\DefaultMethods.php" );
+
     class RegisterMethods {
 
         // main function called by presentation layer
@@ -43,14 +46,15 @@
         }
 
 
+
         // Logic for checking if a duplicate username already exists for the inputted university
         public static function duplicateUsernameCheck(array $inputArray): array
         {
             $username = $inputArray["Username"];
-            $isProf = $inputArray["Is Professor"];
+            $uniID = $inputArray["uniID"];
 
             // duplicate found
-            if (DatabaseMethods::duplicateUsernameCheck($username, $isProf)) {
+            if (DatabaseMethods::duplicateUsernameCheck($username, $uniID)) {
                 $errorArray = array("That username already exists for that university!");
                 return DefaultMethods::generateReturnArray("Error", $errorArray);
             }
@@ -79,8 +83,5 @@
             // Insertion success code
             return DefaultMethods::generateReturnArray();
         }
-
-
     }
-
 ?>

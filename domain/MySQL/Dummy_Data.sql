@@ -44,7 +44,9 @@ COMMIT;
 
 INSERT INTO `courses` (`ID`, `uniID`, `crseID`, `sectNum`, `crseName`) VALUES
 (1, 1, 'EX101', 1, 'Example Course, Section 1'),
-(2, 1, 'EX101', 2, 'Example Course, Section 2');
+(2, 1, 'EX101', 2, 'Example Course, Section 2'),
+(3, 1, 'EX102', 1, 'Example Course 2, Section 1'),
+(0, 1, 'asdf', 0, 'asdf');
 
 --
 -- Dumping data for table `coursesusersroster`
@@ -64,7 +66,8 @@ INSERT INTO `questions` (`ID`, `crseID`, `qtext`, `atext`) VALUES
 (1, 1, 'What\'s the capital of Indiana?', 'The capital of Indiana is Indianaoplis.'),
 (2, 1, 'What section of EX101 is this?', 'This is section 1 of EX101.'),
 (3, 2, 'What\'s the capital of Michigan?', 'The capital of Michigan is Grand Rapids.'),
-(4, 2, 'What section of EX101 is this?', 'This is section 2 of EX101.');
+(4, 2, 'What section of EX101 is this?', 'This is section 2 of EX101.'),
+(5, 2, 'asdf', 'asdf');
 
 --
 -- Dumping data for table `syllabi`

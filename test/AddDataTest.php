@@ -1,71 +1,54 @@
 <?php
     declare(strict_types=1);
-    require_once(dirname(__FILE__, 2) . "/logic/Professor/Add_Data_Methods.php");
-
+    require_once(dirname(__FILE__, 2) . "/logic/Professor/AddDataMethods.php");
     use PHPUnit\Framework\TestCase;
-
 
     class AddDataTest extends TestCase
     {
-
-        public static function tearDownAfterClass(): void
+        public static function setUpBeforeClass(): void
         {
-            $conn = DatabaseMethods::setConnVariable();
-            $query = "DELETE FROM questions WHERE qtext=\"Example Question1\"; "
-                . "DELETE FROM questions WHERE qtext=\"Example Question2\";";
-            $sql = $conn->prepare($query);
-            $sql->execute();
-        }
-
-        public function testAddQuestion()
-        {
-            $testArray = array(
-                "Selected Course" => "1",
-                "Question"       => "Example Question1",
-                "Answer"         => "Example Answer1"
-            );
-
-            $correctArray = array(
-                "Outcome" => "Success",
-                "Feedback" => array(
-                    "The question was successfully added to the course!"
-                )
-            );
-            $this->assertEquals($correctArray, AddDataMethods::addQuestion($testArray),
-                "Testing add question method!");
+            //no code needed.
         }
 
         public function testCheckDuplicate()
         {
             $testArray = array(
-                "Selected Course" => "1",
-                "Question"       => "Example Question1",
-                "Answer"         => "Example Answer1"
+                "Question"        => "What's the capital of Indiana?",
+                "Answer"          => "The capital of Indiana is Indianapolis.",
+                "Selected Course" => "1"
             );
 
             $correctArray = array(
                 "Outcome" => "Error",
-                "Feedback" => array(
-                    "It seems like that question / answer combo already does not exists, please contact your system admin with this not error."
-                )
+                "Feedback" => array("It seems like that question / answer combo already exists, "
+                    . "please contact your system admin with this error.")
             );
+
             $this->assertNotEquals($correctArray, AddDataMethods::duplicateQACheck($testArray),
-                "Testing  method!");
+                "The duplicateQACheck() method failed.");
         }
         
         public function testQAInsertion()
         {
             $testArray = array(
                 "Selected Course" => "1",
-                "Question"       => "Example Question2",
-                "Answer"         => "Example Answer2"
+                "Question"        => "Example Question",
+                "Answer"          => "Example Answer"
             );
 
             $correctArray = array();
             
             $this->assertEquals($correctArray, AddDataMethods::attemptQAInsertion($testArray),
-                "Testing  method!");
+                "The attemptQAInsertion() method failed.");
         }
 
+        public static function tearDownAfterClass(): void
+        {
+            $conn = DatabaseMethods::setConnVariable();
+            $query = "DELETE FROM questions WHERE qtext=\"Example Question\"";
+            $sql = $conn->prepare($query);
+            $sql->execute();
+            $conn = null;
+        }
     }
 ?>

@@ -1,61 +1,53 @@
 <?php
-declare(strict_types=1);
-    require_once(dirname(__FILE__, 2) . "/logic/Default_Users/Register_Methods.php");
-
+    declare(strict_types=1);
+    require_once(dirname(__FILE__, 2) . "/logic/Default_Users/RegisterMethods.php");
     use PHPUnit\Framework\TestCase;
 
-
-    class RegisterMethodsTest extends TestCase
+    class RegisterTests extends TestCase
     {
+        public static function setUpBeforeClass(): void
+        {
+            // no code needed.
+        }
 
-        public function testRegister()
+        public function testDuplicateUsernameCheck()
          {
              $testArray = array(
-                 "Username" => 'test',
-                 "University ID" => '1',
-                 "Password" => 'test',
-                 "Password 2" => 'test',
-                 "First Name" => 'test',
-                 "Last Name" => 'test',
-                 "Is Professor" => '1'
+                 "Username" => "exampleStudent",
+                 "uniID" => "1"
              );
 
-             $correctArray = array(
-                 "Outcome" => "Success",
-                 "Feedback" => array("Account successfully added! Return to the login page to login.")
+             $successArray = array(
+                 "Outcome" => "Error",
+                 "Feedback" => array("That username already exists for that university!")
              );
-             $this->assertEquals($correctArray, RegisterMethods::Register($testArray), "They're the same!");
+             $this->assertEquals($successArray, RegisterMethods::duplicateusernameCheck($testArray),
+                 "The duplicateUsernameCheck() method failed.");
          }
 
-         public function testDuplicateUsernameCheck()
+        public function testUserInsertion()
          {
              $testArray = array(
-                 "Username" => "test",
-                 "University ID" => "1"
+                 "Username"      => 'test',
+                 "University ID" => '1',
+                 "Password"      => 'test',
+                 "First Name"    => 'test',
+                 "Last Name"     => 'test',
+                 "Is Professor"  => '1'
              );
 
              $correctArray = array();
-             $this->assertEquals($correctArray, RegisterMethods::duplicateusernameCheck($testArray), "They're the same!");
+             $this->assertEquals($correctArray, RegisterMethods::attemptUserInsertion($testArray),
+                 "The attemptUserInsertion() method failed.");
          }
 
-         public function testUserInsertion()
-         {
-             $testArray = array(
-                 "Username" => 'test',
-                 "University ID" => '1',
-                 "Password" => 'test',
-                 "Password 2" => 'test',
-                 "First Name" => 'test',
-                 "Last Name" => 'test',
-                 "Is Professor" => '1'
-             );
-
-             $correctArray = array();
-             $this->assertEquals($correctArray, RegisterMethods::attemptUserInsertion($testArray), "They're the same!");
-         }
-
-         
+        public static function tearDownAfterClass(): void
+        {
+            $conn = DatabaseMethods::setConnVariable();
+            $query = 'DELETE FROM users WHERE username="test"';
+            $sql = $conn->prepare($query);
+            $sql->execute();
+            $conn = null;
+        }
     }
-
-
 ?>

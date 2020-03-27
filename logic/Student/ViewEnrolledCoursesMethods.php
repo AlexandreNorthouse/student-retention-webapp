@@ -1,4 +1,7 @@
 <?php
+    require_once( dirname(__FILE__, 3) . "\logic\DatabaseMethods.php" );
+    require_once( dirname(__FILE__, 3) . "\logic\DefaultMethods.php" );
+
     class ViewEnrolledCoursesMethods
     {
         // main function called by presentation layer
@@ -8,7 +11,7 @@
 
 
             // attempts to withdraw the student from the class
-            $feedback = ViewCoursesMethods::attemptCourseWithdraw($inputArray);
+            $feedback = ViewEnrolledCoursesMethods::attemptCourseWithdraw($inputArray);
             if (isset($feedback["Outcome"]))
                 return $feedback;
 
@@ -17,6 +20,7 @@
             $success = array("Successfully withdrew from the course!");
             return DefaultMethods::generateReturnArray("Success", $success);
         }
+
 
 
         // this is the logic component for calling the database method of (roughly) the same name
@@ -34,6 +38,5 @@
             // course withdraw success code
             return DefaultMethods::generateReturnArray();
         }
-
     }
 ?>

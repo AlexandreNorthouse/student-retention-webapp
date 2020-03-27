@@ -1,62 +1,108 @@
 <?php
     declare(strict_types=1);
-    require_once(dirname(__FILE__, 2) . "/logic/Professor/Create_Syllabus_Methods.php");
-
+    require_once(dirname(__FILE__, 2) . "/logic/Professor/CreateSyllabusMethods.php");
     use PHPUnit\Framework\TestCase;
-
 
     class CreateSyllabusTest extends TestCase
     {
-
-        public static function tearDownAfterClass(): void
+        public static function setUpBeforeClass(): void
         {
-            $conn = DatabaseMethods::setConnVariable();
-            $query = "DELETE FROM syllabi WHERE studentResources=\"Example\";";
-            $sql = $conn->prepare($query);
-            $sql->execute();
+            // no code needed.
         }
 
-        public function testCreateSyllabus()
+        public function testGetSyllabus()
         {
-            $testArray = array(
-                "Course ID"           => "1",
-                "Course Title"        => "Example",
-                "Contact Information" => "Example",
-                "Office Hours"        => "Example",
-                "Course Description"  => "Example",
-                "Course Goals"        => "Example",
-                "Required Materials"  => "Example",
-                "Grading Policy"      => "Example",
-                "Attendance Policy"   => "Example",
-                "University Policies" => "Example",
-                "Student Resources"   => "Example"
+            $expected = array(
+                0 => array(
+                    "courseTitle" => "Example title",
+                    0 => "Example title",
+                    "contactInformation" => "Example contact information",
+                    1 => "Example contact information",
+                    "officeHoursPolicy"=> "Example office hours policy",
+                    2 => "Example office hours policy",
+                    "courseDescription" => "Example course description",
+                    3 => "Example course description",
+                    "courseGoals" => "Example course goals",
+                    4 => "Example course goals",
+                    "requiredMaterials" => "Example required materials",
+                    5 => "Example required materials",
+                    "gradingPolicy" => "Example grading policy",
+                    6 => "Example grading policy",
+                    "attendancePolicy" => "Example attendance policy",
+                    7 => "Example attendance policy",
+                    "universityPolicy" => "Example university policy",
+                    8 => "Example university policy",
+                    "studentResources" => "Example student resources",
+                    9 => "Example student resources"
+                )
             );
-
-            $correctArray = array(
-                "Outcome" => "Success",
-                "Feedback" => array("The syllabus was successfully added to the course!")
-            );
-            $this->assertEquals($correctArray, CreateSyllabusMethods::createSyllabus($testArray), "They're the same!");
+            $actual = CreateSyllabusMethods::getSyllabus(array("Course ID" => 1));
+            $this->assertEquals($expected, $actual,
+                "The getSyllabus() method failed.");
         }
 
         public function testAttemptSyllabusInsertion()
         {
+            $expected = array();
+
             $testArray = array(
-                "Course ID"           => "2",
-                "Course Title"        => "Example",
-                "Contact Information" => "Example",
-                "Office Hours"        => "Example",
-                "Course Description"  => "Example",
-                "Course Goals"        => "Example",
-                "Required Materials"  => "Example",
-                "Grading Policy"      => "Example",
-                "Attendance Policy"   => "Example",
-                "University Policies" => "Example",
-                "Student Resources"   => "Example"
+                "Course ID"           => "3",
+                "Course Title"        => "1",
+                "Contact Information" => "1",
+                "Office Hours"        => "1",
+                "Course Description"  => "1",
+                "Course Goals"        => "1",
+                "Required Materials"  => "1",
+                "Grading Policy"      => "1",
+                "Attendance Policy"   => "1",
+                "University Policies" => "1",
+                "Student Resources"   => "1"
+            );
+            $actual = CreateSyllabusMethods::attemptSyllabusInsertion($testArray);
+            $this->assertEquals($expected, $actual,
+                "The attemptSyllabusInsertion() method failed.");
+        }
+
+        public function testAttemptSyllabusUpdate()
+        {
+            $expected = array();
+
+            $testArray = array(
+                "Course ID"           => "3",
+                "Course Title"        => "2",
+                "Contact Information" => "2",
+                "Office Hours"        => "2",
+                "Course Description"  => "2",
+                "Course Goals"        => "2",
+                "Required Materials"  => "2",
+                "Grading Policy"      => "2",
+                "Attendance Policy"   => "2",
+                "University Policies" => "2",
+                "Student Resources"   => "2"
+            );
+            $actual = CreateSyllabusMethods::attemptSyllabusUpdate($testArray);
+            $this->assertEquals($expected, $actual,
+                "The attemptSyllabusUpdate() method failed.");
+        }
+
+        public function testAttemptSyllabusDelete()
+        {
+            $expected = array(
+                'Outcome' => 'Success',
+                'Feedback' => array("Syllabus successfully deleted!")
             );
 
-            $correctArray = array();
-            $this->assertEquals($correctArray, CreateSyllabusMethods::attemptSyllabusInsertion($testArray), "They're the same!");
-        }  
+            $testArray = array(
+                "Course ID" => 3
+            );
+            $actual = CreateSyllabusMethods::attemptSyllabusDelete($testArray);
+            $this->assertEquals($expected, $actual,
+                "The attemptSyllabusDelete() method failed.");
+        }
+
+        public static function tearDownAfterClass(): void
+        {
+            // no code needed.
+        }
     }
 ?>

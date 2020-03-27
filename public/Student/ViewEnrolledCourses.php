@@ -2,11 +2,8 @@
     // this makes sure that all stored session values are kept
     session_start();
 
-    // this includes the needed database and default methods
-    require_once( dirname(__FILE__, 3) . "\logic\DatabaseMethods.php" );
-    require_once( dirname(__FILE__, 3) . "\logic\DefaultMethods.php" );
+    // This includes the view enrolled courses methods class.
     require_once( dirname(__FILE__, 3) . "\logic\Student\ViewEnrolledCoursesMethods.php");
-    require_once( dirname(__FILE__, 3) . "\presentation\PresentationMethods.php");
 
     DefaultMethods::checkLogin('Student');
     $classList = DefaultMethods::getEnrolledCourses("Professor Details");
@@ -19,10 +16,12 @@
         );
         $feedback = ViewEnrolledCoursesMethods::dropCourse($inputArray);
         $classList = DefaultMethods::getEnrolledCourses("Professor Details");
-    } else {
+    }
+    else {
         $feedback = array();
     }
 
-    // this then loads the presentation layer
+    // this then loads the presentation layer and it's required method class.
+    require_once( dirname(__FILE__, 3) . "\presentation\PresentationMethods.php");
     require_once( dirname(__FILE__, 3) . "\presentation\Student\ViewEnrolledCoursesPresentation.php");
 ?>

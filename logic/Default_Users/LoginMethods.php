@@ -1,4 +1,7 @@
 <?php
+    require_once( dirname(__FILE__, 3) . "\logic\DatabaseMethods.php" );
+    require_once( dirname(__FILE__, 3) . "\logic\DefaultMethods.php" );
+
     class LoginMethods {
 
         // main function called by presentation layer
@@ -82,8 +85,5 @@
             }
             return ("Error");
         }
-
-
     }
-
 ?>

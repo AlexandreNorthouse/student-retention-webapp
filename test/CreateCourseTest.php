@@ -1,70 +1,55 @@
 <?php
     declare(strict_types=1);
-    require_once(dirname(__FILE__, 2) . "/logic/Professor/Create_Course_Methods.php");
-
+    require_once(dirname(__FILE__, 2) . "/logic/Professor/CreateCourseMethods.php");
     use PHPUnit\Framework\TestCase;
-
 
     class CreateCourseTest extends TestCase
     {
-
-        public static function tearDownAfterClass(): void
+        public static function setUpBeforeClass(): void
         {
-            $conn = DatabaseMethods::setConnVariable();
-            $query = "DELETE FROM courses WHERE crseID=\"PSYC101\"; "
-                . "DELETE FROM courses WHERE crseID=\"PSYC102\";";
-            $sql = $conn->prepare($query);
-            $sql->execute();
-        }
-
-        public function testCreateCourse()
-        {
-            $testArray = array(
-                "University ID" => "1",
-                "Course Number" => "PSYC101",
-                "Course Section" => "1",
-                "Course Name" => "Intro to Psychology, Section 1",
-                "Professor ID" => "1"
-            );
-
-            $correctArray = array(
-                "Outcome" => "Success",
-                "Feedback" => array("The course was successfully added to the university! " .
-                "It should now appear in your enrolled courses.")
-            );
-            $this->assertEquals($correctArray, CreateCourseMethods::createCourse($testArray),
-                "They're the same!");
+            // no code needed.
         }
 
         public function testDuplicateCourseCheck()
         {
             $testArray = array(
-                "University ID" => "1",
-                "Course Number" => "PSYC103",
+                "Course Number" => "EX101",
                 "Course Section" => "1",
+                "University ID" => "1"
             );
 
-            $correctArray = array();
-            $this->assertEquals($correctArray, CreateCourseMethods::duplicateCrseNumSectCheck($testArray),
-                "They're the same!");
+            $errorArray = array(
+                "Outcome"  => "Error",
+                "Feedback" => array("It seems that course number and section number already exists!"),
+            );
+
+            $this->assertEquals($errorArray, CreateCourseMethods::duplicateCrseNumSectCheck($testArray),
+                "The duplicateCrseNumSectCheck() has failed.");
         }
 
         public function testAttempCourseInsertion()
         {
             $testArray = array(
-                "University ID" => "1",
-                "Course Number" => "PSYC102",
+                "Course Number" => "EX999",
                 "Course Section" => "1",
-                "Course Name" => "Intro to Psychology, Section 1",
+                "Course Name" => "Test Course",
+                "University ID" => "1",
                 "Professor ID" => "1"
             );
 
             $correctArray = array();
+
             $this->assertEquals($correctArray, CreateCourseMethods::attemptCourseInsertion($testArray),
-                "They're the same!");
+                "The attemptCourseInsertion() method failed.");
         }
 
+        public static function tearDownAfterClass(): void
+        {
+            $conn = DatabaseMethods::setConnVariable();
+            $query = "DELETE FROM courses WHERE crseID=\"EX999\"";
+            $sql = $conn->prepare($query);
+            $sql->execute();
+            $conn = null;
+        }
     }
-
-
 ?>

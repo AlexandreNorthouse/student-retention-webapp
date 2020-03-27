@@ -1,4 +1,7 @@
 <?php
+    require_once( dirname(__FILE__, 3) . "\logic\DatabaseMethods.php" );
+    require_once( dirname(__FILE__, 3) . "\logic\DefaultMethods.php" );
+
     class CreateSyllabusMethods {
 
         // main function called by presentation layer
@@ -123,13 +126,13 @@
 
             // attempted insertion error code
             if (!DatabaseMethods::attemptSyllabusDeletion($courseID)) {
-                $errorArray = array("Something went wrong updating the question, contact your system admin"
+                $errorArray = array("Something went wrong deleting the syllabus, contact your system admin"
                     . " for help!");
                 return DefaultMethods::generateReturnArray("Error", $errorArray);
             }
 
             // attempted insertion success code
-            $successArray = array("Question successfully deleted!");
+            $successArray = array("Syllabus successfully deleted!");
             return DefaultMethods::generateReturnArray("Success", $successArray);
         }
 

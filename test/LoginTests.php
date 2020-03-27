@@ -1,57 +1,66 @@
 <?php
-declare(strict_types=1);
-    require_once(dirname(__FILE__, 2) . "/logic/Default_Users/Login_Methods.php");
-
+    declare(strict_types=1);
+    require_once(dirname(__FILE__, 2) . "/logic/Default_Users/LoginMethods.php");
     use PHPUnit\Framework\TestCase;
 
-
-    class LoginMethodsTest extends TestCase
+    class LoginTests extends TestCase
     {
+        public static function setUpBeforeClass(): void
+        {
+            //no code needed.
+        }
 
         public function testAttemptLogin()
          {
              $testArray = array(
-                 "Username" => "test",
-                 "Password" => "test"
+                 "Username" => "exampleStudent",
+                 "Password" => "password",
+                 "isProf"   => "0"
              );
 
              $correctArray = array();
-             $this->assertEquals($correctArray, LoginMethods::attemptLogin($testArray), "They're the same!");
+             $this->assertEquals($correctArray, LoginMethods::attemptLogin($testArray),
+                 "Testing the attemptLogin() method failed.");
          }
 
-         public function testSetSessionVariables()
+        public function testSetSessionVariables()
          {
              $testArray = array(
-                 "ID" => "test",
-                 "uniID" => "test",
+                 "ID"       => "test",
+                 "uniID"    => "test",
                  "username" => "test",
-                 "fname"   => "test",
+                 "fname"    => "test",
                  "lname"    => "test",
-                 "isProf"  => "test"
+                 "isProf"   => "test"
              );
 
              LoginMethods::setSessionVariables($testArray);
 
              $sessionArray = array(
-                 "ID" => $_SESSION['userID'],
-                 "uniID" => $_SESSION['uniID'],
+                 "ID"       => $_SESSION['userID'],
+                 "uniID"    => $_SESSION['uniID'],
                  "username" => $_SESSION['username'],
-                 "fname"   => $_SESSION['fName'],
+                 "fname"    => $_SESSION['fName'],
                  "lname"    => $_SESSION['lName'],
-                 "isProf"  => $_SESSION['isProf']
+                 "isProf"   => $_SESSION['isProf']
              );
 
-             $this->assertEquals($correctArray, $sessionArray, "They're the same!");
+             $this->assertEquals($testArray, $sessionArray,
+                 "The setSessionVariables() method failed.");
          }
 
-         public function testGetRedirectString()
+        public function testGetRedirectString()
          {
-             $testString = "1";
+             $methodTestString = "1";
+             $correctString = "Location: ../Professor/ViewData.php";
 
-             $correctString = "Location: ../Professor/View_Data.php";
-             $this->assertEquals($correctString, LoginMethods::attemptCourseWithdraw($testString), "They're the same!");
+             $this->assertEquals($correctString, LoginMethods::getRedirectString($methodTestString),
+                 "The getRedirectString() method failed.");
          }
+
+        public static function tearDownAfterClass(): void
+        {
+            // no code needed.
+        }
     }
-
-
 ?>

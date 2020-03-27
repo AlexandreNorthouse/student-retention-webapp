@@ -1,4 +1,7 @@
 <?php
+    require_once( dirname(__FILE__, 3) . "\logic\DatabaseMethods.php" );
+    require_once( dirname(__FILE__, 3) . "\logic\DefaultMethods.php" );
+
     class ViewDataMethods {
 
         public static function viewData($inputArray): array
@@ -69,12 +72,12 @@
         public static function attemptDataUpdate(array $inputArray): array
         {
             // sets variables for more legible variable names
-            $quesID   = $inputArray['Selected Question'];
+            $quesID      = $inputArray['Selected Question'];
             $updateQText = $inputArray['Update Question'];
             $updateAText = $inputArray['Update Answer'];
 
             // attempted insertion error code
-            if (!DatabaseMethods::attemptQuestionUpdate($quesID, $updateAText, $updateQText)) {
+            if (!DatabaseMethods::attemptQuestionUpdate($quesID, $updateQText, $updateAText)) {
                 $errorArray = array("Something went wrong updating the question, contact your system admin"
                     . " for help!");
                 return DefaultMethods::generateReturnArray("Error", $errorArray);
@@ -101,7 +104,5 @@
             $successArray = array("Question successfully deleted!");
             return DefaultMethods::generateReturnArray("Success", $successArray);
         }
-
     }
-
 ?>

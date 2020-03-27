@@ -1,4 +1,7 @@
 <?php
+    require_once( dirname(__FILE__, 3) . "\logic\DatabaseMethods.php" );
+    require_once( dirname(__FILE__, 3) . "\logic\DefaultMethods.php" );
+
     class ViewCreatedCoursesMethods
     {
         // main function called by presentation layer
@@ -8,7 +11,7 @@
 
 
             // attempts to delete the course from the database
-            $feedback = ViewCoursesMethodsProf::attemptCourseDeletion($inputArray);
+            $feedback = ViewCreatedCoursesMethods::attemptCourseDeletion($inputArray);
             if (isset($feedback["Outcome"]))
                 return $feedback;
 
@@ -34,7 +37,5 @@
             // course withdraw success code
             return DefaultMethods::generateReturnArray();
         }
-
     }
-
 ?>

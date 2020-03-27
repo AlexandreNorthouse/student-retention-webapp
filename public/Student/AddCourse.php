@@ -2,11 +2,8 @@
     // this makes sure that all stored session values are kept
     session_start();
 
-    // these include the database, default, page, and presentation classes
-    require_once( dirname(__FILE__, 3) . "\logic\DatabaseMethods.php" );
-    require_once( dirname(__FILE__, 3) . "\logic\DefaultMethods.php" );
+    // This includes the add course methods class.
     require_once( dirname(__FILE__, 3) . "\logic\Student\AddCourseMethods.php");
-    require_once( dirname(__FILE__, 3) . "\presentation\PresentationMethods.php");
 
     DefaultMethods::checkLogin('Student');
 
@@ -17,10 +14,12 @@
             "Student ID"    => ($_SESSION['userID'])
         );
         $feedback = AddCourseMethods::addCourse($inputArray);
-    } else {
+    }
+    else {
         $feedback = array();
     }
 
-    // this then loads the presentation layer
+    // this then loads the presentation layer and it's required method class.
+    require_once( dirname(__FILE__, 3) . "\presentation\PresentationMethods.php");
     require_once( dirname(__FILE__, 3) . "\presentation\Student\AddCoursePresentation.php");
 ?>

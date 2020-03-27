@@ -1,60 +1,62 @@
 <?php
 declare(strict_types=1);
-    require_once(dirname(__FILE__, 2) . "/logic/Student/Add_Course_Methods.php");
-    require_once(dirname(__FILE__, 2) . "/logic/Database_Methods.php");
+    require_once(dirname(__FILE__, 2) . "/logic/Student/AddCourseMethods.php");
 
     use PHPUnit\Framework\TestCase;
 
 
     class AddCourseTest extends TestCase
     {
-
         public static function setUpBeforeClass(): void
         {
             $conn = DatabaseMethods::setConnVariable();
             $query = "DELETE FROM coursesusersroster WHERE crseID=1 AND userID=1;";
             $sql = $conn->prepare($query);
             $sql->execute();
+            $conn = null;
         }
 
         public function testCheckCourseExists()
         {
+            $expected = array();
+
             $testArray = array(
                 "Course Number" => "1"
             );
-
-            $correctArray = array();
-            $this->assertEquals($correctArray, AddCourseMethods::checkCourseExists($testArray),
-                "Testing course check method!");
+            $actual = AddCourseMethods::checkCourseExists($testArray);
+            $this->assertEquals($expected, $actual,
+                "The checkCourseExists() method failed.");
         }
-
 
         public function testCheckIfNotEnrolled()
         {
+            $expected = array();
+
             $testArray = array(
                 "Course Number" => "1",
                 "Student ID" => "1"
             );
-
-            $correctArray = array();
-            $this->assertEquals($correctArray, AddCourseMethods::checkIfNotEnrolled($testArray),
-                "Testing check enrollment method!");
+            $actual = AddCourseMethods::checkIfNotEnrolled($testArray);
+            $this->assertEquals($expected, $actual,
+                "The checkCourseExists() method failed.");
         }
-
         
         public function testAttemptStudentInsertion()
         {
+            $expected = array();
+
             $testArray = array(
                 "Course Number" => "1",
                 "Student ID" => "1"
             );
-
-            $correctArray = array();
-            $this->assertEquals($correctArray, AddCourseMethods::attemptStudentEnrollment($testArray),
-                "Testing student insertion method!");
+            $actual = AddCourseMethods::attemptStudentEnrollment($testArray);
+            $this->assertEquals($expected, $actual,
+                "The checkCourseExists() method failed.");
         }
-        
+
+        public static function tearDownAfterClass(): void
+        {
+            // no code needed.
+        }
     }
-
-
 ?>
