@@ -1,28 +1,4 @@
 <?php
-    // this makes sure that all stored session values are kept
-    session_start();
-
-    // this includes the needed database and default methods
-    require_once( dirname(__FILE__, 3) . "\logic\Database_Methods.php" );
-    require_once( dirname(__FILE__, 3) . "\logic\Default_Methods.php" );
-
-    DefaultMethods::checkLogin("Professor");
-
-    // this handles calling the logic function and its return array
-    if (!empty($_POST)) {
-        $inputArray = array(
-            "University ID" => ($_SESSION['uniID']),
-            "Course Number" => ($_POST['courseNumber']),
-            "Course Section" => ($_POST['courseSection']),
-            "Course Name" => ($_POST['courseName']),
-            "Professor ID" => ($_SESSION['userID'])
-        );
-        $feedback = CreateCourseMethods::createCourse($inputArray);
-    } else {
-        $feedback = array();
-    }
-
-
     class CreateCourseMethods {
 
         // main function called by presentation layer
