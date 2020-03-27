@@ -16,7 +16,7 @@ declare(strict_types=1);
             );
 
             $correctArray = array();
-            $this->assertEquals($correctArray, ViewCoursesMethods::attemptCourseWithdraw($testArray),
+            $this->assertEquals($correctArray, ViewCoursesMethods::dropCourse($testArray),
                 "Testing course withdraw method!");
         }
 

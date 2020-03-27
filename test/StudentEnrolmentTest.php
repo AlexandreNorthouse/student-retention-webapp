@@ -17,7 +17,7 @@ declare(strict_types=1);
             );
 
             $correctArray = array();
-            $this->assertEquals($correctArray, StudentEnrollmentMethods::attemptStudentRemoval($testArray),
+            $this->assertEquals($correctArray, StudentEnrollmentMethods::removeStudent($testArray),
                 "Testing Attempt Student Removal method!");
         }
 
