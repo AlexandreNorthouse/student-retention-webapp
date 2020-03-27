@@ -1,26 +1,18 @@
 <?php
+    // this makes sure that all stored session values are kept
+    session_start();
+
+    // these include the database, default, page, and presentation classes
+    require_once( dirname(__FILE__, 3) . "\logic\Database_Methods.php" );
+    require_once( dirname(__FILE__, 3) . "\logic\Default_Methods.php" );
     require_once( dirname(__FILE__, 3) . "\logic\Student\Chatbot_Methods.php");
+    require_once( dirname(__FILE__, 3) . "\presentation\PresentationMethods.php");
+
+    DefaultMethods::checkLogin("Student");
+
+    // this handles calling the logic function (which is currently useless)
+    ChatbotMethods::chatbot();
+
+    // this then loads the presentation layer
+    require_once( dirname(__FILE__, 3) . "\presentation\Student\Chatbot.php");
 ?>
-
-<html>
-    <head>
-        <title>Student - Chatbot</title>
-        <link rel="stylesheet" href="../StyleSheets/StyleSheet_Sidebar.css">
-        <link rel="stylesheet" href="../StyleSheets/StyleSheet_Student.css">
-    </head>
-    <body>
-        <div class="sidebar">
-            <a class="active" href="Chatbot.php">Use the Chatbot</a>
-            <a href="Add_Course.php">Enroll in a Course</a>
-            <a href="View_Courses.php">View Enrolled Courses</a>
-            <a class="bottom" href="../../logic/Logout_User.php">Logout</a>
-        </div>
-
-        <div class="content">
-            <iframe
-                allow="microphone;"
-                src="https://console.dialogflow.com/api-client/demo/embedded/b14732c6-8cd0-4592-af6c-e160574569ae">
-            </iframe>
-        </div>
-    </body>
-</html>
