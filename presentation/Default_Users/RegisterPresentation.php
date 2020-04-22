@@ -26,7 +26,7 @@
                     <label for="uniID">University ID Number: </label>
                     <input name="uniID" type="number" required min=1 max=99999999999
                            value="<?php echo(PresentationMethods::displayPostValue("uniID")) ?>"/>
-                    <br><br>
+                    <br>
 
                     <div class="doubleUp">
                         <div>
@@ -43,14 +43,13 @@
                     </div>
                 </section>
 
-                <br>
-                <?php if (!empty($feedback)) echo(PresentationMethods::displayFeedback($feedback)) ?>
-                <br>
-
                 <section class="horizontal_section">
                     <button type="submit" name="createUser" value="Student">Create Student</button>
                     <button type="submit" name="createUser" value="Professor">Create Professor</button>
                 </section>
+
+                <br><br>
+                <?php if (!empty($feedback)) echo(PresentationMethods::displayFeedback($feedback)) ?>
             </form>
 
             <br>

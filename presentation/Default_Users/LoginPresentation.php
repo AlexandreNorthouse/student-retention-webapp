@@ -21,16 +21,16 @@
                 <div class="centered_button">
                     <br><br>
                     <button type="submit" name="LoginButton" value="✓">Login</button>
-                    <br>
                 </div>
             </form>
-
-            <?php if (!empty($feedback)) echo(PresentationMethods::displayFeedback($feedback)) ?>
 
             <div class="centered_button">
                 <br><br>
                 <button class="change_page" onclick="window.location.href = 'Register.php';">Register a New User</button>
             </div>
+
+            <br><br>
+            <?php if (!empty($feedback)) echo(PresentationMethods::displayFeedback($feedback)) ?>
         </section>
     </body>
 </html>
