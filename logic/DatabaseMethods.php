@@ -45,8 +45,9 @@
             try {
                 $conn = DatabaseMethods::setConnVariable();
                 $query = "SELECT c.ID, c.crseID, c.sectNum, c.crseName FROM "
-                    . "courses c, coursesusersroster cur WHERE c.ID=cur.crseID AND cur.userID=$userID";
+                    . "courses c, coursesusersroster cur WHERE c.ID=cur.crseID AND cur.userID=:userID";
                 $sql = $conn->prepare($query);
+                $sql->bindParam(':userID', $userID);
                 $sql->execute();
                 return $sql->fetchAll();
             } catch (PDOException $e) {
@@ -61,9 +62,10 @@
                 $conn = DatabaseMethods::setConnVariable();
                 $query = "SELECT c.ID, c.crseID, c.sectNum, c.crseName, p.fname, p.lname "
                     . "FROM courses c, coursesusersroster cur1, coursesusersroster cur2, users p "
-                    . "WHERE (c.ID=cur1.crseID AND cur1.userID=$userID) AND "
+                    . "WHERE (c.ID=cur1.crseID AND cur1.userID=:userID) AND "
                     . "(cur1.crseID=cur2.crseID AND cur2.userID=p.ID AND p.isProf=1)";
                 $sql = $conn->prepare($query);
+                $sql->bindParam(':userID', $userID);
                 $sql->execute();
                 return $sql->fetchAll();
             } catch (PDOException $e) {
@@ -76,8 +78,10 @@
         {
             try {
                 $conn = DatabaseMethods::setConnVariable();
-                $query = "INSERT INTO coursesusersroster VALUES ($courseID, $userID)";
+                $query = "INSERT INTO coursesusersroster VALUES (:courseID, :userID)";
                 $sql = $conn->prepare($query);
+                $sql->bindParam(':courseID', $courseID);
+                $sql->bindParam(':userID', $userID);
                 $sql->execute();
                 return TRUE;
             } catch (PDOException $e) {
@@ -97,7 +101,7 @@
         {
             try {
                 $conn = DatabaseMethods::setConnVariable();
-                $query = "SELECT * FROM users WHERE username=\"$username\"";
+                $query = "SELECT * FROM users WHERE username=:username";
                 $sql = $conn->prepare($query);
                 $sql->execute();
                 $user = $sql->fetchAll();
@@ -123,8 +127,10 @@
         {
             try {
                 $conn = DatabaseMethods::setConnVariable();
-                $query = "SELECT * FROM users WHERE uniID=$uniID AND username=\"$username\"";
+                $query = "SELECT * FROM users WHERE uniID=:uniID AND username=:username";
                 $sql = $conn->prepare($query);
+                $sql->bindParam(':uniID', $uniID);
+                $sql->bindParam(':username', $username);
                 $sql->execute();
 
                 if (empty($sql->fetchALL())) return FALSE;
@@ -141,7 +147,14 @@
             try {
                 $conn = DatabaseMethods::setConnVariable();
                 $query = "INSERT INTO users VALUES ".
-                    "(NULL, $uniID, \"$username\", \"$password\", \"$fName\", \"$lName\", \"$isProf\")";
+                    "(NULL, :uniID, :username, :password, :fName, :lName, :isProf)";
+                $sql = $conn->prepare($query);
+                $sql->bindParam(':username', $username);
+                $sql->bindParam(':password', $password);
+                $sql->bindParam(':uniID', $uniID);
+                $sql->bindParam(':fName', $fName);
+                $sql->bindParam(':lName', $lName);
+                $sql->bindParam(':isProf', $isProf);
                 $conn->exec($query);
 
                 echo ($conn->lastInsertID());
@@ -163,8 +176,9 @@
         {
 			try {
                 $conn = DatabaseMethods::setConnVariable();
-				$query = "SELECT ID FROM courses WHERE ID=$courseNumber";
+				$query = "SELECT ID FROM courses WHERE ID=:courseNumber";
                 $sql = $conn->prepare($query);
+                $sql->bindParam(':courseNumber', $courseNumber);
 				$sql->execute();
 
 				if (empty($sql->fetchAll()))
@@ -180,8 +194,10 @@
         {
             try {
                 $conn = DatabaseMethods::setConnVariable();
-                $query = "SELECT * FROM coursesusersroster WHERE crseID=$courseNumber AND userID=$studentID";
+                $query = "SELECT * FROM coursesusersroster WHERE crseID=:courseNumber AND userID=:studentID";
                 $sql = $conn->prepare($query);
+                $sql->bindParam(':courseNumber', $courseNumber);
+                $sql->bindParam(':studentID', $studentID);
                 $sql->execute();
 
                 if (!empty($sql->fetchAll()))
@@ -197,8 +213,10 @@
         {
             try {
                 $conn = DatabaseMethods::setConnVariable();
-                $query = "INSERT INTO coursesusersroster VALUES ($courseNumber, $userID)";
+                $query = "INSERT INTO coursesusersroster VALUES (:courseNumber, :userID)";
                 $sql = $conn->prepare($query);
+                $sql->bindParam(':courseNumber', $courseNumber);
+                $sql->bindParam(':userID', $userID);
                 $sql->execute();
                 return TRUE;
             } catch (PDOException $e) {
@@ -223,8 +241,10 @@
         {
             try {
                 $conn = DatabaseMethods::setConnVariable();
-                $query = "SELECT * FROM questions WHERE crseID=$selectedCourse AND qtext=\"$question\"";
+                $query = "SELECT * FROM questions WHERE crseID=:selectedCourse AND qtext=:question";
                 $sql = $conn->prepare($query);
+                $sql->bindParam(':selectedCourse', $selectedCourse);
+                $sql->bindParam(':question', $question);
                 $sql->execute();
 
                 if (empty($sql->fetchAll()))
@@ -241,8 +261,11 @@
         {
             try {
                 $conn = DatabaseMethods::setConnVariable();
-                $query = "INSERT INTO questions VALUES (NULL, $selectedCourse, \"$question\", \"$answer\")";
+                $query = "INSERT INTO questions VALUES (NULL, :selectedCourse, :question, :answer)";
                 $sql = $conn->prepare($query);
+                $sql->bindParam(':selectedCourse', $selectedCourse);
+                $sql->bindParam(':question', $question);
+                $sql->bindParam(':answer', $answer);
                 $sql->execute();
 
                 return TRUE;
@@ -261,8 +284,10 @@
         {
             try {
                 $conn = DatabaseMethods::setConnVariable();
-                $query = "DELETE FROM coursesusersroster WHERE crseID=$courseNumber AND userID=$studentID";
+                $query = "DELETE FROM coursesusersroster WHERE crseID=:courseNumber AND userID=:studentID";
                 $sql = $conn->prepare($query);
+                $sql->bindParam(':courseNumber', $courseNumber);
+                $sql->bindParam(':studentID', $studentID);
                 $sql->execute();
                 return TRUE;
             } catch (PDOException $e) {
@@ -283,9 +308,12 @@
         {
             try {
                 $conn = DatabaseMethods::setConnVariable();
-                $query = "SELECT * FROM courses WHERE uniID=$universityID AND crseID=\"$courseNumber\" " .
-                    "AND sectNum=$courseSection";
+                $query = "SELECT * FROM courses WHERE uniID=:universityID AND crseID=:courseNumber " .
+                    "AND sectNum=:courseSection";
                 $sql = $conn->prepare($query);
+                $sql->bindParam(':courseNumber', $courseNumber);
+                $sql->bindParam(':courseSection', $courseSection);
+                $sql->bindParam(':universityID', $universityID);
                 $sql->execute();
 
                 if (empty($sql->fetchAll()))
@@ -304,8 +332,12 @@
             try {
                 $conn = DatabaseMethods::setConnVariable();
                 $query = "INSERT INTO courses VALUES ".
-                    "(NULL, $universityID, \"$courseNumber\", \"$courseSection\", \"$courseName\")";
-                $conn->exec($query);
+                    "(NULL, :universityID, :courseNumber, :courseSection, :courseName)";
+                $sql = $conn->prepare($query);
+                $sql->bindParam(':universityID', $universityID);
+                $sql->bindParam(':courseNumber', $courseNumber);
+                $sql->bindParam(':courseSection', $courseSection);
+                $sql->bindParam(':courseName', $courseName);
                 return $conn->lastInsertID();
             } catch (PDOException $e) {
                 return NULL;
@@ -324,8 +356,9 @@
                 $conn = DatabaseMethods::setConnVariable();
                 $query = "SELECT courseTitle, contactInformation, officeHoursPolicy, courseDescription, "
                     . "courseGoals, requiredMaterials, gradingPolicy, attendancePolicy, universityPolicy, "
-                    . "studentResources FROM syllabi WHERE crseID=$courseID";
+                    . "studentResources FROM syllabi WHERE crseID=:courseID";
                 $sql = $conn->prepare($query);
+                $sql->bindParam(':courseID', $courseID);
                 $sql->execute();
                 $variable = $sql->fetchAll();
                 return $variable;
@@ -341,10 +374,21 @@
         {
             try {
                 $conn = DatabaseMethods::setConnVariable();
-                $query = "INSERT INTO syllabi VALUES (NULL, $courseID, \"$courseTitle\", \"$contactInfo\", \"$officeHours\","
-                    . " \"$courseDesc\", \"$courseGoals\", \"$reqMaterials\", \"$grading\", \"$attendance\","
-                    . " \"$uniPolicies\", \"$stuResources\")";
+                $query = "INSERT INTO syllabi VALUES (NULL, :courseID, :courseTitle, :contactInfo, :officeHours,"
+                    . " :courseDesc, :courseGoals, :reqMaterials, :grading, :attendance,"
+                    . " :uniPolicies, :stuResources)";
                 $sql = $conn->prepare($query);
+                $sql->bindParam(':courseID', $courseID);
+                $sql->bindParam(':courseTitle', $courseTitle);
+                $sql->bindParam(':contactInfo', $contactInfo);
+                $sql->bindParam(':officeHours', $officeHours);
+                $sql->bindParam(':courseDesc', $courseDesc);
+                $sql->bindParam(':courseGoals', $courseGoals);
+                $sql->bindParam(':reqMaterials', $reqMaterials);
+                $sql->bindParam(':grading', $grading);
+                $sql->bindParam(':attendance', $attendance);
+                $sql->bindParam(':uniPolicies', $uniPolicies);
+                $sql->bindParam(':stuResources', $stuResources);
                 $sql->execute();
                 return TRUE;
             } catch (PDOException $e) {
@@ -360,13 +404,24 @@
             try {
                 $conn = DatabaseMethods::setConnVariable();
                 $query = "UPDATE syllabi "
-                    . "SET courseTitle=\"$courseTitle\", contactInformation=\"$contactInfo\", "
-                        . "officeHoursPolicy=\"$officeHours\", courseDescription=\"$courseDesc\", "
-                        . "courseGoals=\"$courseGoals\", requiredMaterials=\"$reqMaterials\", "
-                        . "gradingPolicy=\"$grading\", attendancePolicy=\"$attendance\", "
-                        . "universityPolicy=\"$uniPolicies\", studentResources=\"$stuResources\" "
-                    . "WHERE crseID=$courseID;";
+                    . "SET courseTitle=:courseTitle, contactInformation=:contactInfo, "
+                        . "officeHoursPolicy=:officeHours, courseDescription=:courseDesc, "
+                        . "courseGoals=:courseGoals, requiredMaterials=:reqMaterials, "
+                        . "gradingPolicy=:grading, attendancePolicy=:attendance, "
+                        . "universityPolicy=:uniPolicies, studentResources=:stuResources "
+                    . "WHERE crseID=:courseID";
                 $sql = $conn->prepare($query);
+                $sql->bindParam(':courseID', $courseID);
+                $sql->bindParam(':courseTitle', $courseTitle);
+                $sql->bindParam(':contactInfo', $contactInfo);
+                $sql->bindParam(':officeHours', $officeHours);
+                $sql->bindParam(':courseDesc', $courseDesc);
+                $sql->bindParam(':courseGoals', $courseGoals);
+                $sql->bindParam(':reqMaterials', $reqMaterials);
+                $sql->bindParam(':grading', $grading);
+                $sql->bindParam(':attendance', $attendance);
+                $sql->bindParam(':uniPolicies', $uniPolicies);
+                $sql->bindParam(':stuResources', $stuResources);
                 $sql->execute();
                 return TRUE;
             } catch (PDOException $e) {
@@ -379,8 +434,9 @@
         {
             try {
                 $conn = DatabaseMethods::setConnVariable();
-                $query = "DELETE FROM syllabi WHERE crseID=$courseID;";
+                $query = "DELETE FROM syllabi WHERE crseID=:courseID";
                 $sql = $conn->prepare($query);
+                $sql->bindParam(':courseID', $courseID);
                 $sql->execute();
                 return TRUE;
             } catch (PDOException $e) {
@@ -398,8 +454,9 @@
         {
             try {
                 $conn = DatabaseMethods::setConnVariable();
-                $query = "SELECT q.ID, q.qtext, q.atext FROM questions q WHERE q.crseID=$courseID";
+                $query = "SELECT q.ID, q.qtext, q.atext FROM questions q WHERE q.crseID=:courseID";
                 $sql = $conn->prepare($query);
+                $sql->bindParam(':courseID', $courseID);
                 $sql->execute();
                 return $sql->fetchAll();
             } catch (PDOException $e) {
@@ -413,9 +470,12 @@
             try {
                 $conn = DatabaseMethods::setConnVariable();
                 $query = "UPDATE questions "
-                    . "SET qtext=\"$updateQText\", atext=\"$updateAText\" "
-                    . "WHERE ID=$quesID;";
+                    . "SET qtext=:updateQText, atext=:updateAText "
+                    . "WHERE ID=:quesID";
                 $sql = $conn->prepare($query);
+                $sql->bindParam(':quesID', $quesID);
+                $sql->bindParam(':updateQText', $updateQText);
+                $sql->bindParam(':updateAText', $updateAText);
                 $sql->execute();
                 return TRUE;
             } catch (PDOException $e) {
@@ -428,8 +488,9 @@
         {
             try {
                 $conn = DatabaseMethods::setConnVariable();
-                $query = "DELETE FROM questions WHERE ID=$quesID;";
+                $query = "DELETE FROM questions WHERE ID=:quesID";
                 $sql = $conn->prepare($query);
+                $sql->bindParam(':quesID', $quesID);
                 $sql->execute();
                 return TRUE;
             } catch (PDOException $e) {
@@ -447,8 +508,9 @@
         {
             try {
                 $conn = DatabaseMethods::setConnVariable();
-                $query = "DELETE FROM courses WHERE ID=$courseNumber";
+                $query = "DELETE FROM courses WHERE ID=:courseNumber";
                 $sql = $conn->prepare($query);
+                $sql->bindParam(':courseNumber', $courseNumber);
                 $sql->execute();
                 return TRUE;
             } catch (PDOException $e) {
@@ -467,8 +529,9 @@
             try {
                 $conn = DatabaseMethods::setConnVariable();
                 $query = "SELECT s.ID, s.fname, s.lname FROM coursesusersroster cur, users s "
-                    . " WHERE cur.crseID=$courseNumber AND s.ID=cur.userID and s.isProf=0";
+                    . " WHERE cur.crseID=:courseNumber AND s.ID=cur.userID and s.isProf=0";
                 $sql = $conn->prepare($query);
+                $sql->bindParam(':courseNumber', $courseNumber);
                 $sql->execute();
                 return $sql->fetchAll();
             } catch (PDOException $e) {
@@ -481,8 +544,10 @@
         {
             try {
                 $conn = DatabaseMethods::setConnVariable();
-                $query = "DELETE FROM coursesusersroster WHERE crseID=$courseNumber AND userID=$studentID";
+                $query = "DELETE FROM coursesusersroster WHERE crseID=:courseNumber AND userID=:studentID";
                 $sql = $conn->prepare($query);
+                $sql->bindParam(':courseNumber', $courseNumber);
+                $sql->bindParam(':studentID', $studentID);
                 $sql->execute();
                 return TRUE;
             } catch (PDOException $e) {
