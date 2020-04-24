@@ -8,10 +8,9 @@
         <div class="sidebar">
             <a href="ViewData.php">View Questions</a>
             <a class="active" href="AddData.php">Add Questions</a>
-            <a href="CreateSyllabus.php">Create Syllabus</a>
-            <a href="CreateCourse.php">Create a Course</a>
-            <a href="ViewCreatedCourses.php">View Created Courses</a>
-            <a href="StudentEnrollment.php">Modify Student Enrollment</a>
+            <a href="CreateSyllabus.php">Manage Syllabus</a>
+            <a href="ViewCreatedCourses.php">Manage Courses</a>
+            <a href="StudentEnrollment.php">Manage Student Enrollment</a>
             <a class="bottom" href="../../logic/LogoutUser.php">Logout</a>
         </div>
 

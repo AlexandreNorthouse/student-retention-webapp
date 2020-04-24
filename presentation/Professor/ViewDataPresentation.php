@@ -8,10 +8,9 @@
         <div class="sidebar">
             <a class="active" href="ViewData.php">View Questions</a>
             <a href="AddData.php">Add Questions</a>
-            <a href="CreateSyllabus.php">Create Syllabus</a>
-            <a href="CreateCourse.php">Create a Course</a>
-            <a href="ViewCreatedCourses.php">View Created Courses</a>
-            <a href="StudentEnrollment.php">Modify Student Enrollment</a>
+            <a href="CreateSyllabus.php">Manage Syllabus</a>
+            <a href="ViewCreatedCourses.php">Manage Courses</a>
+            <a href="StudentEnrollment.php">Manage Student Enrollment</a>
             <a class="bottom" href="../../logic/LogoutUser.php">Logout</a>
         </div>
 
@@ -26,7 +25,7 @@
             <form action="" method="post">
                 <div class="select_course">
                     <?php if(!empty($classList)) echo(PresentationMethods::displayCurrentEnrolledCourses($classList));?>
-                    <button type="submit" name="submitData" value="✓">View Course's Data</button>
+                    <button type="submit" name="submitData" value="✓">View Course's Questions</button>
                 </div>
 
                 <br>

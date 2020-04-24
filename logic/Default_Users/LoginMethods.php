@@ -81,7 +81,7 @@
                 return ("Location: ../Professor/ViewData.php");
             }
             if ($isProf == 0) {
-                return("Location: ../Student/Chatbot.php");
+                return("Location: ../Student/CourseQuestions.php");
             }
             return ("Error");
         }

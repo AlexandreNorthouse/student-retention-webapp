@@ -10,6 +10,15 @@ html {
 
 .single_form {
     border-width: 2px;
+    border-style: outset;
+    border-radius: 6px;
+    padding: 10px;
+    background-color: #5b71a4;
+    box-shadow: 5px 5px 5px #121721;
+}
+
+.action_result {
+    border-width: 2px;
     border-style: inset;
     border-radius: 6px;
     padding: 10px;
@@ -60,6 +69,7 @@ html {
     padding: 10px;
     text-align: left;
     border-bottom: 1px dashed #6b7fae;
+    overflow: auto;
 }
 
 .content td:nth-child(3n) {

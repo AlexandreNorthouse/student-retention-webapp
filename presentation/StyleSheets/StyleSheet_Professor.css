@@ -104,6 +104,7 @@ table {
     padding: 10px;
     text-align: left;
     border-bottom: 1px dashed #6b7fae;
+    overflow: auto;
 }
 
 .action_result td:first-child {

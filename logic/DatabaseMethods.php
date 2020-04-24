@@ -103,6 +103,7 @@
                 $conn = DatabaseMethods::setConnVariable();
                 $query = "SELECT * FROM users WHERE username=:username";
                 $sql = $conn->prepare($query);
+                $sql->bindParam(':username', $username);
                 $sql->execute();
                 $user = $sql->fetchAll();
 
@@ -327,7 +328,7 @@
 
         // Attempts to insert row into courses; returns course ID for success, empty return otherwise.
         public static function attemptCourseInsertion(string $courseNumber, string $courseSection, string $courseName,
-            string $universityID): int
+            string $universityID): ?int
         {
             try {
                 $conn = DatabaseMethods::setConnVariable();
@@ -338,9 +339,11 @@
                 $sql->bindParam(':courseNumber', $courseNumber);
                 $sql->bindParam(':courseSection', $courseSection);
                 $sql->bindParam(':courseName', $courseName);
+                $sql->execute();
+
                 return $conn->lastInsertID();
             } catch (PDOException $e) {
-                return NULL;
+                return null;
             }
         }
 
